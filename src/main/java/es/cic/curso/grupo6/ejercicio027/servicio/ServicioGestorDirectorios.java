@@ -18,13 +18,13 @@ public interface ServicioGestorDirectorios {
 	
 	void agregaDirectorio(Directorio directorio);
 	
-	Directorio obtenEntradaDirectorio(Long id);
+	Directorio obtenDirectorio(Long id);
 	
 	Directorio eliminarDirectorio(Long id);
 	
-	Directorio modificaDirectirio(Long id, Directorio directorio);
+	Directorio modificaDirectorio(Long id, Directorio directorio);
 	
-	List<Directorio> listaEntradasPorDirectorio(Long idFichero);
+	List<Directorio> listaEntradasPorDirectorio(Long id);
 	
 
 }
