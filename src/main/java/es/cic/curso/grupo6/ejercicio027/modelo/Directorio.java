@@ -1,12 +1,13 @@
 package es.cic.curso.grupo6.ejercicio027.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,30 +21,13 @@ public class Directorio implements Identificable<Long> {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	/** Ruta del directorio dentro del servidor. */
 	@Column(name = "ruta")
 	private String ruta;
 
-	@JoinColumn(name = "id_directorio")
-	@OneToMany(fetch = FetchType.LAZY)
-	private Fichero directorio;
-
-	public Directorio() {
-		super();
-
-	}
-
-	public Directorio(String ruta, Fichero directorio) {
-		super();
-		this.ruta = ruta;
-		this.directorio = directorio;
-	}
-
-	public Directorio(Long id, String ruta, Fichero directorio) {
-		super();
-		this.id = id;
-		this.ruta = ruta;
-		this.directorio = directorio;
-	}
+	/** Lista de ficheros que cuelgan del directorio. */
+	@OneToMany(mappedBy = "directorio")
+	private List<Fichero> sesiones = new ArrayList<>();
 
 	/**
 	 * @return the id
@@ -54,28 +38,39 @@ public class Directorio implements Identificable<Long> {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @return the ruta
+	 */
+	public String getRuta() {
+		return ruta;
+	}
+
+	/**
+	 * @return the sesiones
+	 */
+	public List<Fichero> getSesiones() {
+		return sesiones;
+	}
+
+	/**
+	 * @param id the id to set
 	 */
 	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getRuta() {
-		return ruta;
-	}
-
+	/**
+	 * @param ruta the ruta to set
+	 */
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
 	}
 
-	public Fichero getDirectorio() {
-		return directorio;
-	}
-
-	public void setDirectorio(Fichero directorio) {
-		this.directorio = directorio;
+	/**
+	 * @param sesiones the sesiones to set
+	 */
+	public void setSesiones(List<Fichero> sesiones) {
+		this.sesiones = sesiones;
 	}
 
 	@Override
@@ -105,7 +100,7 @@ public class Directorio implements Identificable<Long> {
 
 	@Override
 	public String toString() {
-		return "Fichero [id=" + id + ", ruta=" + ruta + ", directorio=" + directorio.getId() + "]";
+		return "Directorio [id=" + id + ", ruta=" + ruta + "]";
 	}
 
 }
