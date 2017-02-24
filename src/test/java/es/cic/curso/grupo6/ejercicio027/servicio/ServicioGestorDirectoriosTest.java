@@ -125,7 +125,6 @@ public class ServicioGestorDirectoriosTest {
 		
 		Directorio original, clon, modificado;
 
-		// 1) Directorio sin sesiones programadas
 		original = generaDirectorio(RUTA_PRUEBA_1);
 		clon = new Directorio();
 		clon.setId(original.getId());
