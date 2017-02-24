@@ -3,20 +3,20 @@ package es.cic.curso.grupo6.ejercicio027.repositorio;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
+import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 
 @Repository
 @Transactional
-public class RepositorioDirectorioImpl extends RepositorioAbstractoImpl<Long, Fichero> implements RepositorioDirectorio {
+public class RepositorioDirectorioImpl extends RepositorioAbstractoImpl<Long, Directorio> implements RepositorioDirectorio {
 
 	@Override
-	public Class<Fichero> obtenClaseT() {
-		return Fichero.class;
+	public Class<Directorio> obtenClaseT() {
+		return Directorio.class;
 	}
 
 	@Override
 	public String obtenNombreTabla() {
-		return Fichero.class.getSimpleName().toUpperCase();
+		return Directorio.class.getSimpleName().toUpperCase();
 	}
 
 }
