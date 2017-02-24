@@ -8,6 +8,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser
@@ -24,16 +25,19 @@ public class MyUI extends UI {
 
 	/** Gestiona una colección de implementaciones de <code>View</code>. */
 	Navigator navegador;
+	VerticalLayout layout;
 
 	@Override
 	protected void init(VaadinRequest request) {
 		getPage().setTitle("Gestor de Documentos");
-
+		layout = new VerticalLayout();
 		// Crea el navegador para controlar las vistas:
 		navegador = new Navigator(this, this);
 
 		// Crea y registra las vistas:
 		navegador.addView("", new VistaPrueba(navegador));
+	//	layout.addComponentAsFirst(navegador);
+	//	this.setContent(layo
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

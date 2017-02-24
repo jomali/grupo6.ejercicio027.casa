@@ -6,6 +6,9 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.Command;
+import com.vaadin.ui.MenuBar.MenuItem;
 
 public class VistaPrueba extends VerticalLayout implements View {
 	private static final long serialVersionUID = 8801525565672617295L;
@@ -23,11 +26,22 @@ public class VistaPrueba extends VerticalLayout implements View {
 		Label label = new Label("¡Hola <strong>Mundo</strong>!");
 		label.setContentMode(ContentMode.HTML);
 		
-		addComponent(label);
+		VistaPrincipal vista = new VistaPrincipal();
+		
+				
+		
+		
+	
+		addComponent(vista);
+		
 	}
 
+	
+	
+	
 	@Override
-	public void enter(ViewChangeEvent event) {
+	public void enter(ViewChangeEvent
+			event) {
 
 	}
 	
