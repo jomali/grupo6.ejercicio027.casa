@@ -34,7 +34,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 
 	@Override
 	public void agregaFichero(Long idDirectorio, Fichero fichero) {
-		Directorio directorio = servicioGestorDirectorios.obtenEntradaDirectorio(idDirectorio);
+		Directorio directorio = servicioGestorDirectorios.obtenDirectorio(idDirectorio);
 		fichero.setDirectorio(directorio);
 		repositorioFichero.create(fichero);
 	}
