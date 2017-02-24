@@ -1,65 +1,48 @@
 package es.cic.curso.grupo6.ejercicio027.modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "DIRECTORIO")
 public class Directorio implements Identificable<Long> {
-	private static final long serialVersionUID = -8800715225024553533L;
+	private static final long serialVersionUID = -8760299749061904850L;
 
+	/** Identificador. Rango de valores: <code>[-2^63, 2^63)</code>. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "nombre")
-	private String nombre;
+	@Column(name = "ruta")
+	private String ruta;
 
-	@Column(name = "descripcion")
-	private String descripcion;
-
-	@Column(name = "version")
-	private String version;
-
-	@OneToMany(mappedBy = "directorio")
-	private List<Directorio> directorios = new ArrayList<>();
+	@JoinColumn(name = "id_directorio")
+	@OneToMany(fetch = FetchType.LAZY)
+	private Fichero directorio;
 
 	public Directorio() {
 		super();
 
 	}
 
-	public Directorio(String nombre, String descripcion, String version, List<Directorio> directorios) {
+	public Directorio(String ruta, Fichero directorio) {
 		super();
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.version = version;
-		this.directorios = directorios;
+		this.ruta = ruta;
+		this.directorio = directorio;
 	}
 
-	public Directorio(Long id, String nombre, String descripcion, String version, List<Directorio> directorios) {
+	public Directorio(Long id, String ruta, Fichero directorio) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.version = version;
-		this.directorios = directorios;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		this.ruta = ruta;
+		this.directorio = directorio;
 	}
 
 	/**
@@ -79,36 +62,28 @@ public class Directorio implements Identificable<Long> {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getRuta() {
+		return ruta;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
+	public Fichero getDirectorio() {
+		return directorio;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDirectorio(Fichero directorio) {
+		this.directorio = directorio;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public List<Directorio> getDirectorios() {
-		return directorios;
-	}
-
-	public void setDirectorios(List<Directorio> directorios) {
-		this.directorios = directorios;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -130,8 +105,7 @@ public class Directorio implements Identificable<Long> {
 
 	@Override
 	public String toString() {
-		return "Directorio [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", version=" + version
-				+ ", directorios=" + directorios + "]";
+		return "Fichero [id=" + id + ", ruta=" + ruta + ", directorio=" + directorio.getId() + "]";
 	}
 
 }

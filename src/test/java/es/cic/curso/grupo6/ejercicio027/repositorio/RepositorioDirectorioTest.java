@@ -16,7 +16,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
+import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:es/cic/curso/grupo6/ejercicio027/applicationContext.xml" })
@@ -29,8 +29,8 @@ public class RepositorioDirectorioTest {
 	@Autowired
 	private RepositorioDirectorio sut;
 
-	private Directorio generaElementoPrueba() {
-		Directorio elemento = new Directorio();
+	private Fichero generaElementoPrueba() {
+		Fichero elemento = new Fichero();
 		elemento.setRuta("/directorio/prueba/");
 		
 		sut.create(elemento);
@@ -39,9 +39,9 @@ public class RepositorioDirectorioTest {
 
 	@Test
 	public void testCreate() {
-		Directorio elemento;
+		Fichero elemento;
 		
-		elemento = new Directorio();
+		elemento = new Fichero();
 		assertNull(elemento.getId());
 
 		elemento = generaElementoPrueba();
@@ -50,8 +50,8 @@ public class RepositorioDirectorioTest {
 
 	@Test
 	public void testRead() {
-		Directorio elemento1 = generaElementoPrueba();
-		Directorio elemento2 = sut.read(elemento1.getId());
+		Fichero elemento1 = generaElementoPrueba();
+		Fichero elemento2 = sut.read(elemento1.getId());
 
 		assertTrue(elemento1.getId().equals(elemento2.getId()));
 		assertTrue(elemento1.getNombre().equals(elemento2.getNombre()));
@@ -59,7 +59,7 @@ public class RepositorioDirectorioTest {
 
 		try {
 			@SuppressWarnings("unused")
-			Directorio elemento3 = sut.read(Long.MIN_VALUE);
+			Fichero elemento3 = sut.read(Long.MIN_VALUE);
 			fail("No deberían existir elementos con el ID pasado");
 		} catch (PersistenceException pe) {
 
@@ -68,8 +68,8 @@ public class RepositorioDirectorioTest {
 
 	@Test
 	public void testUpdate() {
-		Directorio original = generaElementoPrueba();
-		Directorio clon = new Directorio();
+		Fichero original = generaElementoPrueba();
+		Fichero clon = new Fichero();
 		clon.setId(original.getId());
 		clon.setRuta(original.getRuta());
 
@@ -77,17 +77,17 @@ public class RepositorioDirectorioTest {
 		original.setCapacidad(2000);
 		sut.update(original);
 
-		Directorio modificado = sut.read(original.getId());
+		Fichero modificado = sut.read(original.getId());
 		assertEquals(original.getNombre(), modificado.getNombre());
 		assertNotEquals(clon.getCapacidad(), modificado.getCapacidad());
 	}
 
 	@Test
 	public void testDelete() {
-		Directorio elemento = generaElementoPrueba();
+		Fichero elemento = generaElementoPrueba();
 		sut.delete(elemento.getId());
 
-		Directorio resultado = sut.read(elemento.getId());
+		Fichero resultado = sut.read(elemento.getId());
 		assertNull(resultado);
 	}
 
@@ -97,7 +97,7 @@ public class RepositorioDirectorioTest {
 			generaElementoPrueba();
 		}
 
-		List<Directorio> lista = sut.list();
+		List<Fichero> lista = sut.list();
 		assertEquals(NUMERO_ELEMENTOS_PRUEBA, lista.size());
 	}
 
