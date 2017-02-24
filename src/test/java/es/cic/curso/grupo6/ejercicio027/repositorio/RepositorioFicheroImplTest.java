@@ -32,6 +32,7 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 @Transactional
 public class RepositorioFicheroImplTest {
 public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
+public static final String RUTA_PRUEBA_1 = "/directorio/prueba";
 	
 	@Autowired
 	private RepositorioFichero sut;
@@ -44,7 +45,7 @@ public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
 	private Fichero generaFichero() {
 		
 		Directorio directorio = new Directorio();
-		directorio.setRuta("/directorio/prueba/");
+		directorio.setRuta(RUTA_PRUEBA_1);
 		em.persist(directorio);
 		em.flush();
 		
