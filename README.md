@@ -26,7 +26,8 @@ Punto de partida del desarrollo:
 2.2. Modificación. Modificación del nombre. Mover fichero a un directorio diferente.  
 2.3. Eliminación.  
 2.4. Consulta de un fichero.  
-2.5. Listado de ficheros.
+2.5. Listado de ficheros.  
+3. Subir/Bajar archivos (API Ficheros Java)
 
 
 ## Estructura del proyecto
@@ -36,6 +37,12 @@ Punto de partida del desarrollo:
     - Directorio
     - Fichero
 + es.cic.curso.grupo6.ejercicio027.repositorio
+	- Repositorio
+	- RepositorioAbstractoImpl
+	- RepositorioDirectorio
+	- RepositorioDirectorioImpl
+	- RepositorioFichero
+	- RepositorioFicheroImpl
 
 
 ## Reparto de tareas
@@ -44,10 +51,10 @@ Punto de partida del desarrollo:
 [x] 2. Crear proyecto en GitLab  
 [x] 3. Dar de alta tarea en Jenkins  
 [x] 4. Diseñar BB.DD.  
-[ ] 5. Definición del modelo  
+[x] 5. Definición del modelo  
 [x] 6. Definición de los fichero: *persistence*, *changelog* y *applicationContext*  
 [x] 7. Definición de los repositorios  
-[ ] 8. Tests sobre los repositorios  
+[x] 8. Tests sobre los repositorios  
 [ ] 9. Definición de los servicios  
 [ ] 10. Tests sobre los servicios  
 [ ] 11. Diseño de las vistas de la aplicación  
