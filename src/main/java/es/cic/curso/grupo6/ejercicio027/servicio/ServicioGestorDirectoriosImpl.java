@@ -43,7 +43,7 @@ public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios 
 		Directorio directorioInicial = eliminarDirectorio(id);
 		
 		String rutaNueva = directorioInicial.getRuta();
-		if (servicioGestorFicheros.listaFicherosPorDirectorio(idDirectorio)) {
+		if (!servicioGestorFicheros.listaFicherosPorDirectorio(id).isEmpty()) {
 			throw new IllegalArgumentException("ERROR BUSCANDO DIRECTORIOS");
 		}
 		
