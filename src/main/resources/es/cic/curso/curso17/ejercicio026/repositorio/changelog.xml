@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+					http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+	<changeSet author="usuario (generated)" id="1400847488681-1">
+
+		<createTable catalogName="curso17" tableName="CIRCULO">
+			<column autoIncrement="true" name="id" type="INT(10)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_figura" type="INT(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="radio" type="DECIMAL(8,2)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable catalogName="curso17" tableName="DIBUJO">
+			<column autoIncrement="true" name="id" type="INT(10)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="descripcion" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+
+		<createTable catalogName="curso17" tableName="FIGURA">
+			<column autoIncrement="true" name="id" type="INT(10)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_lienzo" type="INT(10)">
+				<constraints nullable="true" />
+			</column>
+			<column name="x" type="DECIMAL(8,2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="y" type="DECIMAL(8,2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="rotacion" type="INT(4)">
+				<constraints nullable="true" />
+			</column>
+			<column name="color" type="VARCHAR(40)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+
+		<createTable catalogName="curso17" tableName="LIENZO">
+			<column autoIncrement="true" name="id" type="INT(10)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_dibujo" type="INT(10)">
+				<constraints nullable="true" />
+			</column>
+			<column name="peso" type="INT(4)">
+				<constraints nullable="false" />
+			</column>
+			<column name="descripcion" type="VARCHAR(10)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+
+		<createTable catalogName="curso17" tableName="LINEA">
+			<column autoIncrement="true" name="id" type="INT(10)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_figura" type="INT(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="x2" type="DECIMAL(8,2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="y2" type="DECIMAL(8,2)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable catalogName="curso17" tableName="RECTANGULO">
+			<column autoIncrement="true" name="id" type="INT(10)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_figura" type="INT(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ancho" type="DECIMAL(8,2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="alto" type="DECIMAL(8,2)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_circulo_id_figura"
+			referencedTableName="FIGURA" referencedColumnNames="id"
+			baseTableName="CIRCULO" baseColumnNames="id_figura" />
+
+		<addForeignKeyConstraint constraintName="fk_figura_id_lienzo"
+			referencedTableName="LIENZO" referencedColumnNames="id"
+			baseTableName="FIGURA" baseColumnNames="id_lienzo" />
+
+		<addForeignKeyConstraint constraintName="fk_lienzo_id_dibujo"
+			referencedTableName="DIBUJO" referencedColumnNames="id"
+			baseTableName="LIENZO" baseColumnNames="id_dibujo" />
+
+		<addForeignKeyConstraint constraintName="fk_linea_id_figura"
+			referencedTableName="FIGURA" referencedColumnNames="id"
+			baseTableName="LINEA" baseColumnNames="id_figura" />
+
+		<addForeignKeyConstraint constraintName="fk_rectangulo_id_figura"
+			referencedTableName="FIGURA" referencedColumnNames="id"
+			baseTableName="RECTANGULO" baseColumnNames="id_figura" />
+
+		<addUniqueConstraint constraintName="uk_circulo_id_figura"
+			columnNames="id_figura" tableName="CIRCULO" />
+
+		<addUniqueConstraint constraintName="uk_linea_id_figura"
+			columnNames="id_figura" tableName="LINEA" />
+
+		<addUniqueConstraint constraintName="uk_rectangulo_id_figura"
+			columnNames="id_figura" tableName="RECTANGULO" />
+
+	</changeSet>
+</databaseChangeLog>
