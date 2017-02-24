@@ -11,39 +11,32 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "DIRECTORIO")
-public abstract class Directorio implements Identificable<Long> {
-
-	/**
-	 * 
-	 */
+public class Directorio implements Identificable<Long> {
 	private static final long serialVersionUID = -8800715225024553533L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "nombre")
 	private String nombre;
-	
+
 	@Column(name = "descripcion")
 	private String descripcion;
-	
+
 	@Column(name = "version")
 	private String version;
-	
+
 	@OneToMany(mappedBy = "directorio")
-	private List <Directorio> directorios = new ArrayList<>();
-	
-	
+	private List<Directorio> directorios = new ArrayList<>();
+
 	public Directorio() {
 		super();
-		
+
 	}
 
-	
 	public Directorio(String nombre, String descripcion, String version, List<Directorio> directorios) {
 		super();
 		this.nombre = nombre;
@@ -51,8 +44,6 @@ public abstract class Directorio implements Identificable<Long> {
 		this.version = version;
 		this.directorios = directorios;
 	}
-
-	
 
 	public Directorio(Long id, String nombre, String descripcion, String version, List<Directorio> directorios) {
 		super();
@@ -62,7 +53,6 @@ public abstract class Directorio implements Identificable<Long> {
 		this.version = version;
 		this.directorios = directorios;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -79,7 +69,7 @@ public abstract class Directorio implements Identificable<Long> {
 	public Long getId() {
 		return id;
 	}
-	
+
 	/**
 	 * @param id
 	 *            the id to set
@@ -88,47 +78,38 @@ public abstract class Directorio implements Identificable<Long> {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
 
 	public String getNombre() {
 		return nombre;
 	}
 
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 
 	public String getDescripcion() {
 		return descripcion;
 	}
 
-
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
 
 	public String getVersion() {
 		return version;
 	}
 
-
 	public void setVersion(String version) {
 		this.version = version;
 	}
-
 
 	public List<Directorio> getDirectorios() {
 		return directorios;
 	}
 
-
 	public void setDirectorios(List<Directorio> directorios) {
 		this.directorios = directorios;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -147,15 +128,10 @@ public abstract class Directorio implements Identificable<Long> {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Directorio [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", version=" + version
 				+ ", directorios=" + directorios + "]";
 	}
 
-
-
-
-	
-	}
+}
