@@ -31,8 +31,8 @@ public interface ServicioGestorFicheros {
 	void agregaFichero(Long idDirectorio, Fichero fichero);
 
 	/**
-	 * Retorna el fichero que se corresponde con el identificador pasado como
-	 * parámetro.
+	 * Retorna el fichero registrado en el sistema que se corresponde con el
+	 * identificador pasado como parámetro.
 	 * 
 	 * @param idFichero
 	 *            Identificador del fichero

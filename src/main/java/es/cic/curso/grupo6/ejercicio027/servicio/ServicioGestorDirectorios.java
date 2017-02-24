@@ -15,16 +15,55 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
  *
  */
 public interface ServicioGestorDirectorios {
-	
+
+	/**
+	 * Añade un nuevo directorio al sistema.
+	 * 
+	 * @param directorio
+	 *            Nuevo directorio que se añade al sistema
+	 */
 	void agregaDirectorio(Directorio directorio);
-	
+
+	/**
+	 * Retorna el directorio registrado en el sistema que se corresponde con el
+	 * identificador pasado como parámetro.
+	 * 
+	 * @param idDirectorio
+	 *            Identificador del directorio
+	 * @return Directorio que se corresponde con el identificador dado
+	 */
 	Directorio obtenDirectorio(Long id);
-	
-	Directorio eliminarDirectorio(Long id);
-	
+
+	/**
+	 * Reemplaza en el sistema el directorio que se corresponde con el
+	 * identificador pasado como parámetro por el nuevo directorio indicado.
+	 * 
+	 * @param id
+	 *            Identificador del directorio
+	 * @param directorio
+	 *            Directorio por el que se reemplaza el directorio original
+	 * @return Directorio original registrado en el sistema antes del reemplazo
+	 * @throws IllegalArgumentException
+	 *             Si el identificador dado no se corresponde con ningún
+	 *             directorio registrado en el sistema
+	 * @throws IllegalStateException
+	 *             Si existen ficheros que cuelgan del directorio dado
+	 */
 	Directorio modificaDirectorio(Long id, Directorio directorio);
-	
+
+	/**
+	 * Elimina del sistema el directorio que se corresponde con el identificador
+	 * pasado como parámetro.
+	 * 
+	 * @param id
+	 *            Identificador del directorio
+	 * @return Directorio que se elimina del sistema
+	 * @throws IllegalArgumentException
+	 *             Si el identificador dado no se corresponde con ningún
+	 *             directorio registrado en el sistema
+	 */
+	Directorio eliminarDirectorio(Long id);
+
 	List<Directorio> listaEntradasPorDirectorio(Long id);
-	
 
 }
