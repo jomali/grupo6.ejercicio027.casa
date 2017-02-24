@@ -40,13 +40,13 @@ Punto de partida del desarrollo:
 
 ## Reparto de tareas
 
-[x] 1. Creación del proyecto. **José Fco.**  
-[x] 2. Crear proyecto en GitLab. **José María**  
-[x] 3. Dar de alta tarea en Jenkins. **José María**  
-[ ] 4. Diseñar BB.DD.  
+[x] 1. Creación del proyecto  
+[x] 2. Crear proyecto en GitLab  
+[x] 3. Dar de alta tarea en Jenkins  
+[x] 4. Diseñar BB.DD.  
 [ ] 5. Definición del modelo  
-[ ] 6. Definición del fichero: *changelog.xml*  
-[ ] 7. Definición de los repositorios  
+[x] 6. Definición de los fichero: *persistence*, *changelog* y *applicationContext*  
+[x] 7. Definición de los repositorios  
 [ ] 8. Tests sobre los repositorios  
 [ ] 9. Definición de los servicios  
 [ ] 10. Tests sobre los servicios  

@@ -6,12 +6,8 @@
 	<persistence-unit name="persistenceUnitHSQL"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>es.cic.curso.curso17.ejercicio026.modelo.Circulo</class>
-		<class>es.cic.curso.curso17.ejercicio026.modelo.Dibujo</class>
-		<class>es.cic.curso.curso17.ejercicio026.modelo.Figura</class>
-		<class>es.cic.curso.curso17.ejercicio026.modelo.Lienzo</class>
-		<class>es.cic.curso.curso17.ejercicio026.modelo.Linea</class>
-		<class>es.cic.curso.curso17.ejercicio026.modelo.Rectangulo</class>
+		<class>es.cic.curso.grupo6.ejercicio027.modelo.Directorio</class>
+		<class>es.cic.curso.grupo6.ejercicio027.modelo.Fichero</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

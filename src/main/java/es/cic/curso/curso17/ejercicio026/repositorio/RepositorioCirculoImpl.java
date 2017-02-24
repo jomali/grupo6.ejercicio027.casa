@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso.curso17.ejercicio026.modelo.Circulo;
+import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioAbstractoImpl;
 
 @Repository
 @Transactional

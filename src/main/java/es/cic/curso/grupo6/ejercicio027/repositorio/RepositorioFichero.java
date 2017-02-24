@@ -1,5 +1,7 @@
 package es.cic.curso.grupo6.ejercicio027.repositorio;
 
-public interface RepositorioFichero {
+import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
+
+public interface RepositorioFichero extends Repositorio<Long, Fichero> {
 
 }

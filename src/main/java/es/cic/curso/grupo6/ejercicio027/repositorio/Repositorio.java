@@ -1,4 +1,4 @@
-package es.cic.curso.curso17.ejercicio026.repositorio;
+package es.cic.curso.grupo6.ejercicio027.repositorio;
 
 import java.util.List;
 

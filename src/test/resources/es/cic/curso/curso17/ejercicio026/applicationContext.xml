@@ -14,7 +14,7 @@
         					http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 	<context:annotation-config />
 	<context:spring-configured />
-	<context:component-scan base-package="es.cic.curso.curso17.ejercicio026" />
+	<context:component-scan base-package="es.cic.curso.grupo6.ejercicio027" />
 
 	<tx:annotation-driven mode="proxy"
 		transaction-manager="transactionManager" />
@@ -25,7 +25,7 @@
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-		<property name="url" value="jdbc:hsqldb:mem:curso17" />
+		<property name="url" value="jdbc:hsqldb:mem:grupo6" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="initialSize" value="5" />
@@ -37,7 +37,7 @@
 	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
 		<property name="dataSource" ref="dataSource" />
 		<property name="changeLog"
-			value="classpath:/es/cic/curso/curso17/ejercicio026/repositorio/changelog.xml" />
+			value="classpath:/es/cic/curso/grupo6/ejercicio027/repositorio/changelog.xml" />
 	</bean>
 
 	<bean id="entityManagerFactory"
