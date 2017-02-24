@@ -17,6 +17,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
+import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,6 +36,7 @@ public class ServicioGestorDirectoriosTest {
 	private EntityManager em;
 	
 	private Directorio directorio;
+	private Fichero fichero;
 
 	
 	public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
@@ -47,9 +49,15 @@ public class ServicioGestorDirectoriosTest {
 		
 		Directorio directorio = new Directorio();
 		directorio.setRuta(RUTA_PRUEBA_1);
+		
+		Fichero fichero = new Fichero();
+		fichero.setNombre("Prueba1");
+		fichero.setDescripcion("Probando la carga de ficheros");
+		fichero.setVersion(1.0);
 
 		em.persist(directorio);
-
+		em.persist(fichero);
+		
 		em.flush();
 		}
 	
