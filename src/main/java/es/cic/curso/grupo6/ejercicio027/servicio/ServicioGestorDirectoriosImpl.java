@@ -40,7 +40,7 @@ public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios 
 
 	@Override
 	public Directorio modificaDirectorio(Long id, Directorio directorio) {
-		Directorio directorioInicial = eliminarDirectorio(id);
+		Directorio directorioInicial = obtenDirectorio(id);
 		
 		String rutaNueva = directorioInicial.getRuta();
 		if (!servicioGestorFicheros.listaFicherosPorDirectorio(id).isEmpty()) {
