@@ -16,18 +16,17 @@ Referencias:
 Punto de partida del desarrollo:
 
 1. Operaciones CRUD sobre directorios.  
-1.1. Creación de directorios sobre un directorio raíz del servidor.
-1.2. Modificación. Sólo se puede modificar un directorio si no existen ficheros que cuelguen de él.
-1.3. Eliminación. Si se elimina un directorio, se eliminan también todos los ficheros que cuelguen de él.
-1.4. Listado de directorios
-1.5. Listado de ficheros que cuelgan de un directorio
-
-2. Operaciones CRUD sobre ficheros.
-2.1. Creación. Los ficheros deben colgar siempre de un directorio. (Se debe haber creado un directorio antes de crear el fichero).
-2.2. Modificación. Modificación del nombre. Mover fichero a un directorio diferente.
-2.3. Eliminación.
-2.4. Consulta de un fichero
-2.5. Listado de ficheros
+1.1. Creación de directorios sobre un directorio raíz del servidor.  
+1.2. Modificación. Sólo se puede modificar un directorio si no existen ficheros que cuelguen de él.  
+1.3. Eliminación. Si se elimina un directorio, se eliminan también todos los ficheros que cuelguen de él.  
+1.4. Listado de directorios.  
+1.5. Listado de ficheros que cuelgan de un directorio.  
+2. Operaciones CRUD sobre ficheros.  
+2.1. Creación. Los ficheros deben colgar siempre de un directorio. (Se debe haber creado un directorio antes de crear el fichero).  
+2.2. Modificación. Modificación del nombre. Mover fichero a un directorio diferente.  
+2.3. Eliminación.  
+2.4. Consulta de un fichero.  
+2.5. Listado de ficheros.
 
 
 ## Reparto de tareas
