@@ -43,6 +43,12 @@ Punto de partida del desarrollo:
 	- RepositorioDirectorioImpl
 	- RepositorioFichero
 	- RepositorioFicheroImpl
++ es.cic.curso.grupo6.ejercicio027.servicio
+	- ServicioGestorDirectorios 
+	- ServicioGestorDirectoriosImpl
+	- ServicioGestorFicheros
+	- ServicioGestorFicherosImpl
++ es.cic.curso.grupo6.ejercicio027.vista
 
 
 ## Reparto de tareas
