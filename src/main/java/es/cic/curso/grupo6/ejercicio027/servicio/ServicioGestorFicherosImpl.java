@@ -66,7 +66,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	@Override
 	public List<Fichero> eliminaFicherosPorDirectorio(Long idDirectorio) {
 		// Comprueba que el directorio esté registrado en el sistema
-		servicioGestorDirectorios.obtenEntradaDirectorio(idDirectorio);
+		servicioGestorDirectorios.obtenDirectorio(idDirectorio);
 		// Elimina y retorna los ficheros que cuelgan del directorio dado
 		return repositorioFichero.deleteByDirectory(idDirectorio);
 	}
@@ -79,7 +79,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	@Override
 	public List<Fichero> listaFicherosPorDirectorio(Long idDirectorio) {
 		// Comprueba que el directorio esté registrado en el sistema
-		servicioGestorDirectorios.obtenEntradaDirectorio(idDirectorio);
+		servicioGestorDirectorios.obtenDirectorio(idDirectorio);
 		// Retorna la lista de ficheros para el directorio dado
 		return repositorioFichero.listByDirectory(idDirectorio);
 	}
