@@ -25,13 +25,15 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 public class RepositorioDirectorioTest {
 	
 	public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
+	public static final String RUTA_PRUEBA_1 = "/directorio/prueba";
+	public static final String RUTA_PRUEBA_2 = "/prueba/directorio";
 	
 	@Autowired
 	private RepositorioDirectorio sut;
 
 	private Directorio generaElementoPrueba() {
 		Directorio elemento = new Directorio();
-		elemento.setRuta("/directorio/prueba/");
+		elemento.setRuta(RUTA_PRUEBA_1);
 		
 		sut.create(elemento);
 		return elemento;
@@ -54,8 +56,7 @@ public class RepositorioDirectorioTest {
 		Directorio elemento2 = sut.read(elemento1.getId());
 
 		assertTrue(elemento1.getId().equals(elemento2.getId()));
-		assertTrue(elemento1.getNombre().equals(elemento2.getNombre()));
-		assertEquals(elemento1.getCapacidad(), elemento2.getCapacidad(), 0.0001);
+		assertTrue(elemento1.getRuta().equals(elemento2.getRuta()));
 
 		try {
 			@SuppressWarnings("unused")
@@ -73,13 +74,12 @@ public class RepositorioDirectorioTest {
 		clon.setId(original.getId());
 		clon.setRuta(original.getRuta());
 
-		original.setNombre("Principal");
-		original.setCapacidad(2000);
+		original.setRuta(RUTA_PRUEBA_2);
 		sut.update(original);
 
 		Directorio modificado = sut.read(original.getId());
-		assertEquals(original.getNombre(), modificado.getNombre());
-		assertNotEquals(clon.getCapacidad(), modificado.getCapacidad());
+		assertTrue(original.getRuta().equals(modificado.getRuta()));
+		assertFalse(clon.getRuta().equals(modificado.getRuta()));
 	}
 
 	@Test
