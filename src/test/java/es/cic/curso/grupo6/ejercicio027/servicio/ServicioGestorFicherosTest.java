@@ -20,8 +20,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.cic.curso.grupo5.ejercicio024.modelo.Sala;
-import es.cic.curso.grupo5.ejercicio024.modelo.Sesion;
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
@@ -106,16 +104,16 @@ public class ServicioGestorFicherosTest {
 		Fichero elemento1 = generaFichero(directorio);
 		Fichero elemento2 = servicioGestorFicheros.obtenFichero(elemento1.getId());
 		assertNotNull(elemento2);
-//		assertEquals(elemento1.getDirectorio().getId(), elemento2.getDirectorio().getId(), 0.0001);
-//		
-//		assertEquals(elemento1.getVersion(), elemento2.getVersion());
-//
-//		try {
-//			Fichero elemento3 = servicioGestorFicheros.obtenFichero(Long.MAX_VALUE);
-//			assertNull(elemento3);
-//		} catch (PersistenceException pe) {
-//
-//		}
+		assertEquals(elemento1.getDirectorio().getId(), elemento2.getDirectorio().getId(), 0.0001);
+		
+		assertEquals(elemento1.getVersion(), elemento2.getVersion());
+
+		try {
+			Fichero elemento3 = servicioGestorFicheros.obtenFichero(Long.MAX_VALUE);
+			assertNull(elemento3);
+		} catch (PersistenceException pe) {
+
+		}
 	}
 
 	@Test
@@ -144,22 +142,29 @@ public class ServicioGestorFicherosTest {
 		Fichero elemento = generaFichero(directorio);
 
 		List<Fichero> lista = servicioGestorFicheros.listaFicheros();
+		assertTrue(lista.size() == 1);
 
 		servicioGestorFicheros.eliminaFichero(elemento.getId());
+		
+		List<Fichero> lista1 = servicioGestorFicheros.listaFicheros();
+		assertTrue(lista1.size() == 0);
 
-		assertTrue(elemento.getId() == 0);
 	}
 	
-//	@Test
-//	public void testEliminaFicherosPorDirectorio() {
-//		Directorio directorio = generaDirectorio(RUTA_PRUEBA_1);
-//		Fichero fichero = generaFichero(directorio);
-//		assertNotNull(fichero);
-//		
-//		
-//		servicioGestorFicheros.eliminaFicherosPorDirectorio(directorio.getId());
-//		assertNull(fichero);//Fran mira esto
-//	}
+	@Test
+	public void testEliminaFicherosPorDirectorio() {
+		Directorio directorio = generaDirectorio(RUTA_PRUEBA_1);
+		Fichero fichero = generaFichero(directorio);
+		
+		List<Fichero> lista = servicioGestorFicheros.listaFicheros();
+		assertTrue(lista.size() == 1);
+		
+		
+		servicioGestorFicheros.eliminaFicherosPorDirectorio(directorio.getId());
+		
+		List<Fichero> lista1 = servicioGestorFicheros.listaFicheros();
+		assertTrue(lista1.size() == 0);
+	}
 
 	@Test
 	public void testListaFicheros() {
