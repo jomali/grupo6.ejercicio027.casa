@@ -15,7 +15,7 @@ Referencias:
 
 Punto de partida del desarrollo:
 
-1. Operaciones CRUD sobre directorios.
+1. Operaciones CRUD sobre directorios.  
 1.1. Creación de directorios sobre un directorio raíz del servidor.
 1.2. Modificación. Sólo se puede modificar un directorio si no existen ficheros que cuelguen de él.
 1.3. Eliminación. Si se elimina un directorio, se eliminan también todos los ficheros que cuelguen de él.
