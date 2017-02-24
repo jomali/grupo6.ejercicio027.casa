@@ -1,5 +1,7 @@
 package es.cic.curso.grupo6.ejercicio027.repositorio;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,21 @@ public class RepositorioFicheroImpl extends RepositorioAbstractoImpl<Long, Fiche
 	@Override
 	public String obtenNombreTabla() {
 		return Fichero.class.getSimpleName().toUpperCase();
+	}
+
+	@Override
+	public List<Fichero> deleteByDirectory(Long idDirectory) {
+		List<Fichero> ficheros = listByDirectory(idDirectory);
+		entityManager.createNativeQuery("DELETE FROM FICHERO WHERE id_directorio = ?").setParameter(1, idDirectory)
+				.executeUpdate();
+		return ficheros;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Fichero> listByDirectory(Long idDirectory) {
+		return entityManager.createNativeQuery("SELECT * FROM FICHERO WHERE id_directorio = ?", Fichero.class)
+				.setParameter(1, idDirectory).getResultList();
 	}
 
 }
