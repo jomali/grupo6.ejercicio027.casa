@@ -44,6 +44,5 @@ Punto de partida del desarrollo:
 [ ] 11. Diseño de las vistas de la aplicación  
 [ ] 12. Desarrollo de vistas en paralelo  
 [ ] 13. Refinamiento de las vistas  
-
-[ ] 14. Presentación
-[ ] 15. Creación de documento para el cliente
+[ ] 14. Presentación  
+[ ] 15. Creación de documento para el cliente  
