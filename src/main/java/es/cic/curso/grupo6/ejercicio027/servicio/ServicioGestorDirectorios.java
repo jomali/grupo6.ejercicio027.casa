@@ -1,5 +1,9 @@
 package es.cic.curso.grupo6.ejercicio027.servicio;
 
+import java.util.List;
+
+import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
+
 /**
  * Define operaciones CRUD sobre los directorios.
  * 
@@ -12,6 +16,15 @@ package es.cic.curso.grupo6.ejercicio027.servicio;
  */
 public interface ServicioGestorDirectorios {
 	
+	void agregaDirectorio(Directorio directorio);
+	
+	Directorio obtenEntradaDirectorio(Long id);
+	
+	Directorio eliminarDirectorio(Long id);
+	
+	Directorio modificaDirectirio(Long id, Directorio directorio);
+	
+	List<Directorio> listaEntradasPorDirectorio(Long idFichero);
 	
 
 }
