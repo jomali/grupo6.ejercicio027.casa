@@ -29,6 +29,15 @@ Punto de partida del desarrollo:
 2.5. Listado de ficheros.
 
 
+## Estructura del proyecto
+
++ es.cic.curso.grupo6.ejercicio027.modelo
+    - Identificable
+    - Directorio
+    - Fichero
++ es.cic.curso.grupo6.ejercicio027.repositorio
+
+
 ## Reparto de tareas
 
 [x] 1. Creación del proyecto. **José Fco.**  
