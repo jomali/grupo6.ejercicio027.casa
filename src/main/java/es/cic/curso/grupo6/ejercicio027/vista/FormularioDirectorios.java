@@ -1,54 +1,46 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.util.Collection;
+
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
+import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 
-public class VistaFormFile extends FormLayout{
+public class FormularioDirectorios extends FormLayout{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1842474819854513394L;
+	private static final long serialVersionUID = 5081842639219654799L;
 
 	@PropertyId("ruta")
-	protected TextField ruta;	
-	@PropertyId("nombre")
-	protected TextField nombre;
-	@PropertyId("descripcion")
-	protected TextField descripcion;
-	@PropertyId("version")
-	protected TextField version;
+	protected TextField ruta;
 	
 	private Button aceptar;
 	private Button cancelar;
-	private Fichero fichero;
+	private Directorio directorio;
+
 	
-	private VistaFiles padre;
+	private VistaDirectorios padre;
 	
-	public VistaFormFile(VistaFiles padre) {
+	public FormularioDirectorios(VistaDirectorios padre) {
 		this.padre = padre;
 		
 		VerticalLayout verticalPrincipal= new VerticalLayout();
 
 		HorizontalLayout nombreLayout = new HorizontalLayout();
-		nombre = new TextField("Nombre del Archivo: ");
-		nombre.setInputPrompt("Nombre del Archivoe:");
-		nombreLayout.addComponent(nombre);
-		HorizontalLayout descripcionLayout = new HorizontalLayout();
-		descripcion = new TextField("Descripión: ");
-		descripcion.setInputPrompt("Descripión");
-		descripcionLayout.addComponent(descripcion);
-		HorizontalLayout versionLayout = new HorizontalLayout();
-		version = new TextField("Versión: ");
-		version.setInputPrompt("Versión");
-		versionLayout.addComponent(version);
+		ruta = new TextField("Ruta de la Carpeta: ");
+		ruta.setInputPrompt("Ruta de la Carpeta:");
+		nombreLayout.addComponent(ruta);
+
 
 		HorizontalLayout buttonsLayout = new HorizontalLayout();
 		aceptar = new Button("Aceptar");

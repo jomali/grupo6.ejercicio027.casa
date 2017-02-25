@@ -12,7 +12,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class VistaFiles extends CustomComponent{
+public class VistaFicheros extends CustomComponent{
 
 	/**
 	 * 
@@ -27,10 +27,10 @@ public class VistaFiles extends CustomComponent{
 	Button actualiza = new Button("Actualiza");
 	ComboBox escogeCarpeta = new ComboBox();
 	
-	VistaMenu vistaMenu = new VistaMenu();
+	MenuNavegacion vistaMenu = new MenuNavegacion();
 
 	
-	public VistaFiles() {
+	public VistaFicheros() {
 		super();
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -70,7 +70,7 @@ public class VistaFiles extends CustomComponent{
 		
 	}
 
-	public VistaFiles(Component compositionRoot) {
+	public VistaFicheros(Component compositionRoot) {
 		super(compositionRoot);
 		// TODO Auto-generated constructor stub
 	}

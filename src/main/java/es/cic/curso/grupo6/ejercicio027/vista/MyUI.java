@@ -2,12 +2,17 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 
 import javax.servlet.annotation.WebServlet;
 
+import org.springframework.web.context.ContextLoader;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
+
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser
@@ -25,15 +30,23 @@ public class MyUI extends UI {
 	/** Gestiona una colección de implementaciones de <code>View</code>. */
 	Navigator navegador;
 
+	/** Lógica de negocio con acceso a BB.DD. */
+	private ServicioGestorDirectorios servicioGestorDirectorios;
+	private ServicioGestorFicheros servicioGestorFicheros;
+
 	@Override
 	protected void init(VaadinRequest request) {
+		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
+				.getBean(ServicioGestorDirectorios.class);
+		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
+
 		getPage().setTitle("Gestor de Documentos");
 
 		// Crea el navegador para controlar las vistas:
 		navegador = new Navigator(this, this);
-		
+
 		// Crea y registra las vistas:
-		navegador.addView("", new VistaHome(navegador));
+		navegador.addView("", new VistaPrincipal(navegador, servicioGestorDirectorios, servicioGestorFicheros));
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

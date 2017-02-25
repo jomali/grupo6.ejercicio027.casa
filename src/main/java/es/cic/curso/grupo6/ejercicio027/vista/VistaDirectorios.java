@@ -20,7 +20,7 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class VistaFolder extends CustomComponent{
+public class VistaDirectorios extends CustomComponent{
 
 	/**
 	 * 
@@ -39,7 +39,7 @@ public class VistaFolder extends CustomComponent{
 	Button borra = new Button("Borra");
 	Button actualiza = new Button("Actualiza");
 
-	public VistaFolder() {
+	public VistaDirectorios() {
 		super();
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
 		layout = new VerticalLayout();
@@ -97,7 +97,7 @@ public class VistaFolder extends CustomComponent{
         		new BeanItemContainer<>(Directorio.class, listaDirectorios)
         );
 	}
-	public VistaFolder(Component compositionRoot) {
+	public VistaDirectorios(Component compositionRoot) {
 		super(compositionRoot);
 		// TODO Auto-generated constructor stub
 	}

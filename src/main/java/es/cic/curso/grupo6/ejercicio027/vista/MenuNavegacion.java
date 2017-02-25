@@ -12,16 +12,12 @@ import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
 
-public class VistaMenu extends CustomComponent{
+public class MenuNavegacion extends CustomComponent{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -10662430461480165L;
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
 	
-	public VistaMenu() {
+	public MenuNavegacion() {
 		super();
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -56,7 +52,7 @@ public class VistaMenu extends CustomComponent{
 				cuerpo.removeAllComponents();
 				cuerpo.setMargin(true);
 				cuerpo.setSpacing(true);
-				cuerpo.addComponent( new VistaFiles());
+				cuerpo.addComponent( new VistaFicheros());
 			}
 		});
 		
@@ -66,7 +62,7 @@ public class VistaMenu extends CustomComponent{
 				cuerpo.removeAllComponents();
 				cuerpo.setMargin(true);
 				cuerpo.setSpacing(true);
-				cuerpo.addComponent( new VistaFolder());
+				cuerpo.addComponent( new VistaDirectorios());
 			}
 		});	
 		
@@ -86,7 +82,7 @@ public class VistaMenu extends CustomComponent{
 		
 	}
 
-	public VistaMenu(Component compositionRoot) {
+	public MenuNavegacion(Component compositionRoot) {
 		super(compositionRoot);
 		// TODO Auto-generated constructor stub
 	}

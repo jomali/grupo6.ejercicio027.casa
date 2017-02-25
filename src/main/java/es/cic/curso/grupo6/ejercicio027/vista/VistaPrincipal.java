@@ -6,11 +6,16 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public class VistaHome extends VerticalLayout implements View {
- 	private static final long serialVersionUID = 8801525565672617295L;
- 		public VistaHome(Navigator navegador) {
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-		VistaMenu vista = new VistaMenu();
+public class VistaPrincipal extends VerticalLayout implements View {
+	private static final long serialVersionUID = 8801525565672617295L;
+
+	public VistaPrincipal(Navigator navegador, ServicioGestorDirectorios servicioGestorDirectorios,
+			ServicioGestorFicheros servicioGestorFicheros) {
+
+		MenuNavegacion vista = new MenuNavegacion();
 		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
@@ -18,13 +23,13 @@ public class VistaHome extends VerticalLayout implements View {
 		Label label2 = new Label("Curso06 - Jose María Cagigas");
 		Label label3 = new Label("Curso17 - Jose Francisco Martín");
 		layout.addComponents(label, label2, label3);
-	
-		addComponents(vista,layout);
-	
- 	}
-	
- 	@Override
+
+		addComponents(vista, layout);
+
+	}
+
+	@Override
 	public void enter(ViewChangeEvent event) {
 
- 	}
+	}
 }
