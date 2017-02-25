@@ -28,10 +28,13 @@ public class VistaFiles extends CustomComponent{
 	private VerticalLayout cuerpo;
 	private ServicioGestorFicheros servicioGestorFicheros;
 	
+	Button buttonCharge = new Button("Charge");
+	
 	public VistaFiles() {
 		super();
 		layout = new VerticalLayout();
-		
+		layout.setMargin(true);
+		layout.setSpacing(true);
 		Grid grillafiles = new Grid();
 		// GRID DE SESIONES:
 		
@@ -40,10 +43,10 @@ public class VistaFiles extends CustomComponent{
 		grillafiles.setSelectionMode(SelectionMode.SINGLE);
 		layout.addComponent(grillafiles);
 		
+
 		
-		Button button = new Button("Charge");
 		
-		button.addClickListener(clickEvent -> {
+		buttonCharge.addClickListener(clickEvent -> {
 			List<Fichero> listaFicheros = servicioGestorFicheros.listaFicheros();
 			for (int i = 0; i < listaFicheros.size(); i++){
 				grillafiles.addRow(listaFicheros.get(i).getNombre(), listaFicheros.get(i).getDescripcion(), listaFicheros.get(i).getVersion());
@@ -51,7 +54,7 @@ public class VistaFiles extends CustomComponent{
 			
 		});
 		
-		layout.addComponent(button);
+		layout.addComponent(buttonCharge);
 		this.setCompositionRoot(layout);
 		
 		

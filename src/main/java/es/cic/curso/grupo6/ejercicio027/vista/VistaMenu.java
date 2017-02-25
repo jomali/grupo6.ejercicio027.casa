@@ -27,6 +27,7 @@ public class VistaMenu extends CustomComponent{
 		layout = new VerticalLayout();
 		layout.setSpacing(true);
 		cuerpo = new VerticalLayout();
+		cuerpo.setMargin(true);
 		cuerpo.setSpacing(true);
 		MenuBar menuNavegacion = new MenuBar();
 		
@@ -37,7 +38,8 @@ public class VistaMenu extends CustomComponent{
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
-				
+				cuerpo.setMargin(true);
+				cuerpo.setSpacing(true);
 				String basepath = VaadinService.getCurrent()
 		                .getBaseDirectory().getAbsolutePath();
 				FileResource resource = new FileResource(new File(basepath +
@@ -52,6 +54,8 @@ public class VistaMenu extends CustomComponent{
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
+				cuerpo.setMargin(true);
+				cuerpo.setSpacing(true);
 				cuerpo.addComponent( new VistaFiles());
 			}
 		});
@@ -60,6 +64,8 @@ public class VistaMenu extends CustomComponent{
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
+				cuerpo.setMargin(true);
+				cuerpo.setSpacing(true);
 				cuerpo.addComponent( new VistaFolder());
 			}
 		});	
