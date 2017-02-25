@@ -26,6 +26,10 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 @Theme("mytheme")
 public class MyUI extends UI {
 	private static final long serialVersionUID = 1343484792150289272L;
+	
+	public static final String VISTA_DEMO = "demo";
+	public static final String VISTA_DIRECTORIOS = "directorios";
+	public static final String VISTA_FICHEROS = "ficheros";
 
 	/** Gestiona una colección de implementaciones de <code>View</code>. */
 	Navigator navegador;
@@ -47,6 +51,9 @@ public class MyUI extends UI {
 
 		// Crea y registra las vistas:
 		navegador.addView("", new VistaPrincipal(navegador, servicioGestorDirectorios, servicioGestorFicheros));
+		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(navegador, servicioGestorDirectorios, servicioGestorFicheros)));
+		navegador.addView(VISTA_FICHEROS, new VistaFicheros(navegador, servicioGestorDirectorios, servicioGestorFicheros));
+		navegador.addView(VISTA_DEMO, new VistaDemo(navegador, servicioGestorDirectorios, servicioGestorFicheros));
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
