@@ -32,10 +32,10 @@ public class VistaFicheros extends VerticalLayout implements View {
 	private ServicioGestorFicheros servicioGestorFicheros;
 	private ServicioGestorDirectorios servicioGestorDirectorios;
 	private ComboBox lista;
-	Button carga = new Button("Carga");
-	Button crea = new Button("Crea");
-	Button borra = new Button("Borra");
-	Button actualiza = new Button("Actualiza");
+	Button carga = new Button("Cargar");
+	Button crea = new Button("Crear");
+	Button borra = new Button("Borrar");
+	Button actualiza = new Button("Actualizar");
 	private List<Fichero> listaFicheros;
 	private List<Fichero> listaFicherosPorDirectorio;
 	private List<Directorio> listaDirectorios;
@@ -80,20 +80,22 @@ public class VistaFicheros extends VerticalLayout implements View {
 
 		lista.setNullSelectionAllowed(false);
 		lista.setImmediate(true);
-		
-		carga.addClickListener(clickEvent -> {
+		carga.setVisible(true);
+		carga.setEnabled(false);
+//		carga.addClickListener(clickEvent -> {
 //			List<Fichero> listaFicheros = servicioGestorFicheros.listaFicheros();
 //			for (int i = 0; i < listaFicheros.size(); i++){
-//				grillafiles.addRow(listaFicheros.get(i).getNombre(), listaFicheros.get(i).getDescripcion(), listaFicheros.get(i).getVersion());
+//				gridArchivos.addRow(listaFicheros.get(i).getNombre(), listaFicheros.get(i).getDescripcion(), listaFicheros.get(i).getVersion());
 //			}
-			carga.setVisible(false);
-
-			
-		});
-//		crea.setVisible(true);
-//		borra.setVisible(true);
-//		actualiza.setVisible(true);
-		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
+//
+//		});
+		crea.setVisible(true);
+		crea.setEnabled(false);
+		borra.setVisible(true);
+		borra.setEnabled(false);
+		actualiza.setVisible(true);
+		actualiza.setEnabled(false);
+		layoutHorizontal.addComponents(lista, carga, crea, borra, actualiza);
 		layout.addComponent(layoutHorizontal);
 		
 		addComponents(vista, layout);
