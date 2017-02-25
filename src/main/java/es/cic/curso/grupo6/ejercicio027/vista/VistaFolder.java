@@ -38,10 +38,7 @@ public class VistaFolder extends CustomComponent{
 	Button crea = new Button("Crea");
 	Button borra = new Button("Borra");
 	Button actualiza = new Button("Actualiza");
-	
-	
-	
-	
+
 	public VistaFolder() {
 		super();
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
