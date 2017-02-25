@@ -1,6 +1,7 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
@@ -23,6 +24,8 @@ public class VistaFiles extends CustomComponent{
 	Button buttonCreate = new Button("Create");
 	Button buttonDelete = new Button("Delete");
 	Button buttonUpdate = new Button("Update");
+	
+	VistaMenu vistaMenu = new VistaMenu();
 
 	
 	public VistaFiles() {
@@ -56,19 +59,11 @@ public class VistaFiles extends CustomComponent{
 			buttonUpdate.setVisible(true);
 			
 		});
-		
+			
 		layoutHorizontal.addComponents(buttonCharge, buttonCreate, buttonDelete, buttonUpdate);
 		layout.addComponent(layoutHorizontal);
 		this.setCompositionRoot(layout);
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 	}
 
