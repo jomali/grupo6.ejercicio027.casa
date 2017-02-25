@@ -113,6 +113,7 @@ public class Fichero implements Identificable<Long> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((directorio == null) ? 0 : directorio.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -126,6 +127,11 @@ public class Fichero implements Identificable<Long> {
 		if (getClass() != obj.getClass())
 			return false;
 		Fichero other = (Fichero) obj;
+		if (directorio == null) {
+			if (other.directorio != null)
+				return false;
+		} else if (!directorio.equals(other.directorio))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -136,7 +142,7 @@ public class Fichero implements Identificable<Long> {
 
 	@Override
 	public String toString() {
-		return "Fichero [id=" + id + ", directorioId=" + directorio.getId() + ", nombre=" + nombre + ", descripcion="
+		return "Fichero [id=" + id + ", directorio=" + directorio.getId() + ", nombre=" + nombre + ", descripcion="
 				+ descripcion + ", version=" + version + "]";
 	}
 

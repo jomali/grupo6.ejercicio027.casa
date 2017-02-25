@@ -39,11 +39,8 @@ public static final String RUTA_PRUEBA_1 = "/directorio/prueba";
 	
 	@PersistenceContext
 	protected EntityManager em;
-	
-	
 
 	private Fichero generaFichero() {
-		
 		Directorio directorio = new Directorio();
 		directorio.setRuta(RUTA_PRUEBA_1);
 		em.persist(directorio);
