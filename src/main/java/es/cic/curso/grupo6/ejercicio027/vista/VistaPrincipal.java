@@ -18,7 +18,9 @@ public class VistaPrincipal extends CustomComponent{
 		layout = new VerticalLayout();
 		layout.setSpacing(true);
 		cuerpo = new VerticalLayout();
+		cuerpo.setSpacing(true);
 		MenuBar menuNavegacion = new MenuBar();
+		
  	
 
 		
