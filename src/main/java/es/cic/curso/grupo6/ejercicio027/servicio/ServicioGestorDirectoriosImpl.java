@@ -16,7 +16,7 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
  * @author J. Francisco Martín
  * @author José María Cagigas
  * @serial 1.0
- * @version 2017/02/24
+ * @version 2017/02/25
  *
  */
 @Service
@@ -24,6 +24,7 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
 public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios {
 
 	private static final String ERROR_ID_DIRECTORIO = "No existe ningún directorio en BB.DD. con ese ID";
+	private static final String ERROR_RUTA_DIRECTORIO = "Ya existe un directorio con esa ruta";
 	private static final String ERROR_ESTADO_DIRECTORIO = "Existen ficheros colgando del directorio";
 
 	@Autowired
