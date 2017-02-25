@@ -1,24 +1,25 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
-import java.io.File;
-
-import com.vaadin.server.FileResource;
-import com.vaadin.server.VaadinService;
-import com.vaadin.ui.Component;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
 
-public class MenuNavegacion extends CustomComponent{
+public class MenuNavegacion extends CustomComponent {
+	private static final long serialVersionUID = -4651426196089860317L;
+
+	private Navigator navegador;
 
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
 	
-	public MenuNavegacion() {
+	@SuppressWarnings("serial")
+	public MenuNavegacion(Navigator navegador) {
 		super();
+		this.navegador = navegador;
+		
 		layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
@@ -27,66 +28,31 @@ public class MenuNavegacion extends CustomComponent{
 		cuerpo.setSpacing(true);
 		MenuBar menuNavegacion = new MenuBar();
 		
- 	
-
-		
 		menuNavegacion.addItem("INICIO", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
-				cuerpo.removeAllComponents();
-				cuerpo.setMargin(true);
-				cuerpo.setSpacing(true);
-				String basepath = VaadinService.getCurrent()
-		                .getBaseDirectory().getAbsolutePath();
-				FileResource resource = new FileResource(new File(basepath +
-		              "/WEB-INF/images/CIC1.png"));
-				Image image = new Image("Gestor de Documentos", resource);
-				image.setSizeFull();
-				cuerpo.addComponent(image);
+				navegador.navigateTo("");
 			}
 		});
 		
-		menuNavegacion.addItem("ARCHIVOS", new Command() {
+		menuNavegacion.addItem("DIRECTORIOS", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
-				cuerpo.removeAllComponents();
-				cuerpo.setMargin(true);
-				cuerpo.setSpacing(true);
-				cuerpo.addComponent( new VistaFicheros());
+				navegador.navigateTo(MyUI.VISTA_DIRECTORIOS);
 			}
 		});
 		
-		menuNavegacion.addItem("CARPETAS", new Command() {
+		menuNavegacion.addItem("FICHEROS", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
-				cuerpo.removeAllComponents();
-				cuerpo.setMargin(true);
-				cuerpo.setSpacing(true);
-				cuerpo.addComponent( new VistaDirectorios());
+				navegador.navigateTo(MyUI.VISTA_FICHEROS);
 			}
 		});	
 		
 		layout.addComponent(menuNavegacion);
 		layout.addComponent(cuerpo);
 		
-		this.setCompositionRoot(layout);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		this.setCompositionRoot(layout);	
 	}
-
-	public MenuNavegacion(Component compositionRoot) {
-		super(compositionRoot);
-		// TODO Auto-generated constructor stub
-	}
-
-
 	
 }

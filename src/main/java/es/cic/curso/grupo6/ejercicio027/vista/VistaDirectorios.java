@@ -23,7 +23,7 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class VistaDirectorios extends CustomComponent implements View {
+public class VistaDirectorios extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6362449485036174011L;
 	
 	private Grid gridCarpetas;
@@ -40,6 +40,9 @@ public class VistaDirectorios extends CustomComponent implements View {
 	public VistaDirectorios(Navigator navegador) {
 		super();
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
+
+		MenuNavegacion vista = new MenuNavegacion(navegador);
+		
 		layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
@@ -84,8 +87,15 @@ public class VistaDirectorios extends CustomComponent implements View {
 		
 		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
 		layout.addComponent(layoutHorizontal);
-		this.setCompositionRoot(layout);
+		
+		addComponents(vista, layout);
 
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public void cargaGrid() {
@@ -94,16 +104,6 @@ public class VistaDirectorios extends CustomComponent implements View {
 		gridCarpetas.setContainerDataSource(
         		new BeanItemContainer<>(Directorio.class, listaDirectorios)
         );
-	}
-	public VistaDirectorios(Component compositionRoot) {
-		super(compositionRoot);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 

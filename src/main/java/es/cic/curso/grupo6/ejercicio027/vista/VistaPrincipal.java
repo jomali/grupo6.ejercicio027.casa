@@ -1,8 +1,13 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.io.File;
+
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -13,8 +18,13 @@ public class VistaPrincipal extends VerticalLayout implements View {
 	private static final long serialVersionUID = 8801525565672617295L;
 
 	public VistaPrincipal(Navigator navegador) {
+		MenuNavegacion vista = new MenuNavegacion(navegador);
 
-		MenuNavegacion vista = new MenuNavegacion();
+		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/CIC1.png"));
+		Image image = new Image("Gestor de Documentos", resource);
+		image.setSizeFull();
+
 		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
@@ -23,7 +33,7 @@ public class VistaPrincipal extends VerticalLayout implements View {
 		Label label3 = new Label("Curso17 - Jose Francisco Martín");
 		layout.addComponents(label, label2, label3);
 
-		addComponents(vista, layout);
+		addComponents(vista, image, layout);
 
 	}
 
