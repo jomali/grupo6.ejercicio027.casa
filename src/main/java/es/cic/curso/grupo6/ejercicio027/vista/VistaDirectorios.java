@@ -7,6 +7,9 @@ import org.springframework.web.context.ContextLoader;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
@@ -20,13 +23,8 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class VistaDirectorios extends CustomComponent{
-
-	/**
-	 * 
-	 */
+public class VistaDirectorios extends CustomComponent implements View {
 	private static final long serialVersionUID = 6362449485036174011L;
-	
 	
 	private Grid gridCarpetas;
 	private VerticalLayout layout;
@@ -39,7 +37,7 @@ public class VistaDirectorios extends CustomComponent{
 	Button borra = new Button("Borra");
 	Button actualiza = new Button("Actualiza");
 
-	public VistaDirectorios() {
+	public VistaDirectorios(Navigator navegador) {
 		super();
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
 		layout = new VerticalLayout();
@@ -100,6 +98,12 @@ public class VistaDirectorios extends CustomComponent{
 	public VistaDirectorios(Component compositionRoot) {
 		super(compositionRoot);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

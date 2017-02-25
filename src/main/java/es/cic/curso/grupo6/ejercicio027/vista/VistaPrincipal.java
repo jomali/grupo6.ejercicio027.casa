@@ -12,8 +12,7 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 public class VistaPrincipal extends VerticalLayout implements View {
 	private static final long serialVersionUID = 8801525565672617295L;
 
-	public VistaPrincipal(Navigator navegador, ServicioGestorDirectorios servicioGestorDirectorios,
-			ServicioGestorFicheros servicioGestorFicheros) {
+	public VistaPrincipal(Navigator navegador) {
 
 		MenuNavegacion vista = new MenuNavegacion();
 		VerticalLayout layout = new VerticalLayout();

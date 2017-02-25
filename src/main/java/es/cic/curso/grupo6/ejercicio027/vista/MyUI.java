@@ -27,33 +27,23 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 public class MyUI extends UI {
 	private static final long serialVersionUID = 1343484792150289272L;
 	
-	public static final String VISTA_DEMO = "demo";
 	public static final String VISTA_DIRECTORIOS = "directorios";
 	public static final String VISTA_FICHEROS = "ficheros";
 
 	/** Gestiona una colección de implementaciones de <code>View</code>. */
 	Navigator navegador;
 
-	/** Lógica de negocio con acceso a BB.DD. */
-	private ServicioGestorDirectorios servicioGestorDirectorios;
-	private ServicioGestorFicheros servicioGestorFicheros;
-
 	@Override
 	protected void init(VaadinRequest request) {
-		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
-				.getBean(ServicioGestorDirectorios.class);
-		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
-
 		getPage().setTitle("Gestor de Documentos");
 
 		// Crea el navegador para controlar las vistas:
 		navegador = new Navigator(this, this);
 
 		// Crea y registra las vistas:
-		navegador.addView("", new VistaPrincipal(navegador, servicioGestorDirectorios, servicioGestorFicheros));
-		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(navegador, servicioGestorDirectorios, servicioGestorFicheros)));
-		navegador.addView(VISTA_FICHEROS, new VistaFicheros(navegador, servicioGestorDirectorios, servicioGestorFicheros));
-		navegador.addView(VISTA_DEMO, new VistaDemo(navegador, servicioGestorDirectorios, servicioGestorFicheros));
+		navegador.addView("", new VistaPrincipal(navegador));
+		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(navegador));
+		navegador.addView(VISTA_FICHEROS, new VistaFicheros(navegador));
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

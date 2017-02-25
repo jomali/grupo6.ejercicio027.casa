@@ -1,5 +1,8 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
@@ -12,12 +15,9 @@ import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class VistaFicheros extends CustomComponent{
-
-	/**
-	 * 
-	 */
+public class VistaFicheros extends CustomComponent implements View {
 	private static final long serialVersionUID = 6825028526184768126L;
+	
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
 	private ServicioGestorFicheros servicioGestorFicheros;
@@ -30,7 +30,7 @@ public class VistaFicheros extends CustomComponent{
 	MenuNavegacion vistaMenu = new MenuNavegacion();
 
 	
-	public VistaFicheros() {
+	public VistaFicheros(Navigator navegador) {
 		super();
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -73,6 +73,12 @@ public class VistaFicheros extends CustomComponent{
 	public VistaFicheros(Component compositionRoot) {
 		super(compositionRoot);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
