@@ -13,12 +13,16 @@ import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
 
-public class VistaPrincipal extends CustomComponent{
+public class VistaMenu extends CustomComponent{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -10662430461480165L;
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
 	
-	public VistaPrincipal() {
+	public VistaMenu() {
 		super();
 		layout = new VerticalLayout();
 		layout.setSpacing(true);
@@ -33,14 +37,14 @@ public class VistaPrincipal extends CustomComponent{
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
+				
 				String basepath = VaadinService.getCurrent()
-		                  .getBaseDirectory().getAbsolutePath();
+		                .getBaseDirectory().getAbsolutePath();
 				FileResource resource = new FileResource(new File(basepath +
-                        "/WEB-INF/images/CIC1.png"));
+		              "/WEB-INF/images/CIC1.png"));
 				Image image = new Image("Gestor de Documentos", resource);
 				image.setResponsive(isResponsive());
-				
-				cuerpo.addComponents(image);
+				cuerpo.addComponent(image);
 			}
 		});
 		
@@ -76,7 +80,7 @@ public class VistaPrincipal extends CustomComponent{
 		
 	}
 
-	public VistaPrincipal(Component compositionRoot) {
+	public VistaMenu(Component compositionRoot) {
 		super(compositionRoot);
 		// TODO Auto-generated constructor stub
 	}

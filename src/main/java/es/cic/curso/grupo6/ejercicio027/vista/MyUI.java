@@ -31,13 +31,14 @@ public class MyUI extends UI {
 	protected void init(VaadinRequest request) {
 		getPage().setTitle("Gestor de Documentos");
 		layout = new VerticalLayout();
+		
 		// Crea el navegador para controlar las vistas:
 		navegador = new Navigator(this, this);
+		
 
 		// Crea y registra las vistas:
 		navegador.addView("", new VistaHome(navegador));
-	//	layout.addComponentAsFirst(navegador);
-	//	this.setContent(layo
+
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
