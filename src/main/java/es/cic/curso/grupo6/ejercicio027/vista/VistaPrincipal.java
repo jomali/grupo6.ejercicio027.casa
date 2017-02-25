@@ -37,9 +37,10 @@ public class VistaPrincipal extends CustomComponent{
 		                  .getBaseDirectory().getAbsolutePath();
 				FileResource resource = new FileResource(new File(basepath +
                         "/WEB-INF/images/CIC1.png"));
-				Image image = new Image("Image from file", resource);
-				image.setResponsive(true);
-				cuerpo.addComponents( new Label( "Inicio"),image);
+				Image image = new Image("Gestor de Documentos", resource);
+				image.setResponsive(isResponsive());
+				
+				cuerpo.addComponents(image);
 			}
 		});
 		

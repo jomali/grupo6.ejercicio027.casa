@@ -35,7 +35,7 @@ public class MyUI extends UI {
 		navegador = new Navigator(this, this);
 
 		// Crea y registra las vistas:
-		navegador.addView("", new VistaPrueba(navegador));
+		navegador.addView("", new VistaHome(navegador));
 	//	layout.addComponentAsFirst(navegador);
 	//	this.setContent(layo
 	}

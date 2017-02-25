@@ -5,11 +5,13 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.VerticalLayout;
 
-public class VistaPrueba extends VerticalLayout implements View {
+public class VistaHome extends VerticalLayout implements View {
  	private static final long serialVersionUID = 8801525565672617295L;
- 		public VistaPrueba(Navigator navegador) {
+ 		public VistaHome(Navigator navegador) {
 
 		VistaPrincipal vista = new VistaPrincipal();
+		
+		
 		
 	
 		addComponent(vista);
