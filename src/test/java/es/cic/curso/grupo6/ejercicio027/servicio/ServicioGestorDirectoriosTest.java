@@ -126,6 +126,7 @@ public class ServicioGestorDirectoriosTest {
 		Directorio original, clon, modificado;
 
 		original = generaDirectorio(RUTA_PRUEBA_1);
+		
 		clon = new Directorio();
 		clon.setId(original.getId());
 		clon.setRuta(original.getRuta());
@@ -134,7 +135,8 @@ public class ServicioGestorDirectoriosTest {
 		servicioGestorDirectorios.modificaDirectorio(original.getId(), original);
 
 		modificado = servicioGestorDirectorios.obtenDirectorio(original.getId());
-		assertFalse(original.getRuta().equals(modificado.getRuta()));
+		
+		assertTrue(original.getRuta().equals(modificado.getRuta()));
 
 	}
 
