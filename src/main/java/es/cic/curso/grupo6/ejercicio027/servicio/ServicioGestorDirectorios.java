@@ -17,10 +17,14 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 public interface ServicioGestorDirectorios {
 
 	/**
-	 * Añade un nuevo directorio al sistema.
+	 * Añade un nuevo directorio al sistema. Dos directorios no pueden tener una
+	 * misma ruta.
 	 * 
 	 * @param directorio
 	 *            Nuevo directorio que se añade al sistema
+	 * @throws IllegalArgumentException
+	 *             Si el directorio que se intenta añadir al sistema tiene la
+	 *             misma ruta de un directorio ya existente
 	 */
 	void agregaDirectorio(Directorio directorio);
 
