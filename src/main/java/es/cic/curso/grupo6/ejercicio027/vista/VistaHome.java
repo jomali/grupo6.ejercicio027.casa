@@ -1,7 +1,5 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
-import java.io.File;
-
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
