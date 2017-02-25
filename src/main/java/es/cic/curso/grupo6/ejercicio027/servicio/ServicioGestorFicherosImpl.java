@@ -24,7 +24,7 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioFichero;
 @Transactional
 public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 
-	private static final String ERROR_FICHERO_ID = "No existe ningún fichero en BB.DD. con ese ID";
+	private static final String ERROR_ID_FICHERO = "No existe ningún fichero en BB.DD. con ese ID";
 	
 	@Autowired
 	private ServicioGestorDirectorios servicioGestorDirectorios;
@@ -43,7 +43,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	public Fichero obtenFichero(Long idFichero) {
 		Fichero fichero = repositorioFichero.read(idFichero);
 		if (fichero == null) {
-			throw new IllegalArgumentException(ERROR_FICHERO_ID + ": " + idFichero);
+			throw new IllegalArgumentException(ERROR_ID_FICHERO + ": " + idFichero);
 		}
 		return fichero;
 	}

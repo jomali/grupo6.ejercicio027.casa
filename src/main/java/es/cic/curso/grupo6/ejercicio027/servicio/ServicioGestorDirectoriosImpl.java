@@ -9,13 +9,22 @@ import org.springframework.transaction.annotation.Transactional;
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
 
-
+/**
+ * Implementación de la interfaz <code>ServicioGestorDirectorios</code>.
+ * 
+ * 
+ * @author J. Francisco Martín
+ * @author José María Cagigas
+ * @serial 1.0
+ * @version 2017/02/24
+ *
+ */
 @Service
 @Transactional
 public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios {
 
-	private static final String ERROR_DIRECTORIO_ID = "No existe ningún directorio en BB.DD. con ese ID";
-	private static final String RUTA_SECUNDARIA = "/prueba/directorio";
+	private static final String ERROR_ID_DIRECTORIO = "No existe ningún directorio en BB.DD. con ese ID";
+	private static final String ERROR_ESTADO_DIRECTORIO = "Existen ficheros colgando del directorio";
 
 	@Autowired
 	private RepositorioDirectorio repositorioDirectorio;
@@ -25,46 +34,39 @@ public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios 
 
 	@Override
 	public void agregaDirectorio(Directorio directorio) {
-
 		repositorioDirectorio.create(directorio);
-
 	}
 
 	@Override
-	public Directorio obtenDirectorio(Long id) {
-
-		Directorio directorio = repositorioDirectorio.read(id);
+	public Directorio obtenDirectorio(Long idDirectorio) {
+		Directorio directorio = repositorioDirectorio.read(idDirectorio);
 		if (directorio == null) {
-			throw new IllegalArgumentException(ERROR_DIRECTORIO_ID + ": " + id);
+			throw new IllegalArgumentException(ERROR_ID_DIRECTORIO + ": " + idDirectorio);
 		}
 		return directorio;
 	}
 
 	@Override
-	public Directorio modificaDirectorio(Long id, Directorio directorio) {
-		Directorio directorioInicial = obtenDirectorio(id);
-
-		String rutaNueva = directorioInicial.getRuta();
-		if (!servicioGestorFicheros.listaFicherosPorDirectorio(id).isEmpty()) {
-			throw new IllegalArgumentException("ERROR BUSCANDO DIRECTORIOS");
+	public Directorio modificaDirectorio(Long idDirectorio, Directorio directorio) {
+		Directorio directorioOriginal = obtenDirectorio(idDirectorio);
+		if (!servicioGestorFicheros.listaFicherosPorDirectorio(idDirectorio).isEmpty()) {
+			throw new IllegalStateException(ERROR_ESTADO_DIRECTORIO);
 		}
-
-		directorioInicial.setRuta(RUTA_SECUNDARIA);
-		repositorioDirectorio.update(directorioInicial);
-		return directorioInicial;
+		directorio.setId(idDirectorio);
+		repositorioDirectorio.update(directorio);
+		return directorioOriginal;
 	}
 
 	@Override
-	public Directorio eliminarDirectorio(Long id) {
-
-		Directorio directorio = repositorioDirectorio.delete(id);
-
+	public Directorio eliminaDirectorio(Long idDirectorio) {
+		Directorio directorio = obtenDirectorio(idDirectorio);
+		servicioGestorFicheros.eliminaFicherosPorDirectorio(idDirectorio);
+		repositorioDirectorio.delete(directorio);
 		return directorio;
 	}
 
 	@Override
-	public List<Directorio> listaEntradasPorDirectorio(Long id) {
-
+	public List<Directorio> listaDirectorios() {
 		return repositorioDirectorio.list();
 	}
 

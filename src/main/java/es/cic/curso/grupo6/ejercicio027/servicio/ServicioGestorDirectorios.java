@@ -32,13 +32,13 @@ public interface ServicioGestorDirectorios {
 	 *            Identificador del directorio
 	 * @return Directorio que se corresponde con el identificador dado
 	 */
-	Directorio obtenDirectorio(Long id);
+	Directorio obtenDirectorio(Long idDirectorio);
 
 	/**
 	 * Reemplaza en el sistema el directorio que se corresponde con el
 	 * identificador pasado como parámetro por el nuevo directorio indicado.
 	 * 
-	 * @param id
+	 * @param idDirectorio
 	 *            Identificador del directorio
 	 * @param directorio
 	 *            Directorio por el que se reemplaza el directorio original
@@ -49,21 +49,26 @@ public interface ServicioGestorDirectorios {
 	 * @throws IllegalStateException
 	 *             Si existen ficheros que cuelgan del directorio dado
 	 */
-	Directorio modificaDirectorio(Long id, Directorio directorio);
+	Directorio modificaDirectorio(Long idDirectorio, Directorio directorio);
 
 	/**
 	 * Elimina del sistema el directorio que se corresponde con el identificador
 	 * pasado como parámetro.
 	 * 
-	 * @param id
+	 * @param idDirectorio
 	 *            Identificador del directorio
 	 * @return Directorio que se elimina del sistema
 	 * @throws IllegalArgumentException
 	 *             Si el identificador dado no se corresponde con ningún
 	 *             directorio registrado en el sistema
 	 */
-	Directorio eliminarDirectorio(Long id);
+	Directorio eliminaDirectorio(Long idDirectorio);
 
-	List<Directorio> listaEntradasPorDirectorio(Long id);
+	/**
+	 * Retorna una lista con todos los directorios registrados en el sistema.
+	 * 
+	 * @return Lista con todos los directorios registrados en el sistema
+	 */
+	List<Directorio> listaDirectorios();
 
 }
