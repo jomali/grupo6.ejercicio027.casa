@@ -1,36 +1,75 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.util.Collection;
+
+import org.springframework.web.context.ContextLoader;
+
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
+import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaFolder extends CustomComponent{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6362449485036174011L;
+	
+	
+	private Grid gridCarpetas;
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
-	private ServicioGestorFicheros servicioGestorFicheros;
+	private Collection<Directorio> listaDirectorios;
+	private ServicioGestorDirectorios servicioGestorDirectorios;
+	private Notification alerta;
 	Button carga = new Button("Carga");
 	Button crea = new Button("Crea");
 	Button borra = new Button("Borra");
 	Button actualiza = new Button("Actualiza");
 	
 	
+	
+	
 	public VistaFolder() {
 		super();
+		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
 		layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
-		Grid gridCarpetas = new Grid();
+		gridCarpetas = new Grid();
 		
 		gridCarpetas.setColumns("Ruta de la Carpeta");
 		gridCarpetas.setSizeFull();
 		gridCarpetas.setSelectionMode(SelectionMode.SINGLE);
+		
+        
+		gridCarpetas.setSelectionMode(SelectionMode.SINGLE);
+		gridCarpetas.addSelectionListener(new SelectionListener() {
+
+        @Override
+           public void select(SelectionEvent event) {
+              Directorio carpetaSeleccionada =  (Directorio) gridCarpetas.getSelectedRow();
+              carpetaSeleccionada = carpetaSeleccionada;
+	  			crea.setVisible(true);
+	  			borra.setVisible(true);
+	  			actualiza.setVisible(true);
+           }
+        
+        });
+		
+		
 		layout.addComponent(gridCarpetas);
 		
 		
@@ -42,14 +81,9 @@ public class VistaFolder extends CustomComponent{
 		actualiza.setVisible(false);
 		
 		carga.addClickListener(clickEvent -> {
-//			List<Fichero> listaFicheros = servicioGestorFicheros.listaFicheros();
-//			for (int i = 0; i < listaFicheros.size(); i++){
-//				grillafiles.addRow(listaFicheros.get(i).getNombre(), listaFicheros.get(i).getDescripcion(), listaFicheros.get(i).getVersion());
-//			}
+			cargaGrid();
 			carga.setVisible(false);
-			crea.setVisible(true);
-			borra.setVisible(true);
-			actualiza.setVisible(true);
+
 			
 		});
 		
@@ -59,6 +93,13 @@ public class VistaFolder extends CustomComponent{
 
 	}
 
+	public void cargaGrid() {
+		listaDirectorios = servicioGestorDirectorios.listaDirectorios();
+		
+		gridCarpetas.setContainerDataSource(
+        		new BeanItemContainer<>(Directorio.class, listaDirectorios)
+        );
+	}
 	public VistaFolder(Component compositionRoot) {
 		super(compositionRoot);
 		// TODO Auto-generated constructor stub

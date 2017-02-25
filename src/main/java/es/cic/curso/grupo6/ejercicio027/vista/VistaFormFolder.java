@@ -1,14 +1,18 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.util.Collection;
+
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 
 public class VistaFormFolder extends FormLayout{
 
@@ -23,6 +27,7 @@ public class VistaFormFolder extends FormLayout{
 	private Button aceptar;
 	private Button cancelar;
 	private Directorio directorio;
+
 	
 	private VistaFolder padre;
 	
