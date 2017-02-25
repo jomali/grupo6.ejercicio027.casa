@@ -25,6 +25,7 @@ public class VistaMenu extends CustomComponent{
 	public VistaMenu() {
 		super();
 		layout = new VerticalLayout();
+		layout.setMargin(true);
 		layout.setSpacing(true);
 		cuerpo = new VerticalLayout();
 		cuerpo.setMargin(true);

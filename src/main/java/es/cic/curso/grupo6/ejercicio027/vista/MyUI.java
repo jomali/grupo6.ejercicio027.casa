@@ -31,7 +31,7 @@ public class MyUI extends UI {
 	protected void init(VaadinRequest request) {
 		getPage().setTitle("Gestor de Documentos");
 		layout = new VerticalLayout();
-		
+
 		// Crea el navegador para controlar las vistas:
 		navegador = new Navigator(this, this);
 		
