@@ -16,7 +16,7 @@ Referencias:
 Punto de partida del desarrollo:
 
 1. Operaciones CRUD sobre directorios.  
-1.1. Creación de directorios sobre un directorio raíz del servidor.  
+1.1. Creación de directorios sobre un directorio raíz del servidor. **Dos directorios no pueden tener la misma ruta.**  
 1.2. Modificación. Sólo se puede modificar un directorio si no existen ficheros que cuelguen de él.  
 1.3. Eliminación. Si se elimina un directorio, se eliminan también todos los ficheros que cuelguen de él.  
 1.4. Listado de directorios.  
@@ -51,20 +51,14 @@ Punto de partida del desarrollo:
 + es.cic.curso.grupo6.ejercicio027.vista
 
 
-## Reparto de tareas
+## Tareas pendientes
 
-[x] 1. Creación del proyecto  
-[x] 2. Crear proyecto en GitLab  
-[x] 3. Dar de alta tarea en Jenkins  
-[x] 4. Diseñar BB.DD.  
-[x] 5. Definición del modelo  
-[x] 6. Definición de los fichero: *persistence*, *changelog* y *applicationContext*  
-[x] 7. Definición de los repositorios  
-[x] 8. Tests sobre los repositorios  
-[x] 9. Definición de los servicios  
-[x] 10. Tests sobre los servicios  
-[x] 11. Diseño de las vistas de la aplicación  
-[ ] 12. Desarrollo de vistas en paralelo  
-[ ] 13. Refinamiento de las vistas  
-[ ] 14. Presentación  
-[ ] 15. Creación de documento para el cliente  
+[ ] Estudiar la utilización de DTOs
+[ ] Comprobación en los servicios: dos directorios no pueden compartir una misma ruta  
+[ ] Operaciones de la API de ficheros. Dentro de los servicios  
+[ ] Tests sobre las operaciones de la API de ficheros  
+[ ] Cohesión de idioma a lo largo de todo el proyecto. (Evitar el uso indistinto de Español e Inglés)    
+[ ] Adición de funcionalidades requeridas en las vistas  
+[ ] Preparación de la presentación  
+[ ] Creación de documento para el cliente  
+
