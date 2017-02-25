@@ -61,9 +61,9 @@ Punto de partida del desarrollo:
 [x] 6. Definición de los fichero: *persistence*, *changelog* y *applicationContext*  
 [x] 7. Definición de los repositorios  
 [x] 8. Tests sobre los repositorios  
-[ ] 9. Definición de los servicios  
-[ ] 10. Tests sobre los servicios  
-[ ] 11. Diseño de las vistas de la aplicación  
+[x] 9. Definición de los servicios  
+[x] 10. Tests sobre los servicios  
+[x] 11. Diseño de las vistas de la aplicación  
 [ ] 12. Desarrollo de vistas en paralelo  
 [ ] 13. Refinamiento de las vistas  
 [ ] 14. Presentación  
