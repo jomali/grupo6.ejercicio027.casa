@@ -24,7 +24,7 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class VistaFicheros extends CustomComponent implements View {
+public class VistaFicheros extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6825028526184768126L;
 	
 	private VerticalLayout layout;
@@ -41,17 +41,14 @@ public class VistaFicheros extends CustomComponent implements View {
 	private List<Directorio> listaDirectorios;
 	private static final String SELECCIONA = "Selecciona";
 	
-	MenuNavegacion vistaMenu = new MenuNavegacion();
-
-	
-	public VistaFicheros(Navigator navegador) {
-		super();
-		
+	public VistaFicheros(Navigator navegador) {		
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
 
 		listaDirectorios = servicioGestorDirectorios.listaDirectorios();
 		listaFicheros = servicioGestorFicheros.listaFicheros();
+
+		MenuNavegacion vista = new MenuNavegacion(navegador);
 
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -98,14 +95,8 @@ public class VistaFicheros extends CustomComponent implements View {
 //		actualiza.setVisible(true);
 		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
 		layout.addComponent(layoutHorizontal);
-		this.setCompositionRoot(layout);
-
 		
-	}
-
-	public VistaFicheros(Component compositionRoot) {
-		super(compositionRoot);
-		// TODO Auto-generated constructor stub
+		addComponents(vista, layout);
 	}
 
 	@Override
