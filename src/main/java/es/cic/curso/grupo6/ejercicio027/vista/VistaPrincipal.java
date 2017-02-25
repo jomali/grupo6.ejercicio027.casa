@@ -1,7 +1,12 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.io.File;
+
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
@@ -28,7 +33,13 @@ public class VistaPrincipal extends CustomComponent{
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
-				cuerpo.addComponent( new Label( "Inicio"));
+				String basepath = VaadinService.getCurrent()
+		                  .getBaseDirectory().getAbsolutePath();
+				FileResource resource = new FileResource(new File(basepath +
+                        "/WEB-INF/images/CIC1.png"));
+				Image image = new Image("Image from file", resource);
+				image.setResponsive(true);
+				cuerpo.addComponents( new Label( "Inicio"),image);
 			}
 		});
 		
@@ -43,7 +54,8 @@ public class VistaPrincipal extends CustomComponent{
 		menuNavegacion.addItem("Folders", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
-			
+				cuerpo.removeAllComponents();
+				cuerpo.addComponent( new VistaFolder());
 			}
 		});	
 		

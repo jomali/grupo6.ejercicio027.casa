@@ -30,7 +30,7 @@ public class VistaFolder extends CustomComponent{
 		
 		Grid grillafiles = new Grid();
 		// GRID DE SESIONES:
-		grillafiles.setColumns("NOmbre", "Descripcion", "Version");
+		grillafiles.setColumns("Folder Name", "File Name", "Description", "Version");
 		grillafiles.setSizeFull();
 		grillafiles.setSelectionMode(SelectionMode.SINGLE);
 		layout.addComponent(grillafiles);

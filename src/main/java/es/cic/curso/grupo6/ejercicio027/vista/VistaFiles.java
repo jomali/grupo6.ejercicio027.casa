@@ -20,6 +20,10 @@ import com.vaadin.ui.Grid.SelectionMode;
 
 public class VistaFiles extends CustomComponent{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6825028526184768126L;
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
 	private ServicioGestorFicheros servicioGestorFicheros;
@@ -31,7 +35,7 @@ public class VistaFiles extends CustomComponent{
 		Grid grillafiles = new Grid();
 		// GRID DE SESIONES:
 		
-		grillafiles.setColumns("Nombre", "Descripción", "Versión");
+		grillafiles.setColumns("File Name", "Description", "Versión");
 		grillafiles.setSizeFull();
 		grillafiles.setSelectionMode(SelectionMode.SINGLE);
 		layout.addComponent(grillafiles);
