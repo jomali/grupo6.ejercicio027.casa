@@ -2,6 +2,7 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
@@ -20,10 +21,11 @@ public class VistaFiles extends CustomComponent{
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
 	private ServicioGestorFicheros servicioGestorFicheros;
-	Button buttonCharge = new Button("Charge");
-	Button buttonCreate = new Button("Create");
-	Button buttonDelete = new Button("Delete");
-	Button buttonUpdate = new Button("Update");
+	Button carga = new Button("Carga");
+	Button crea = new Button("Crea");
+	Button borra = new Button("Borra");
+	Button actualiza = new Button("Actualiza");
+	ComboBox escogeCarpeta = new ComboBox();
 	
 	VistaMenu vistaMenu = new VistaMenu();
 
@@ -33,34 +35,35 @@ public class VistaFiles extends CustomComponent{
 		layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
-		Grid grillafiles = new Grid();
+		Grid gridArchivos = new Grid();
 		// GRID DE SESIONES:
 		
-		grillafiles.setColumns("File Name", "Description", "Versión");
-		grillafiles.setSizeFull();
-		grillafiles.setSelectionMode(SelectionMode.SINGLE);
-		layout.addComponent(grillafiles);
+		gridArchivos.setColumns("Ruta del Archivo", "Nombre del Archivo", "Descripción", "Versión");
+		gridArchivos.setSizeFull();
+		gridArchivos.setSelectionMode(SelectionMode.SINGLE);
+		layout.addComponent(gridArchivos);
 		
 		HorizontalLayout layoutHorizontal = new HorizontalLayout();
 		layoutHorizontal.setSpacing(true);
 		
-		buttonCreate.setVisible(false);
-		buttonDelete.setVisible(false);
-		buttonUpdate.setVisible(false);
+		crea.setVisible(false);
+		borra.setVisible(false);
+		actualiza.setVisible(false);
 		
-		buttonCharge.addClickListener(clickEvent -> {
+		carga.addClickListener(clickEvent -> {
 //			List<Fichero> listaFicheros = servicioGestorFicheros.listaFicheros();
 //			for (int i = 0; i < listaFicheros.size(); i++){
 //				grillafiles.addRow(listaFicheros.get(i).getNombre(), listaFicheros.get(i).getDescripcion(), listaFicheros.get(i).getVersion());
 //			}
-			buttonCharge.setVisible(false);
-			buttonCreate.setVisible(true);
-			buttonDelete.setVisible(true);
-			buttonUpdate.setVisible(true);
+			carga.setVisible(false);
+			escogeCarpeta.setVisible(true);
+			escogeCarpeta.addValueChangeListener(escogeCarpeta);
 			
 		});
-			
-		layoutHorizontal.addComponents(buttonCharge, buttonCreate, buttonDelete, buttonUpdate);
+//		crea.setVisible(true);
+//		borra.setVisible(true);
+//		actualiza.setVisible(true);
+		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
 		layout.addComponent(layoutHorizontal);
 		this.setCompositionRoot(layout);
 

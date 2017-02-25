@@ -9,7 +9,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
-import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 
 public class VistaFormFolder extends FormLayout{
 
@@ -20,10 +19,6 @@ public class VistaFormFolder extends FormLayout{
 
 	@PropertyId("ruta")
 	protected TextField ruta;
-	@PropertyId("descripcion")
-	protected TextField descripcion;
-	@PropertyId("version")
-	protected TextField version;
 	
 	private Button aceptar;
 	private Button cancelar;
@@ -37,19 +32,19 @@ public class VistaFormFolder extends FormLayout{
 		VerticalLayout verticalPrincipal= new VerticalLayout();
 
 		HorizontalLayout nombreLayout = new HorizontalLayout();
-		ruta = new TextField("Route: ");
-		ruta.setInputPrompt("Route:");
+		ruta = new TextField("Ruta de la Carpeta: ");
+		ruta.setInputPrompt("Ruta de la Carpeta:");
 		nombreLayout.addComponent(ruta);
 
 
 		HorizontalLayout buttonsLayout = new HorizontalLayout();
-		aceptar = new Button("Ok");
+		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
 		aceptar.addClickListener(e -> {
 			//padre.cargaGrid(fichero);
 			//TODO Aqui tenemos que hacer que vaya a VistaFile
 		});
-		cancelar = new Button("Cancel");
+		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
 			//padre.borrarGrid(fichero);

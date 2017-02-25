@@ -17,6 +17,8 @@ public class VistaFormFile extends FormLayout{
 	 */
 	private static final long serialVersionUID = -1842474819854513394L;
 
+	@PropertyId("ruta")
+	protected TextField ruta;	
 	@PropertyId("nombre")
 	protected TextField nombre;
 	@PropertyId("descripcion")
@@ -36,26 +38,26 @@ public class VistaFormFile extends FormLayout{
 		VerticalLayout verticalPrincipal= new VerticalLayout();
 
 		HorizontalLayout nombreLayout = new HorizontalLayout();
-		nombre = new TextField("File Name: ");
-		nombre.setInputPrompt("File Name:");
+		nombre = new TextField("Nombre del Archivo: ");
+		nombre.setInputPrompt("Nombre del Archivoe:");
 		nombreLayout.addComponent(nombre);
 		HorizontalLayout descripcionLayout = new HorizontalLayout();
-		descripcion = new TextField("Description: ");
-		descripcion.setInputPrompt("Description");
+		descripcion = new TextField("Descripión: ");
+		descripcion.setInputPrompt("Descripión");
 		descripcionLayout.addComponent(descripcion);
 		HorizontalLayout versionLayout = new HorizontalLayout();
-		version = new TextField("Version: ");
-		version.setInputPrompt("Version");
+		version = new TextField("Versión: ");
+		version.setInputPrompt("Versión");
 		versionLayout.addComponent(version);
 
 		HorizontalLayout buttonsLayout = new HorizontalLayout();
-		aceptar = new Button("Ok");
+		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
 		aceptar.addClickListener(e -> {
 			//padre.cargaGrid(fichero);
 			//TODO Aqui tenemos que hacer que vaya a VistaFile
 		});
-		cancelar = new Button("Cancel");
+		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
 			//padre.borrarGrid(fichero);

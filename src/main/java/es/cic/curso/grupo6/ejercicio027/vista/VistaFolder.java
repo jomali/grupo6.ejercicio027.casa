@@ -15,10 +15,10 @@ public class VistaFolder extends CustomComponent{
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
 	private ServicioGestorFicheros servicioGestorFicheros;
-	Button buttonCharge = new Button("Charge");
-	Button buttonCreate = new Button("Create");
-	Button buttonDelete = new Button("Delete");
-	Button buttonUpdate = new Button("Update");
+	Button carga = new Button("Carga");
+	Button crea = new Button("Crea");
+	Button borra = new Button("Borra");
+	Button actualiza = new Button("Actualiza");
 	
 	
 	public VistaFolder() {
@@ -26,46 +26,37 @@ public class VistaFolder extends CustomComponent{
 		layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
-		Grid grillafiles = new Grid();
-		// GRID DE SESIONES:
-		grillafiles.setColumns("Folder Name", "File Name", "Description", "Version");
-		grillafiles.setSizeFull();
-		grillafiles.setSelectionMode(SelectionMode.SINGLE);
-		layout.addComponent(grillafiles);
+		Grid gridCarpetas = new Grid();
+		
+		gridCarpetas.setColumns("Ruta de la Carpeta");
+		gridCarpetas.setSizeFull();
+		gridCarpetas.setSelectionMode(SelectionMode.SINGLE);
+		layout.addComponent(gridCarpetas);
 		
 		
 		HorizontalLayout layoutHorizontal = new HorizontalLayout();
 		layoutHorizontal.setSpacing(true);
 		
-		buttonCreate.setVisible(false);
-		buttonDelete.setVisible(false);
-		buttonUpdate.setVisible(false);
+		crea.setVisible(false);
+		borra.setVisible(false);
+		actualiza.setVisible(false);
 		
-		buttonCharge.addClickListener(clickEvent -> {
+		carga.addClickListener(clickEvent -> {
 //			List<Fichero> listaFicheros = servicioGestorFicheros.listaFicheros();
 //			for (int i = 0; i < listaFicheros.size(); i++){
 //				grillafiles.addRow(listaFicheros.get(i).getNombre(), listaFicheros.get(i).getDescripcion(), listaFicheros.get(i).getVersion());
 //			}
-			buttonCharge.setVisible(false);
-			buttonCreate.setVisible(true);
-			buttonDelete.setVisible(true);
-			buttonUpdate.setVisible(true);
+			carga.setVisible(false);
+			crea.setVisible(true);
+			borra.setVisible(true);
+			actualiza.setVisible(true);
 			
 		});
 		
-		layoutHorizontal.addComponents(buttonCharge, buttonCreate, buttonDelete, buttonUpdate);
+		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
 		layout.addComponent(layoutHorizontal);
 		this.setCompositionRoot(layout);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}
 
 	public VistaFolder(Component compositionRoot) {

@@ -34,7 +34,7 @@ public class VistaMenu extends CustomComponent{
  	
 
 		
-		menuNavegacion.addItem("Home", new Command() {
+		menuNavegacion.addItem("INICIO", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
@@ -45,12 +45,12 @@ public class VistaMenu extends CustomComponent{
 				FileResource resource = new FileResource(new File(basepath +
 		              "/WEB-INF/images/CIC1.png"));
 				Image image = new Image("Gestor de Documentos", resource);
-				image.setResponsive(isResponsive());
+				image.setSizeFull();
 				cuerpo.addComponent(image);
 			}
 		});
 		
-		menuNavegacion.addItem("Files", new Command() {
+		menuNavegacion.addItem("ARCHIVOS", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
@@ -60,7 +60,7 @@ public class VistaMenu extends CustomComponent{
 			}
 		});
 		
-		menuNavegacion.addItem("Folders", new Command() {
+		menuNavegacion.addItem("CARPETAS", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				cuerpo.removeAllComponents();
