@@ -16,6 +16,7 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 
 public class FormularioDirectorios extends FormLayout{
 
+
 	/**
 	 * 
 	 */
@@ -46,14 +47,14 @@ public class FormularioDirectorios extends FormLayout{
 		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
 		aceptar.addClickListener(e -> {
-			//padre.cargaGrid(fichero);
+			
 			//TODO Aqui tenemos que hacer que vaya a VistaFile
 		});
 		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
-		cancelar.addClickListener(e-> {
-			//padre.borrarGrid(fichero);
-			//TODO Aqui tenemos que hacer que vaya a VisaHome
+		cancelar.addClickListener(e -> {
+			padre.cargaGridDirectorios();
+			setDirectorio(null);
 		});
 		buttonsLayout.addComponents(aceptar, cancelar);
 		
@@ -61,5 +62,10 @@ public class FormularioDirectorios extends FormLayout{
 		
 		
 		//setFichero(null);
+	}
+
+	private void setDirectorio(Directorio directorio) {
+		// TODO Auto-generated method stub
+		
 	}
 }

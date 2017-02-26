@@ -30,6 +30,7 @@ public class VistaPrincipal extends VerticalLayout implements View {
 		image.setSizeFull();
 
 		Label label = new Label("Prueba de Evaluación del Grupo 6");
+		label.setHeight(12.0F, Unit.PIXELS);
 		Label label2 = new Label("Curso06 - Jose María Cagigas");
 		Label label3 = new Label("Curso17 - Jose Francisco Martín");
 		layout.addComponents(image, label, label2, label3);
