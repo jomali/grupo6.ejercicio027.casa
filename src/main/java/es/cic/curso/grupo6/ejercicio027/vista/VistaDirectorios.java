@@ -2,6 +2,9 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.web.context.ContextLoader;
 
 import com.vaadin.data.util.BeanItemContainer;
@@ -11,8 +14,6 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
@@ -21,7 +22,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaDirectorios extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6362449485036174011L;
@@ -32,15 +32,21 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private Collection<Directorio> listaDirectorios;
 	private ServicioGestorDirectorios servicioGestorDirectorios;
 	private Notification alerta;
+	private Directorio directorio = new Directorio();
 	Button carga = new Button("Carga");
 	Button crea = new Button("Crea");
 	Button borra = new Button("Borra");
 	Button actualiza = new Button("Actualiza");
 
+	
+	@PersistenceContext
+	private EntityManager em;
+
 	public VistaDirectorios(Navigator navegador) {
 		super();
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
 
+		
 		MenuNavegacion vista = new MenuNavegacion(navegador);
 		
 		layout = new VerticalLayout();
@@ -48,7 +54,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		layout.setSpacing(true);
 		gridCarpetas = new Grid();
 		
-		gridCarpetas.setColumns("Ruta de la Carpeta");
+		gridCarpetas.setColumns("id", "Ruta de la Carpeta");
 		gridCarpetas.setSizeFull();
 		gridCarpetas.setSelectionMode(SelectionMode.SINGLE);
 		
@@ -79,9 +85,11 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		actualiza.setVisible(false);
 		
 		carga.addClickListener(clickEvent -> {
-			cargaGrid();
+			cargaGridDirectorios();
 			carga.setVisible(false);
-
+			crea.setVisible(true);
+			borra.setVisible(true);
+			actualiza.setVisible(true);
 			
 		});
 		
@@ -98,13 +106,15 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		
 	}
 
-	public void cargaGrid() {
+	public void cargaGridDirectorios() {
 		listaDirectorios = servicioGestorDirectorios.listaDirectorios();
 		
 		gridCarpetas.setContainerDataSource(
         		new BeanItemContainer<>(Directorio.class, listaDirectorios)
         );
 	}
+	
+
 
 
 	
