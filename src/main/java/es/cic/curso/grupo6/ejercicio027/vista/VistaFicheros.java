@@ -27,8 +27,6 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaFicheros extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6825028526184768126L;
-
-	MenuNavegacion menuNavegacion;
 	
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
@@ -51,8 +49,7 @@ public class VistaFicheros extends VerticalLayout implements View {
 		listaDirectorios = servicioGestorDirectorios.listaDirectorios();
 		listaFicheros = servicioGestorFicheros.listaFicheros();
 
-		this.menuNavegacion = menuNavegacion;
-		MenuBar menu = this.menuNavegacion.obtenMenu();
+		MenuBar menu = menuNavegacion.creaMenu(MyUI.VISTA_FICHEROS);
 
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -107,9 +104,7 @@ public class VistaFicheros extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		menuNavegacion.seleccionaEntrada(MyUI.VISTA_FICHEROS);
+
 	}
-
-
 	
 }

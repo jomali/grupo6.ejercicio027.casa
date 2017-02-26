@@ -42,9 +42,9 @@ public class MyUI extends UI {
 		
 		// Crea el menú de navegación
 		MenuNavegacion menu = new MenuNavegacion(navegador);
-		menu.agregaEntrada("PRINCIPAL", "");
-		menu.agregaEntrada("DIRECTORIOS", VISTA_DIRECTORIOS);
-		menu.agregaEntrada("FICHEROS", VISTA_FICHEROS);
+		menu.agregaEntrada("Principal", "");
+		menu.agregaEntrada("Directorios", VISTA_DIRECTORIOS);
+		menu.agregaEntrada("Ficheros", VISTA_FICHEROS);
 
 		// Crea y registra las vistas:
 		navegador.addView("", new VistaPrincipal(menu));

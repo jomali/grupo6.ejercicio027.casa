@@ -26,8 +26,6 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 
 public class VistaDirectorios extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6362449485036174011L;
-
-	MenuNavegacion menuNavegacion;
 	
 	private Grid gridCarpetas;
 	private VerticalLayout layout;
@@ -47,9 +45,8 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
-		this.menuNavegacion = menuNavegacion;
 
-		MenuBar menu = this.menuNavegacion.obtenMenu();
+		MenuBar menu = menuNavegacion.creaMenu(MyUI.VISTA_DIRECTORIOS);
 		
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -104,7 +101,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		menuNavegacion.seleccionaEntrada(MyUI.VISTA_DIRECTORIOS);
+
 	}
 
 	public void cargaGridDirectorios() {

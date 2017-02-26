@@ -18,11 +18,8 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 public class VistaPrincipal extends VerticalLayout implements View {
 	private static final long serialVersionUID = 8801525565672617295L;
 	
-	MenuNavegacion menuNavegacion;
-
 	public VistaPrincipal(MenuNavegacion menuNavegacion) {
-		this.menuNavegacion = menuNavegacion;
-		MenuBar menu = this.menuNavegacion.obtenMenu();
+		MenuBar menu = menuNavegacion.creaMenu("");
 		
 		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -43,6 +40,6 @@ public class VistaPrincipal extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		menuNavegacion.seleccionaEntrada("");
+
 	}
 }
