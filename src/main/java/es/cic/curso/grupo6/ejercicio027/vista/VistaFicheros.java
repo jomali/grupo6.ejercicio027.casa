@@ -56,7 +56,7 @@ public class VistaFicheros extends VerticalLayout implements View {
 		Grid gridArchivos = new Grid();
 		// GRID DE SESIONES:
 		
-		gridArchivos.setColumns("Directorio", "Archivo", "Descripción", "Versión");
+		gridArchivos.setColumns("id", "Directorio", "Archivo", "Descripción", "Versión");
 		gridArchivos.setSizeFull();
 		gridArchivos.setSelectionMode(SelectionMode.SINGLE);
 		layout.addComponent(gridArchivos);
