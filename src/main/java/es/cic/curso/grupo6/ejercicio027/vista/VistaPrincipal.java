@@ -2,7 +2,6 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.io.File;
 
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FileResource;
@@ -11,9 +10,6 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
-
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaPrincipal extends VerticalLayout implements View {
 	private static final long serialVersionUID = 8801525565672617295L;
