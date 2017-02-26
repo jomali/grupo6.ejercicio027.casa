@@ -38,7 +38,6 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	Button actualiza = new Button("Actualiza");
 
 	public VistaDirectorios(Navigator navegador) {
-		super();
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
 
 		MenuNavegacion vista = new MenuNavegacion(navegador);

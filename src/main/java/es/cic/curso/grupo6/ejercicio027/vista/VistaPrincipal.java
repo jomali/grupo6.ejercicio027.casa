@@ -9,6 +9,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
@@ -17,8 +18,11 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 public class VistaPrincipal extends VerticalLayout implements View {
 	private static final long serialVersionUID = 8801525565672617295L;
 
-	public VistaPrincipal(Navigator navegador) {
-		MenuNavegacion vista = new MenuNavegacion(navegador);
+	public VistaPrincipal(MenuNavegacion menuNavegacion) {
+		MenuBar menu = menuNavegacion.obtenMenu();
+
+		
+//		MenuNavegacion vista = new MenuNavegacion(navegador);
 		
 		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -34,7 +38,7 @@ public class VistaPrincipal extends VerticalLayout implements View {
 		Label label3 = new Label("Curso17 - Jose Francisco Martín");
 		layout.addComponents(image, label, label2, label3);
 
-		addComponents(vista, layout );
+		addComponents(menu, layout );
 
 	}
 
