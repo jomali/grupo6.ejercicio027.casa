@@ -2,6 +2,7 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
 
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -53,8 +54,9 @@ public class FormularioDirectorios extends FormLayout{
 		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e -> {
-			padre.cargaGridDirectorios();
-			setDirectorio(null);
+			verticalPrincipal.setVisible(false);
+			padre.setVisible(true);
+
 		});
 		buttonsLayout.addComponents(aceptar, cancelar);
 		
@@ -64,8 +66,15 @@ public class FormularioDirectorios extends FormLayout{
 		//setFichero(null);
 	}
 
-	private void setDirectorio(Directorio directorio) {
-		// TODO Auto-generated method stub
+	public void Directorio(Directorio directorio)
+	{  
+		this.directorio=directorio;
 		
+		if(directorio!=null)
+		{
+		    BeanFieldGroup.bindFieldsUnbuffered(directorio, this);			
+		} else {
+			BeanFieldGroup.bindFieldsUnbuffered(new Directorio(), this);
+		}
 	}
 }

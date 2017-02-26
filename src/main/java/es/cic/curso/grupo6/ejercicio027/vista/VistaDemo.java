@@ -17,10 +17,10 @@ public class VistaDemo extends VerticalLayout implements View {
 	private static final long serialVersionUID = -8229167069516384540L;
 
 	/** Número de directorios que se crean para la demo. */
-	public static final int NUM_DIRECTORIOS = 3;
+	public static final int NUM_DIRECTORIOS = 4;
 
 	/** Número de ficheros que se crean por directorio para la demo. */
-	public static final int NUM_FICHEROS = 5;
+	public static final int NUM_FICHEROS = 8;
 
 	/** Permite navegar entre las vistas de la aplicación. */
 	private Navigator navegador;

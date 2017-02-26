@@ -4,15 +4,18 @@ import java.util.Collection;
 
 import org.springframework.web.context.ContextLoader;
 
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -33,6 +36,7 @@ public class VistaFicheros extends VerticalLayout implements View {
 	private Grid gridFicheros;
 	private ComboBox comboBoxDirectorios;
 	private Button botonAgregar, botonBorrar, botonActualizar;
+	private Fichero fichero;
 
 	private static final String SELECCIONA = "Selecciona";
 
@@ -73,10 +77,19 @@ public class VistaFicheros extends VerticalLayout implements View {
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(false);
 
-		botonBorrar = new Button("Borra");
+		botonBorrar = new Button("Borrar");
+		botonBorrar.setIcon(FontAwesome.ERASER);
 		botonBorrar.setVisible(true);
-		botonBorrar.setEnabled(false);
-
+		botonBorrar.setEnabled(true);
+		botonBorrar.addClickListener(e -> {
+				Notification.show("BORRADO: Fichero ID="+fichero.getId());
+				borraFichero(fichero.getId());
+				cargaGridFicheros();
+				setFichero(fichero);
+				botonBorrar.setVisible(false);
+		});
+		
+		
 		botonActualizar = new Button("Actualizar");
 		botonActualizar.setVisible(true);
 		botonActualizar.setEnabled(false);
@@ -94,6 +107,23 @@ public class VistaFicheros extends VerticalLayout implements View {
 		layoutPrincipal.addComponents(gridFicheros, layoutBotones);
 
 		addComponents(menu, layoutPrincipal);
+	}
+	
+
+	public Fichero borraFichero(Long id) {
+		return  servicioGestorFicheros.eliminaFichero(id);
+	}
+
+	public void setFichero(Fichero fichero)
+	{  
+		this.fichero=fichero;
+		
+		if(fichero!=null)
+		{
+		    BeanFieldGroup.bindFieldsUnbuffered(fichero, this);			
+		} else {
+			BeanFieldGroup.bindFieldsUnbuffered(new Fichero(), this);
+		}
 	}
 
 	@Override

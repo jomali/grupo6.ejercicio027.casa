@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.web.context.ContextLoader;
 
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -13,6 +14,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -30,6 +32,8 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private Grid gridDirectorios;
 	private FormularioDirectorios formulario;
 	private Button botonAgregar, botonBorrar, botonActualizar;
+	private Notification muestraError = new Notification("ERROR: Algún dato está mal introducido o no ha sido introducido");
+	private Directorio directorio;
 
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
@@ -45,6 +49,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		gridDirectorios.setColumns("id", "ruta");
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
+		gridDirectorios.setCaption("Lista Directorios:");
 		gridDirectorios.addSelectionListener(e -> {
 			if (!e.getSelected().isEmpty()) {
 				// Directorio directorioSeleccionado = (Directorio)
@@ -54,7 +59,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 				botonActualizar.setEnabled(true);
 			} else {
 				botonAgregar.setEnabled(true);
-				botonBorrar.setEnabled(false);
+				botonBorrar.setEnabled(true);
 				botonActualizar.setEnabled(true);
 			}
 		});
@@ -65,17 +70,43 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
+		botonAgregar.addClickListener(clickEvent -> {
+			botonAgregar.setVisible(false);
+			gridDirectorios.setVisible(false);
+			formulario.setVisible(true);
+			botonBorrar.setVisible(true);
+			botonActualizar.setVisible(false);
+			
+		});
 
 		botonBorrar = new Button("Borrar");
-		botonBorrar.setIcon(FontAwesome.MINUS_CIRCLE);
+		botonBorrar.setIcon(FontAwesome.ERASER);
 		botonBorrar.setVisible(true);
-		botonBorrar.setEnabled(false);
-
+		botonBorrar.setEnabled(true);
+		botonBorrar.addClickListener(e -> {
+				Notification.show("BORRADO: DIrectorio ID="+directorio.getId());
+				borraDirectorio(directorio.getId());
+				cargaGridDirectorios();
+				setDirectorio(directorio);
+				botonBorrar.setVisible(false);
+		});
+		
 		botonActualizar = new Button("Recarga datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(true);
 		botonActualizar.setEnabled(true);
-		botonActualizar.addClickListener(e -> cargaGridDirectorios());
+//		botonActualizar.addClickListener(e -> {
+//			if(compruebaDatos()){
+//				Directorio directorioModificado = new Directorio(e
+//				directorioModificado.setId(directorio.getId());
+//				servicioGestorDirectorios.
+//				cargaGridDirectorios();
+//				setDirectorio(directorioModificado);
+//			}else{
+//				muestraError.show(Page.getCurrent());
+//			}
+//		});
+		cargaGridDirectorios();
 
 		HorizontalLayout layoutBotones = new HorizontalLayout();
 		layoutBotones.setMargin(false);
@@ -95,6 +126,22 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		layoutPrincipal.addComponents(gridDirectorios, layoutBotones, formulario);
 
 		addComponents(menu, layoutPrincipal);
+	}
+
+	public Directorio borraDirectorio(Long id) {
+		return  servicioGestorDirectorios.eliminaDirectorio(id);
+		}
+
+	public void setDirectorio(Directorio directorio)
+	{  
+		this.directorio=directorio;
+		
+		if(directorio!=null)
+		{
+		    BeanFieldGroup.bindFieldsUnbuffered(directorio, this);			
+		} else {
+			BeanFieldGroup.bindFieldsUnbuffered(new Directorio(), this);
+		}
 	}
 
 	@Override

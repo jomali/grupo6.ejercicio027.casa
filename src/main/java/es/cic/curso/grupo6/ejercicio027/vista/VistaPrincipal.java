@@ -33,7 +33,7 @@ public class VistaPrincipal extends VerticalLayout implements View {
 		label.setContentMode(ContentMode.HTML);
 		Label label2 = new Label("Curso06 - Jose María Cagigas");
 		Label label3 = new Label("Curso17 - Jose Francisco Martín");
-		layout.addComponents(label, label2, label3, imagen);
+		layout.addComponents(imagen, label, label2, label3);
 
 		addComponents(menu, layout);
 	}
