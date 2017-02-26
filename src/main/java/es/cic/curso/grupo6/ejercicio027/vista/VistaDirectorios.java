@@ -26,61 +26,72 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	// Componentes gráficos:
 
 	private Grid gridDirectorios;
-	private Button botonAgregar;
-	
+	private FormularioDirectorios formulario;
+	private Button botonAgregar, botonBorrar, botonActualizar;
 
-	private FormularioDirectorios formulario = new FormularioDirectorios(null);
-	Button borra = new Button("Borra");
-	Button actualiza = new Button("Actualiza");
-
-	@SuppressWarnings("serial")
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorDirectorios.class);
 
+		// MENÚ de NAVEGACIÓN
+
 		MenuBar menu = menuNavegacion.creaMenu(MyUI.VISTA_DIRECTORIOS);
 
-		VerticalLayout layoutPrincipal = new VerticalLayout();
-		layoutPrincipal.setMargin(true);
-		layoutPrincipal.setSpacing(true);
+		// GRID de DIRECTORIOS
 
 		gridDirectorios = new Grid();
 		gridDirectorios.setColumns("id", "ruta");
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
-
 		gridDirectorios.addSelectionListener(e -> {
 			if (!e.getSelected().isEmpty()) {
 				Directorio directorioSeleccionado = (Directorio) e.getSelected().iterator().next();
 				botonAgregar.setEnabled(true);
-				borra.setEnabled(true);
-				actualiza.setEnabled(true);
+				botonBorrar.setEnabled(true);
+				botonActualizar.setEnabled(true);
 			} else {
 				botonAgregar.setEnabled(true);
-				borra.setEnabled(false);
-				actualiza.setEnabled(true);
+				botonBorrar.setEnabled(false);
+				botonActualizar.setEnabled(true);
 			}
-		});		
+		});
 
-		layoutPrincipal.addComponent(gridDirectorios);
+		// BOTONES
+
+		botonAgregar = new Button("Añadir Directorio");
+		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
+		botonAgregar.setVisible(true);
+		botonAgregar.setEnabled(true);
+		
+		botonBorrar = new Button("Borrar");
+		botonBorrar.setIcon(FontAwesome.MINUS_CIRCLE);
+		botonBorrar.setVisible(true);
+		botonBorrar.setEnabled(false);
+		
+		botonActualizar = new Button("Recarga datos");
+		botonActualizar.setIcon(FontAwesome.REFRESH);
+		botonActualizar.setVisible(true);
+		botonActualizar.setEnabled(true);
+		botonActualizar.addClickListener(e -> cargaGridDirectorios());
 
 		HorizontalLayout layoutBotones = new HorizontalLayout();
 		layoutBotones.setMargin(false);
 		layoutBotones.setSpacing(true);
-		
-		botonAgregar = new Button("Añadir Directorio");
-		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
-		botonAgregar.setVisible(true);
+		layoutBotones.addComponents(botonAgregar, botonBorrar, botonActualizar);
 
-		borra.setVisible(false);
-		actualiza.setVisible(false);
+		// FORMULARIO
+
+		formulario = new FormularioDirectorios(null);
 		formulario.setVisible(false);
 
-		layoutBotones.addComponents(botonAgregar, borra, actualiza);
-		
-		layoutPrincipal.addComponents(layoutBotones, formulario);
-		addComponents(menu, layoutPrincipal);
+		// LAYOUT PRINCIPAL
 
+		VerticalLayout layoutPrincipal = new VerticalLayout();
+		layoutPrincipal.setMargin(true);
+		layoutPrincipal.setSpacing(true);
+		layoutPrincipal.addComponents(gridDirectorios, layoutBotones, formulario);
+
+		addComponents(menu, layoutPrincipal);
 	}
 
 	@Override
