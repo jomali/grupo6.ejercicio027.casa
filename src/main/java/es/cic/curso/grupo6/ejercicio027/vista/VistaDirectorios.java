@@ -17,6 +17,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
@@ -25,6 +26,8 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 
 public class VistaDirectorios extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6362449485036174011L;
+
+	MenuNavegacion menuNavegacion;
 	
 	private Grid gridCarpetas;
 	private VerticalLayout layout;
@@ -42,11 +45,11 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	@PersistenceContext
 	private EntityManager em;
 
-	public VistaDirectorios(Navigator navegador) {
+	public VistaDirectorios(MenuNavegacion menuNavegacion) {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
+		this.menuNavegacion = menuNavegacion;
 
-		
-		MenuNavegacion vista = new MenuNavegacion(navegador);
+		MenuBar menu = this.menuNavegacion.obtenMenu();
 		
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -95,14 +98,13 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
 		layout.addComponent(layoutHorizontal);
 		
-		addComponents(vista, layout);
+		addComponents(menu, layout);
 
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
+		menuNavegacion.seleccionaEntrada(MyUI.VISTA_DIRECTORIOS);
 	}
 
 	public void cargaGridDirectorios() {

@@ -17,12 +17,12 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaPrincipal extends VerticalLayout implements View {
 	private static final long serialVersionUID = 8801525565672617295L;
+	
+	MenuNavegacion menuNavegacion;
 
 	public VistaPrincipal(MenuNavegacion menuNavegacion) {
-		MenuBar menu = menuNavegacion.obtenMenu();
-
-		
-//		MenuNavegacion vista = new MenuNavegacion(navegador);
+		this.menuNavegacion = menuNavegacion;
+		MenuBar menu = this.menuNavegacion.obtenMenu();
 		
 		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -38,12 +38,11 @@ public class VistaPrincipal extends VerticalLayout implements View {
 		Label label3 = new Label("Curso17 - Jose Francisco Martín");
 		layout.addComponents(image, label, label2, label3);
 
-		addComponents(menu, layout );
-
+		addComponents(menu, layout);
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
+		menuNavegacion.seleccionaEntrada("");
 	}
 }
