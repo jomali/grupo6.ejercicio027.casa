@@ -25,8 +25,6 @@ public class VistaDemo extends VerticalLayout implements View {
 	/** Permite navegar entre las vistas de la aplicación. */
 	private Navigator navegador;
 
-	private boolean cargado;
-
 	// Servicios con lógica de negocio y acceso a BB.DD.
 
 	private ServicioGestorDirectorios servicioGestorDirectorios;
@@ -38,14 +36,11 @@ public class VistaDemo extends VerticalLayout implements View {
 				.getBean(ServicioGestorDirectorios.class);
 		this.servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorFicheros.class);
-		this.cargado = false;
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		if (!cargado) {
-			cargado = true;
-
+		if (servicioGestorDirectorios.listaDirectorios().isEmpty()) {
 			for (int i = 0; i < NUM_DIRECTORIOS; i++) {
 				Directorio directorio = new Directorio();
 				directorio.setRuta("demo/directorio" + i + "/");
@@ -58,10 +53,8 @@ public class VistaDemo extends VerticalLayout implements View {
 					servicioGestorFicheros.agregaFichero(directorio.getId(), fichero);
 				}
 			}
-
 			Notification.show("Cargados datos de DEMOSTRACIÓN");
 		}
-
 		navegador.navigateTo("");
 	}
 
