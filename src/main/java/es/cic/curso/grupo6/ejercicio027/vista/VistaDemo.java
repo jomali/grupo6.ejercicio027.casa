@@ -1,7 +1,5 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
-import java.util.List;
-
 import org.springframework.web.context.ContextLoader;
 
 import com.vaadin.navigator.Navigator;

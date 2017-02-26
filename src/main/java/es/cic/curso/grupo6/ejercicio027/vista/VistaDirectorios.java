@@ -2,15 +2,11 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.web.context.ContextLoader;
 
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -18,7 +14,6 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -26,67 +21,57 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 
 public class VistaDirectorios extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6362449485036174011L;
-	
-	private Grid gridCarpetas;
-	private VerticalLayout layout;
-	private VerticalLayout cuerpo;
-	private Collection<Directorio> listaDirectorios;
+
 	private ServicioGestorDirectorios servicioGestorDirectorios;
-	private Notification alerta;
-	private Directorio directorio = new Directorio();
+
+	// Componentes gráficos:
+
+	private Grid gridDirectorios;
+
 	private FormularioDirectorios formulario = new FormularioDirectorios(null);
 	Button carga = new Button("Carga");
 	Button crea = new Button("Crea");
 	Button borra = new Button("Borra");
 	Button actualiza = new Button("Actualiza");
 
-	
-	@PersistenceContext
-	private EntityManager em;
-
+	@SuppressWarnings("serial")
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
-		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
+		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
+				.getBean(ServicioGestorDirectorios.class);
 
 		MenuBar menu = menuNavegacion.creaMenu(MyUI.VISTA_DIRECTORIOS);
-		
-		layout = new VerticalLayout();
-		layout.setMargin(true);
-		layout.setSpacing(true);
-		gridCarpetas = new Grid();
-		
-		gridCarpetas.setColumns("id", "Ruta de la Carpeta");
-		gridCarpetas.setSizeFull();
-		gridCarpetas.setSelectionMode(SelectionMode.SINGLE);
-		
-        
-		gridCarpetas.setSelectionMode(SelectionMode.SINGLE);
-		gridCarpetas.addSelectionListener(new SelectionListener() {
 
-        @Override
-           public void select(SelectionEvent event) {
-              Directorio carpetaSeleccionada =  (Directorio) gridCarpetas.getSelectedRow();
-              carpetaSeleccionada = carpetaSeleccionada;
-	  			crea.setVisible(true);
-	  			borra.setVisible(true);
-	  			actualiza.setVisible(true);
-           }
-        
-        });
-		
-		
-		layout.addComponent(gridCarpetas);
-		
-		
+		VerticalLayout layoutPrincipal = new VerticalLayout();
+		layoutPrincipal.setMargin(true);
+		layoutPrincipal.setSpacing(true);
+
+		gridDirectorios = new Grid();
+		gridDirectorios.setColumns("id", "ruta");
+		gridDirectorios.setSizeFull();
+		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
+
+		gridDirectorios.addSelectionListener(new SelectionListener() {
+			@Override
+			public void select(SelectionEvent event) {
+//				Directorio carpetaSeleccionada = (Directorio) gridDirectorios.getSelectedRow();
+				crea.setVisible(true);
+				borra.setVisible(true);
+				actualiza.setVisible(true);
+			}
+
+		});
+
+		layoutPrincipal.addComponent(gridDirectorios);
+
 		HorizontalLayout layoutHorizontal = new HorizontalLayout();
 		layoutHorizontal.setSpacing(true);
-		
+
 		crea.setVisible(false);
 		borra.setVisible(false);
 		actualiza.setVisible(false);
 		formulario.setVisible(false);
-		
+
 		carga.addClickListener(clickEvent -> {
-			//cargaGridDirectorios();
 			carga.setVisible(false);
 			crea.setVisible(true);
 			borra.setVisible(true);
@@ -96,28 +81,20 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		});
 		;
 		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
-		layout.addComponents(layoutHorizontal,formulario);
-		
-		
-		addComponents(menu, layout);
+		layoutPrincipal.addComponents(layoutHorizontal, formulario);
+
+		addComponents(menu, layoutPrincipal);
 
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
+		cargaGridDirectorios();
 	}
 
 	public void cargaGridDirectorios() {
-		listaDirectorios = servicioGestorDirectorios.listaDirectorios();
-		
-		gridCarpetas.setContainerDataSource(
-        		new BeanItemContainer<>(Directorio.class, listaDirectorios)
-        );
+		Collection<Directorio> directorios = servicioGestorDirectorios.listaDirectorios();
+		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
 	}
-	
 
-
-
-	
 }
