@@ -22,7 +22,7 @@ public class Fichero implements Identificable<Long> {
 	
 	/** Referencia al directorio del que cuelga el fichero. */
 	@JoinColumn(name = "id_directorio")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Directorio directorio;
 
 	/** Nombre del fichero. */

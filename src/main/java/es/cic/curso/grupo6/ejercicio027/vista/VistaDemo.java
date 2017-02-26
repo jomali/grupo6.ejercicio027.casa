@@ -18,14 +18,17 @@ public class VistaDemo extends VerticalLayout implements View {
 
 	/** Número de directorios que se crean para la demo. */
 	public static final int NUM_DIRECTORIOS = 3;
-	
+
 	/** Número de ficheros que se crean por directorio para la demo. */
 	public static final int NUM_FICHEROS = 5;
 
 	/** Permite navegar entre las vistas de la aplicación. */
 	private Navigator navegador;
 
-	/** Servicios con lógica de negocio y acceso a BB.DD. */
+	private boolean cargado;
+
+	// Servicios con lógica de negocio y acceso a BB.DD.
+
 	private ServicioGestorDirectorios servicioGestorDirectorios;
 	private ServicioGestorFicheros servicioGestorFicheros;
 
@@ -35,27 +38,30 @@ public class VistaDemo extends VerticalLayout implements View {
 				.getBean(ServicioGestorDirectorios.class);
 		this.servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorFicheros.class);
+		this.cargado = false;
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		if (!servicioGestorDirectorios.listaDirectorios().isEmpty())
-			return;
-		
-		for (int i = 0; i < NUM_DIRECTORIOS; i++) {
-			Directorio directorio = new Directorio();
-			directorio.setRuta("demo/directorio" + i + "/");
-			servicioGestorDirectorios.agregaDirectorio(directorio);
-			for (int j = 0; j < NUM_FICHEROS; j++) {
-				Fichero fichero = new Fichero();
-				fichero.setNombre("fichero" + i);
-				fichero.setDescripcion("Fichero de prueba");
-				fichero.setVersion(1.0);
-				servicioGestorFicheros.agregaFichero(directorio.getId(), fichero);
+		if (!cargado) {
+			cargado = true;
+
+			for (int i = 0; i < NUM_DIRECTORIOS; i++) {
+				Directorio directorio = new Directorio();
+				directorio.setRuta("demo/directorio" + i + "/");
+				servicioGestorDirectorios.agregaDirectorio(directorio);
+				for (int j = 0; j < NUM_FICHEROS; j++) {
+					Fichero fichero = new Fichero();
+					fichero.setNombre("fichero" + i);
+					fichero.setDescripcion("Fichero de prueba");
+					fichero.setVersion(1.0);
+					servicioGestorFicheros.agregaFichero(directorio.getId(), fichero);
+				}
 			}
+
+			Notification.show("Cargados datos de DEMOSTRACIÓN");
 		}
-		
-		Notification.show("Cargados datos de DEMOSTRACIÓN");
+
 		navegador.navigateTo("");
 	}
 

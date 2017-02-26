@@ -1,7 +1,6 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.web.context.ContextLoader;
 
@@ -24,18 +23,17 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 public class VistaFicheros extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6825028526184768126L;
 
-	// Componentes gráficos:
-	
-	private Grid gridFicheros;
+	// Servicios con lógica de negocio y acceso a BB.DD.
 
 	private ServicioGestorFicheros servicioGestorFicheros;
 	private ServicioGestorDirectorios servicioGestorDirectorios;
-	private ComboBox lista;
-	Button carga = new Button("Cargar");
-	Button crea = new Button("Crear");
-	Button borra = new Button("Borrar");
-	Button actualiza = new Button("Actualizar");
-	private List<Directorio> listaDirectorios;
+
+	// Componentes gráficos:
+
+	private Grid gridFicheros;
+	private ComboBox comboBoxDirectorios;
+	private Button botonAgregar, botonBorrar, botonActualizar;
+
 	private static final String SELECCIONA = "Selecciona";
 
 	public VistaFicheros(MenuNavegacion menuNavegacion) {
@@ -43,14 +41,12 @@ public class VistaFicheros extends VerticalLayout implements View {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorDirectorios.class);
 
+		// MENÚ de NAVEGACIÓN
+
 		MenuBar menu = menuNavegacion.creaMenu(MyUI.VISTA_FICHEROS);
 
-		VerticalLayout layoutPrincipal = new VerticalLayout();
-		layoutPrincipal.setMargin(true);
-		layoutPrincipal.setSpacing(true);
-		
 		// GRID de FICHEROS
-		
+
 		gridFicheros = new Grid();
 		gridFicheros.setColumns("id", "directorio", "nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
@@ -60,37 +56,42 @@ public class VistaFicheros extends VerticalLayout implements View {
 			} else {
 			}
 		});
-		layoutPrincipal.addComponent(gridFicheros);
+
+		// COMBOBOX y BOTONES
+
+		comboBoxDirectorios = new ComboBox();
+		comboBoxDirectorios.setInputPrompt(SELECCIONA);
+		Collection<Directorio> directorios = servicioGestorDirectorios.listaDirectorios();
+		for (int i = 1; i <= directorios.size(); i++) {
+			comboBoxDirectorios.addItem(i);
+			comboBoxDirectorios.setItemCaption(i, "Directorio " + i);
+		}
+		comboBoxDirectorios.setNullSelectionAllowed(false);
+		comboBoxDirectorios.setImmediate(true);
+
+		botonAgregar = new Button("Añade fichero");
+		botonAgregar.setVisible(true);
+		botonAgregar.setEnabled(false);
+
+		botonBorrar = new Button("Borra");
+		botonBorrar.setVisible(true);
+		botonBorrar.setEnabled(false);
+
+		botonActualizar = new Button("Actualizar");
+		botonActualizar.setVisible(true);
+		botonActualizar.setEnabled(false);
 
 		HorizontalLayout layoutBotones = new HorizontalLayout();
 		layoutBotones.setMargin(false);
 		layoutBotones.setSpacing(true);
+		layoutBotones.addComponents(comboBoxDirectorios, botonAgregar, botonBorrar, botonActualizar);
 
-		carga.setVisible(false);
-		crea.setVisible(false);
-		borra.setVisible(false);
-		actualiza.setVisible(false);
+		// LAYOUT PRINCIPAL
 
-		lista = new ComboBox();
-		lista.setInputPrompt(SELECCIONA);
-		listaDirectorios = servicioGestorDirectorios.listaDirectorios();
-		for (int i = 1; i <= listaDirectorios.size(); i++) {
-			lista.addItem(i);
-			lista.setItemCaption(i, "Directorio " + i);
-		}
-
-		lista.setNullSelectionAllowed(false);
-		lista.setImmediate(true);
-		carga.setVisible(true);
-		carga.setEnabled(false);
-		crea.setVisible(true);
-		crea.setEnabled(false);
-		borra.setVisible(true);
-		borra.setEnabled(false);
-		actualiza.setVisible(true);
-		actualiza.setEnabled(false);
-		layoutBotones.addComponents(lista, carga, crea, borra, actualiza);
-		layoutPrincipal.addComponent(layoutBotones);
+		VerticalLayout layoutPrincipal = new VerticalLayout();
+		layoutPrincipal.setMargin(true);
+		layoutPrincipal.setSpacing(true);
+		layoutPrincipal.addComponents(gridFicheros, layoutBotones);
 
 		addComponents(menu, layoutPrincipal);
 	}

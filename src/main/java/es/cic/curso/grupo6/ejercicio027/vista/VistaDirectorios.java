@@ -21,6 +21,8 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 public class VistaDirectorios extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6362449485036174011L;
 
+	// Servicios con lógica de negocio y acceso a BB.DD.
+
 	private ServicioGestorDirectorios servicioGestorDirectorios;
 
 	// Componentes gráficos:
@@ -45,7 +47,8 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
 		gridDirectorios.addSelectionListener(e -> {
 			if (!e.getSelected().isEmpty()) {
-				Directorio directorioSeleccionado = (Directorio) e.getSelected().iterator().next();
+				// Directorio directorioSeleccionado = (Directorio)
+				// e.getSelected().iterator().next();
 				botonAgregar.setEnabled(true);
 				botonBorrar.setEnabled(true);
 				botonActualizar.setEnabled(true);
@@ -62,12 +65,12 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
-		
+
 		botonBorrar = new Button("Borrar");
 		botonBorrar.setIcon(FontAwesome.MINUS_CIRCLE);
 		botonBorrar.setVisible(true);
 		botonBorrar.setEnabled(false);
-		
+
 		botonActualizar = new Button("Recarga datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(true);
