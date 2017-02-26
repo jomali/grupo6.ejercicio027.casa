@@ -46,7 +46,7 @@ public class MyUI extends UI {
 		navegador.addView("", new VistaPrincipal(menu));
 		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(menu));
 		navegador.addView(VISTA_FICHEROS, new VistaFicheros(menu));
-		navegador.addView(VISTA_DEMO, new VistaDemo(navegador));
+		navegador.addView(VISTA_DEMO, new VistaDemo(navegador));		
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

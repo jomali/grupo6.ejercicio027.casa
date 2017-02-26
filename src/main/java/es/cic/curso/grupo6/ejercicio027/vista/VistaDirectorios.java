@@ -5,10 +5,9 @@ import java.util.Collection;
 import org.springframework.web.context.ContextLoader;
 
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.SelectionEvent;
-import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
@@ -27,10 +26,10 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	// Componentes gráficos:
 
 	private Grid gridDirectorios;
+	private Button botonAgregar;
+	
 
 	private FormularioDirectorios formulario = new FormularioDirectorios(null);
-	Button carga = new Button("Carga");
-	Button crea = new Button("Crea");
 	Button borra = new Button("Borra");
 	Button actualiza = new Button("Actualiza");
 
@@ -50,39 +49,36 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
 
-		gridDirectorios.addSelectionListener(new SelectionListener() {
-			@Override
-			public void select(SelectionEvent event) {
-//				Directorio carpetaSeleccionada = (Directorio) gridDirectorios.getSelectedRow();
-				crea.setVisible(true);
-				borra.setVisible(true);
-				actualiza.setVisible(true);
+		gridDirectorios.addSelectionListener(e -> {
+			if (!e.getSelected().isEmpty()) {
+				Directorio directorioSeleccionado = (Directorio) e.getSelected().iterator().next();
+				botonAgregar.setEnabled(true);
+				borra.setEnabled(true);
+				actualiza.setEnabled(true);
+			} else {
+				botonAgregar.setEnabled(true);
+				borra.setEnabled(false);
+				actualiza.setEnabled(true);
 			}
-
-		});
+		});		
 
 		layoutPrincipal.addComponent(gridDirectorios);
 
-		HorizontalLayout layoutHorizontal = new HorizontalLayout();
-		layoutHorizontal.setSpacing(true);
+		HorizontalLayout layoutBotones = new HorizontalLayout();
+		layoutBotones.setMargin(false);
+		layoutBotones.setSpacing(true);
+		
+		botonAgregar = new Button("Añadir Directorio");
+		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
+		botonAgregar.setVisible(true);
 
-		crea.setVisible(false);
 		borra.setVisible(false);
 		actualiza.setVisible(false);
 		formulario.setVisible(false);
 
-		carga.addClickListener(clickEvent -> {
-			carga.setVisible(false);
-			crea.setVisible(true);
-			borra.setVisible(true);
-			actualiza.setVisible(true);
-			formulario = new FormularioDirectorios(null);
-			formulario.setVisible(true);
-		});
-		;
-		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
-		layoutPrincipal.addComponents(layoutHorizontal, formulario);
-
+		layoutBotones.addComponents(botonAgregar, borra, actualiza);
+		
+		layoutPrincipal.addComponents(layoutBotones, formulario);
 		addComponents(menu, layoutPrincipal);
 
 	}
