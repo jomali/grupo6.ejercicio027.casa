@@ -1,11 +1,14 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.web.context.ContextLoader;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -37,6 +40,7 @@ public class VistaFicheros extends VerticalLayout implements View {
 	private ComboBox comboBoxDirectorios;
 	private Button botonAgregar, botonBorrar, botonActualizar;
 	private Fichero fichero;
+	private Fichero eliminaFichero;
 
 	private static final String SELECCIONA = "Selecciona";
 
@@ -55,9 +59,19 @@ public class VistaFicheros extends VerticalLayout implements View {
 		gridFicheros.setColumns("id", "directorio", "nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
-		gridFicheros.addSelectionListener(e -> {
-			if (!e.getSelected().isEmpty()) {
-			} else {
+		gridFicheros.setCaption("Lista Directorios:");
+		gridFicheros.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void select(SelectionEvent event) {
+				Set<Object> selected = event.getSelected();
+				Fichero fchero =  (Fichero) gridFicheros.getSelectedRow();
+				if(fchero!=null){
+					eliminaFichero = fchero;
+					botonBorrar.setVisible(true);
+				}else{
+					botonBorrar.setVisible(false);
+				}
 			}
 		});
 
@@ -79,14 +93,10 @@ public class VistaFicheros extends VerticalLayout implements View {
 
 		botonBorrar = new Button("Borrar");
 		botonBorrar.setIcon(FontAwesome.ERASER);
-		botonBorrar.setVisible(true);
-		botonBorrar.setEnabled(true);
+		botonBorrar.setVisible(false);
 		botonBorrar.addClickListener(e -> {
-				Notification.show("BORRADO: Fichero ID="+fichero.getId());
-				borraFichero(fichero.getId());
-				cargaGridFicheros();
-				setFichero(fichero);
-				botonBorrar.setVisible(false);
+			borraFichero(eliminaFichero);
+			cargaGridFicheros();
 		});
 		
 		
@@ -110,20 +120,8 @@ public class VistaFicheros extends VerticalLayout implements View {
 	}
 	
 
-	public Fichero borraFichero(Long id) {
-		return  servicioGestorFicheros.eliminaFichero(id);
-	}
-
-	public void setFichero(Fichero fichero)
-	{  
-		this.fichero=fichero;
-		
-		if(fichero!=null)
-		{
-		    BeanFieldGroup.bindFieldsUnbuffered(fichero, this);			
-		} else {
-			BeanFieldGroup.bindFieldsUnbuffered(new Fichero(), this);
-		}
+	public void borraFichero(Fichero fichero){
+		servicioGestorFicheros.eliminaFichero(fichero.getId());
 	}
 
 	@Override

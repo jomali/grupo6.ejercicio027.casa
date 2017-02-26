@@ -1,11 +1,14 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.web.context.ContextLoader;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -34,6 +37,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private Button botonAgregar, botonBorrar, botonActualizar;
 	private Notification muestraError = new Notification("ERROR: Algún dato está mal introducido o no ha sido introducido");
 	private Directorio directorio;
+	private Directorio eliminaDirectorio;
 
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
@@ -49,20 +53,22 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		gridDirectorios.setColumns("id", "ruta");
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
-		gridDirectorios.setCaption("Lista Directorios:");
-		gridDirectorios.addSelectionListener(e -> {
-			if (!e.getSelected().isEmpty()) {
-				// Directorio directorioSeleccionado = (Directorio)
-				// e.getSelected().iterator().next();
-				botonAgregar.setEnabled(true);
-				botonBorrar.setEnabled(true);
-				botonActualizar.setEnabled(true);
-			} else {
-				botonAgregar.setEnabled(true);
-				botonBorrar.setEnabled(true);
-				botonActualizar.setEnabled(true);
+		gridDirectorios.setCaption("Lista Directorios:");		
+		gridDirectorios.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void select(SelectionEvent event) {
+				Set<Object> selected = event.getSelected();
+				Directorio directorio =  (Directorio) gridDirectorios.getSelectedRow();
+				if(directorio!=null){
+					eliminaDirectorio = directorio;
+					botonBorrar.setVisible(true);
+				}else{
+					botonBorrar.setVisible(false);
+				}
 			}
 		});
+
 
 		// BOTONES
 
@@ -70,39 +76,23 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
-		botonAgregar.addClickListener(clickEvent -> {
-			botonAgregar.setVisible(false);
-			gridDirectorios.setVisible(false);
-			formulario.setVisible(true);
-			botonBorrar.setVisible(true);
-			botonActualizar.setVisible(false);
-			
-		});
+
 
 		botonBorrar = new Button("Borrar");
 		botonBorrar.setIcon(FontAwesome.ERASER);
-		botonBorrar.setVisible(true);
-		botonBorrar.setEnabled(true);
+		botonBorrar.setVisible(false);
 		botonBorrar.addClickListener(e -> {
-				Notification.show("BORRADO: DIrectorio ID="+directorio.getId());
-				borraDirectorio(directorio.getId());
-				cargaGridDirectorios();
-				setDirectorio(directorio);
-				botonBorrar.setVisible(false);
+			borraDirectorio(eliminaDirectorio);
+			cargaGridDirectorios();
 		});
+
+
 		
 		botonActualizar = new Button("Recarga datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(true);
 		botonActualizar.setEnabled(true);
-//		botonActualizar.addClickListener(e -> {
-//				Directorio directorioModificado = new Directorio(e
-//				directorioModificado.setId(directorio.getId());
-//				servicioGestorDirectorios.
-//				cargaGridDirectorios();
-//				setDirectorio(directorioModificado);
 
-//		});
 		cargaGridDirectorios();
 
 		HorizontalLayout layoutBotones = new HorizontalLayout();
@@ -125,20 +115,8 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		addComponents(menu, layoutPrincipal);
 	}
 
-	public Directorio borraDirectorio(Long id) {
-		return  servicioGestorDirectorios.eliminaDirectorio(id);
-	}
-
-	public void setDirectorio(Directorio directorio)
-	{  
-		this.directorio=directorio;
-		
-		if(directorio!=null)
-		{
-		    BeanFieldGroup.bindFieldsUnbuffered(directorio, this);			
-		} else {
-			BeanFieldGroup.bindFieldsUnbuffered(new Directorio(), this);
-		}
+	public void borraDirectorio(Directorio directorio){
+		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
 	}
 
 	@Override
