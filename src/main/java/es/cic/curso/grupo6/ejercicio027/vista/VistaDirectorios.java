@@ -96,15 +96,12 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonActualizar.setVisible(true);
 		botonActualizar.setEnabled(true);
 //		botonActualizar.addClickListener(e -> {
-//			if(compruebaDatos()){
 //				Directorio directorioModificado = new Directorio(e
 //				directorioModificado.setId(directorio.getId());
 //				servicioGestorDirectorios.
 //				cargaGridDirectorios();
 //				setDirectorio(directorioModificado);
-//			}else{
-//				muestraError.show(Page.getCurrent());
-//			}
+
 //		});
 		cargaGridDirectorios();
 
@@ -130,7 +127,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 	public Directorio borraDirectorio(Long id) {
 		return  servicioGestorDirectorios.eliminaDirectorio(id);
-		}
+	}
 
 	public void setDirectorio(Directorio directorio)
 	{  
