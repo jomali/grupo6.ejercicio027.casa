@@ -1,6 +1,7 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.web.context.ContextLoader;
@@ -12,6 +13,7 @@ import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
@@ -41,6 +43,8 @@ public class VistaFicheros extends VerticalLayout implements View {
 	private Button botonAgregar, botonBorrar, botonActualizar;
 	private Fichero fichero;
 	private Fichero eliminaFichero;
+	private List<Directorio> listaDirectorios;
+	private FormularioFicheros formularioFicheros;
 
 	private static final String SELECCIONA = "Selecciona";
 
@@ -76,17 +80,21 @@ public class VistaFicheros extends VerticalLayout implements View {
 		});
 
 		// COMBOBOX y BOTONES
-
+		listaDirectorios = cargarLista();
 		comboBoxDirectorios = new ComboBox();
 		comboBoxDirectorios.setInputPrompt(SELECCIONA);
-		Collection<Directorio> directorios = servicioGestorDirectorios.listaDirectorios();
-		for (int i = 1; i <= directorios.size(); i++) {
-			comboBoxDirectorios.addItem(i);
-			comboBoxDirectorios.setItemCaption(i, "Directorio " + i);
+		comboBoxDirectorios.setFilteringMode(FilteringMode.CONTAINS);
+		comboBoxDirectorios.setPageLength(3);
+		comboBoxDirectorios.setNullSelectionAllowed(false);
+		
+		for (int i = 0; i < listaDirectorios.size(); i++) {
+			comboBoxDirectorios.addItem(listaDirectorios.get(i).getRuta());	
 		}
 		comboBoxDirectorios.setNullSelectionAllowed(false);
 		comboBoxDirectorios.setImmediate(true);
-
+		
+		
+		
 		botonAgregar = new Button("Añade fichero");
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(false);
@@ -120,13 +128,19 @@ public class VistaFicheros extends VerticalLayout implements View {
 	}
 	
 
+	
+	private List<Directorio> cargarLista() {
+		return servicioGestorDirectorios.listaDirectorios();
+	}
 	public void borraFichero(Fichero fichero){
 		servicioGestorFicheros.eliminaFichero(fichero.getId());
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		Notification.show("Vista Ficheros");
 		cargaGridFicheros();
+		
 	}
 
 	public void cargaGridFicheros() {

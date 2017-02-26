@@ -29,8 +29,6 @@ public class FormularioDirectorios extends FormLayout{
 	private Button aceptar;
 	private Button cancelar;
 	private Directorio directorio;
-
-	
 	private VistaDirectorios padre;
 	
 	public FormularioDirectorios(VistaDirectorios padre) {

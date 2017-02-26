@@ -1,3 +1,4 @@
+
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
@@ -68,16 +69,20 @@ public class VistaDirectorios extends VerticalLayout implements View {
 				}
 			}
 		});
-
-
 		// BOTONES
 
 		botonAgregar = new Button("Añadir Directorio");
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
-
-
+		botonAgregar.addClickListener(d -> {
+			gridDirectorios.setVisible(false);
+			botonAgregar.setVisible(false);
+			botonActualizar.setVisible(false);
+			formulario.setEnabled(true);
+			formulario.setVisible(true);
+		});
+		
 		botonBorrar = new Button("Borrar");
 		botonBorrar.setIcon(FontAwesome.ERASER);
 		botonBorrar.setVisible(false);
@@ -85,8 +90,6 @@ public class VistaDirectorios extends VerticalLayout implements View {
 			borraDirectorio(eliminaDirectorio);
 			cargaGridDirectorios();
 		});
-
-
 		
 		botonActualizar = new Button("Recarga datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
@@ -102,7 +105,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 		// FORMULARIO
 
-		formulario = new FormularioDirectorios(null);
+		formulario = new FormularioDirectorios(this);
 		formulario.setVisible(false);
 
 		// LAYOUT PRINCIPAL
@@ -121,6 +124,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		Notification.show("Vista Directorios");
 		cargaGridDirectorios();
 	}
 
