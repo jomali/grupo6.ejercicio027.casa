@@ -39,11 +39,17 @@ public class MyUI extends UI {
 
 		// Crea el navegador para controlar las vistas:
 		navegador = new Navigator(this, this);
+		
+		// Crea el menú de navegación
+		MenuNavegacion menu = new MenuNavegacion(navegador);
+		menu.agregaEntrada("PRINCIPAL", "");
+		menu.agregaEntrada("DIRECTORIOS", VISTA_DIRECTORIOS);
+		menu.agregaEntrada("FICHEROS", VISTA_FICHEROS);
 
 		// Crea y registra las vistas:
-		navegador.addView("", new VistaPrincipal(navegador));
-		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(navegador));
-		navegador.addView(VISTA_FICHEROS, new VistaFicheros(navegador));
+		navegador.addView("", new VistaPrincipal(menu));
+		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(menu));
+		navegador.addView(VISTA_FICHEROS, new VistaFicheros(menu));
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

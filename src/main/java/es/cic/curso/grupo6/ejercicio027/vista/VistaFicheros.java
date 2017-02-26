@@ -16,6 +16,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 
 
@@ -26,6 +27,8 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaFicheros extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6825028526184768126L;
+
+	MenuNavegacion menuNavegacion;
 	
 	private VerticalLayout layout;
 	private VerticalLayout cuerpo;
@@ -41,14 +44,15 @@ public class VistaFicheros extends VerticalLayout implements View {
 	private List<Directorio> listaDirectorios;
 	private static final String SELECCIONA = "Selecciona";
 	
-	public VistaFicheros(Navigator navegador) {		
+	public VistaFicheros(MenuNavegacion menuNavegacion) {		
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorDirectorios.class);
 
 		listaDirectorios = servicioGestorDirectorios.listaDirectorios();
 		listaFicheros = servicioGestorFicheros.listaFicheros();
 
-		MenuNavegacion vista = new MenuNavegacion(navegador);
+		this.menuNavegacion = menuNavegacion;
+		MenuBar menu = this.menuNavegacion.obtenMenu();
 
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -98,13 +102,12 @@ public class VistaFicheros extends VerticalLayout implements View {
 		layoutHorizontal.addComponents(lista, carga, crea, borra, actualiza);
 		layout.addComponent(layoutHorizontal);
 		
-		addComponents(vista, layout);
+		addComponents(menu, layout);
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
+		menuNavegacion.seleccionaEntrada(MyUI.VISTA_FICHEROS);
 	}
 
 
