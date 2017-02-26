@@ -2,17 +2,12 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 
 import javax.servlet.annotation.WebServlet;
 
-import org.springframework.web.context.ContextLoader;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser
@@ -29,6 +24,7 @@ public class MyUI extends UI {
 	
 	public static final String VISTA_DIRECTORIOS = "directorios";
 	public static final String VISTA_FICHEROS = "ficheros";
+	public static final String VISTA_DEMO = "demo";
 
 	/** Gestiona una colección de implementaciones de <code>View</code>. */
 	Navigator navegador;
@@ -50,6 +46,7 @@ public class MyUI extends UI {
 		navegador.addView("", new VistaPrincipal(menu));
 		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(menu));
 		navegador.addView(VISTA_FICHEROS, new VistaFicheros(menu));
+		navegador.addView(VISTA_DEMO, new VistaDemo(navegador));
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
