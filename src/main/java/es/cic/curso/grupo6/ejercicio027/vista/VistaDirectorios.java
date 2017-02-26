@@ -34,6 +34,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private ServicioGestorDirectorios servicioGestorDirectorios;
 	private Notification alerta;
 	private Directorio directorio = new Directorio();
+	private FormularioDirectorios formulario = new FormularioDirectorios(null);
 	Button carga = new Button("Carga");
 	Button crea = new Button("Crea");
 	Button borra = new Button("Borra");
@@ -82,18 +83,21 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		crea.setVisible(false);
 		borra.setVisible(false);
 		actualiza.setVisible(false);
+		formulario.setVisible(false);
 		
 		carga.addClickListener(clickEvent -> {
-			cargaGridDirectorios();
+			//cargaGridDirectorios();
 			carga.setVisible(false);
 			crea.setVisible(true);
 			borra.setVisible(true);
 			actualiza.setVisible(true);
-			
+			formulario = new FormularioDirectorios(null);
+			formulario.setVisible(true);
 		});
-		
+		;
 		layoutHorizontal.addComponents(carga, crea, borra, actualiza);
-		layout.addComponent(layoutHorizontal);
+		layout.addComponents(layoutHorizontal,formulario);
+		
 		
 		addComponents(menu, layout);
 
