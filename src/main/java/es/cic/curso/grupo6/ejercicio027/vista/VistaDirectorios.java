@@ -37,7 +37,6 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	protected TextField ruta;
 
 	private Grid gridDirectorios;
-	private FormularioDirectorios formulario;
 	private Button botonAgregar, botonBorrar, botonActualizar;
 	private Directorio eliminaDirectorio;
 	private Directorio actualizaDirectorio;
@@ -69,7 +68,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 				} else {
 					botonBorrar.setVisible(false);
 				}
-				formulario.estableceDirectorio(directorio);
+				
 			}
 		});
 
@@ -84,7 +83,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonAgregar.addClickListener(d -> {
 			botonAgregar.setVisible(false);
 			botonActualizar.setVisible(false);
-			formulario.setVisible(true);
+			
 		});
 
 		botonBorrar = new Button("Borrar");
@@ -111,17 +110,12 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		layoutBotones.setSpacing(true);
 		layoutBotones.addComponents(ruta, botonAgregar, botonBorrar, botonActualizar);
 
-		// FORMULARIO
-
-		formulario = new FormularioDirectorios(this);
-		formulario.setVisible(false);
-
 		// LAYOUT PRINCIPAL
 
 		VerticalLayout layoutPrincipal = new VerticalLayout();
 		layoutPrincipal.setMargin(true);
 		layoutPrincipal.setSpacing(true);
-		layoutPrincipal.addComponents(gridDirectorios, layoutBotones, formulario);
+		layoutPrincipal.addComponents(gridDirectorios, layoutBotones);
 
 		addComponents(menu, layoutPrincipal);
 	}
