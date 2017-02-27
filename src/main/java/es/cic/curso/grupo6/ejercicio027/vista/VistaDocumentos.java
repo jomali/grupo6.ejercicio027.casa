@@ -70,7 +70,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
 		Image imagen = new Image(null, resource);
 		imagen.setWidth(10.0F, Unit.PERCENTAGE);
-		addComponents(imagen);
+		layoutimagen.addComponents(imagen);
+		addComponent(layoutimagen);
 
 
 		// GRID de DIRECTORIOS
