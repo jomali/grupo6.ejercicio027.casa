@@ -23,6 +23,7 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -46,7 +47,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	private Grid gridDirectorios;
 	private Button botonAgregarD, botonBorrarD, botonActualizarD;
-	private Directorio nuevoDirectorio,directorioSeleccionado, eliminaDirectorio ;
+	private Directorio nuevoDirectorio,directorioSeleccionado, eliminaDirectorio , actualizaDirectorio;
 	private Grid gridFicheros;
 	private Button botonAgregarF, botonBorrarF, botonActualizarF;
 	private Fichero eliminaFichero;
@@ -84,6 +85,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			Directorio directorio = null;
 			if (!e.getSelected().isEmpty()) {
 				directorio = (Directorio) e.getSelected().iterator().next();
+				actualizaDirectorio = directorio;
 				eliminaDirectorio = directorio;
 				botonAgregarD.setVisible(false);
 				botonActualizarD.setVisible(true);
@@ -162,10 +164,21 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonActualizarD.setVisible(false);
 		botonActualizarD.setEnabled(true);
 		botonActualizarD.addClickListener(actualizar -> {
-			// actualizarDirectorio(actualizaDirectorio);
-			reiniciaTextField();
-			cargaGridDirectorios();
+			try {
+				if (textFieldRuta.getValue() != null) {
+					String ruta = textFieldRuta.getValue();
+					actualizarDirectorio(actualizaDirectorio.getId(),ruta);
+					
+					reiniciaTextField();
+					cargaGridDirectorios();
+				}else {
+					
+				}
+			}catch (Exception o) {
+				Notification.show("Algo está mal.");
+			}
 		});
+
 
 		// BOTONES FICHEROS
 
@@ -235,13 +248,10 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
 
-	// public void actualizarDirectorio(Directorio directorio){
-	// Directorio nuevoDirectorio = new Directorio();
-	// nuevoDirectorio
-	// nuevoDirectorio.setRuta(textFieldRuta.getValue());
-	// servicioGestorDirectorios.modificaDirectorio(idDirectorio,
-	// nuevoDirectorio);
-	// }
+	 public void actualizarDirectorio(long directorioId, Directorio directorio){
+		 
+		 servicioGestorDirectorios.modificaDirectorio(directorioId, directorio);
+	 }
 
 	public void agregarDirectorio(Directorio directorio) {
 		Directorio nuevoDirectorio = new Directorio();
