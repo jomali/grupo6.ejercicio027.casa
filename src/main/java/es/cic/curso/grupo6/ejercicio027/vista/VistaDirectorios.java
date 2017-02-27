@@ -120,8 +120,8 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Vista Directorios");
 		cargaGridDirectorios();
+		System.out.println(servicioGestorDirectorios.test());
 	}
 
 	public void cargaGridDirectorios() {

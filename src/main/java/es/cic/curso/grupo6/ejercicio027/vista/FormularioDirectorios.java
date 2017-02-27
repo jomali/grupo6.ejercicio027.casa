@@ -26,8 +26,8 @@ public class FormularioDirectorios extends FormLayout{
 		this.padre = padre;
 		
 		VerticalLayout verticalPrincipal= new VerticalLayout();
-
 		HorizontalLayout nombreLayout = new HorizontalLayout();
+
 		ruta = new TextField("Ruta de la Carpeta: ");
 		ruta.setInputPrompt("Ruta de la Carpeta:");
 		nombreLayout.addComponent(ruta);

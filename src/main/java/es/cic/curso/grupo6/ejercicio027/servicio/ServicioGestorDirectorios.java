@@ -1,5 +1,6 @@
 package es.cic.curso.grupo6.ejercicio027.servicio;
 
+import java.nio.file.Path;
 import java.util.List;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -74,5 +75,8 @@ public interface ServicioGestorDirectorios {
 	 * @return Lista con todos los directorios registrados en el sistema
 	 */
 	List<Directorio> listaDirectorios();
+	
+	// FIXME - Eliminar
+	Path test();
 
 }

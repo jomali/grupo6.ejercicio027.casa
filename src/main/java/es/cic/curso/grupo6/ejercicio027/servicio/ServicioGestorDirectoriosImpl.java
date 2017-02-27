@@ -1,5 +1,7 @@
 package es.cic.curso.grupo6.ejercicio027.servicio;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +71,11 @@ public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios 
 	@Override
 	public List<Directorio> listaDirectorios() {
 		return repositorioDirectorio.list();
+	}
+	
+	public Path test() {
+		Path currentDir = Paths.get(".");
+		return currentDir.toAbsolutePath();
 	}
 
 }
