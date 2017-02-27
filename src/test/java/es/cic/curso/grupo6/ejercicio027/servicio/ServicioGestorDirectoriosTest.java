@@ -2,13 +2,16 @@ package es.cic.curso.grupo6.ejercicio027.servicio;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
-import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
-import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioFichero;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:es/cic/curso/grupo6/ejercicio027/applicationContext.xml" })
@@ -31,31 +32,19 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioFichero;
 @Transactional
 public class ServicioGestorDirectoriosTest {
 	
+	public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
+	public static final String RUTA_PRUEBA_1 = "1842474819854513394_directorio1";
+	public static final String RUTA_PRUEBA_2 = "1842474819854513394_directorio2";
+	
 	@Autowired
 	private ServicioGestorDirectorios servicioGestorDirectorios;
-	
-	@Autowired
-	private ServicioGestorFicheros servicioGestorFicheros;
-	
-	@Autowired
-	private RepositorioDirectorio repositoriosDirectorios;
-	
-	@Autowired
-	private RepositorioFichero repositoriosFicheros;
 
 	@PersistenceContext
 	private EntityManager em;
 	
-	private Directorio directorio;
-	private Fichero fichero;
-
-	
-	public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
-	public static final String RUTA_PRUEBA_1 = "/directorio/prueba";
-	public static final String RUTA_PRUEBA_2 = "/prueba/directo";
+	// /////////////////////////////////////////////////////////////////////////
 
 	private Directorio generaDirectorio(String ruta){
-		
 		Directorio directorio = new Directorio();
 		directorio.setRuta(ruta);
 		em.persist(directorio);
@@ -64,7 +53,6 @@ public class ServicioGestorDirectoriosTest {
 	}
 	
 	private Fichero generaFichero(Directorio directorio){
-		
 		Fichero fichero = new Fichero();
 		fichero.setNombre("ags");
 		fichero.setDescripcion("dafdas");
@@ -74,17 +62,43 @@ public class ServicioGestorDirectoriosTest {
 		em.flush();
 		return fichero;
 	}
+	
+	// /////////////////////////////////////////////////////////////////////////
+	
+	@After
+	public void tearDown() {
+		Path path = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_PRUEBA_1);
+
+		try {
+		    Files.delete(path);
+		    System.out.println("Fichero eliminado con éxito: " + path.toAbsolutePath());
+		} catch (IOException e) {
+		    //deleting file failed
+		    e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void testAgregaDirectorio() {
-		
 		Directorio directorio;
+		
+		// 1) Introduce un directorio válido
 		directorio = new Directorio();
 		directorio.setRuta(RUTA_PRUEBA_1);
 		assertNull(directorio.getId());
 		
 		servicioGestorDirectorios.agregaDirectorio(directorio);
 		assertNotNull(directorio.getId());
+		
+		// 2) Introduce un directorio inválido
+		directorio = new Directorio();
+		directorio.setRuta(RUTA_PRUEBA_1);
+		try {
+			servicioGestorDirectorios.agregaDirectorio(directorio);
+			fail("No se debería poder crear un directorio en esa ruta");
+		} catch (IllegalArgumentException iae) {
+			
+		}
 	}
 
 	@Test

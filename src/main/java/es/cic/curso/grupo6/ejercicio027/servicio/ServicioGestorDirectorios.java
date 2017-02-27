@@ -1,6 +1,5 @@
 package es.cic.curso.grupo6.ejercicio027.servicio;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -17,6 +16,8 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
  */
 public interface ServicioGestorDirectorios {
 
+	public static final String DIRECTORIO_BASE = "src/main/webapp/documentos/";
+
 	/**
 	 * Añade un nuevo directorio al sistema. Dos directorios no pueden tener una
 	 * misma ruta.
@@ -26,6 +27,9 @@ public interface ServicioGestorDirectorios {
 	 * @throws IllegalArgumentException
 	 *             Si el directorio que se intenta añadir al sistema tiene la
 	 *             misma ruta de un directorio ya existente
+	 * @throws RuntimeException
+	 *             Si se produce un error de entrada/salida inesperado al tratar
+	 *             de crear el directorio
 	 */
 	void agregaDirectorio(Directorio directorio);
 
@@ -75,8 +79,5 @@ public interface ServicioGestorDirectorios {
 	 * @return Lista con todos los directorios registrados en el sistema
 	 */
 	List<Directorio> listaDirectorios();
-	
-	// FIXME - Eliminar
-	Path test();
 
 }

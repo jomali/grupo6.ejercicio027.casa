@@ -17,7 +17,6 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -131,7 +130,6 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		cargaGridDirectorios();
-		System.out.println(servicioGestorDirectorios.test());
 	}
 
 	public void cargaGridDirectorios() {
