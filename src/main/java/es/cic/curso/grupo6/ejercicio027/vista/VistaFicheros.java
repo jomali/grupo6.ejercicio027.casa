@@ -78,21 +78,8 @@ public class VistaFicheros extends VerticalLayout implements View {
 			}
 		});
 
-		// COMBOBOX y BOTONES
-		listaDirectorios = cargarLista();
-		comboBoxDirectorios = new ComboBox();
-		comboBoxDirectorios.setInputPrompt(SELECCIONA);
-		comboBoxDirectorios.setFilteringMode(FilteringMode.CONTAINS);
-		comboBoxDirectorios.setPageLength(3);
-		comboBoxDirectorios.setNullSelectionAllowed(false);
-		
-		for (int i = 0; i < listaDirectorios.size(); i++) {
-			comboBoxDirectorios.addItem(listaDirectorios.get(i).getRuta());	
-		}
-		comboBoxDirectorios.setNullSelectionAllowed(false);
-		comboBoxDirectorios.setImmediate(true);
-		
-		
+		// BOTONES FICHEROS
+
 		
 		botonAgregar = new Button("Añade fichero");
 		botonAgregar.setVisible(true);
