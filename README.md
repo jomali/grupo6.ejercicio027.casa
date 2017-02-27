@@ -49,16 +49,22 @@ Punto de partida del desarrollo:
 	- ServicioGestorFicheros
 	- ServicioGestorFicherosImpl
 + es.cic.curso.grupo6.ejercicio027.vista
+	- MyUI
+	- VistaDocumentos
+	- VistaDemo
 
 
 ## Tareas pendientes
 
-[ ] Estudiar la utilización de DTOs
-[ ] Comprobación en los servicios: dos directorios no pueden compartir una misma ruta  
-[ ] Operaciones de la API de ficheros. Dentro de los servicios  
-[ ] Tests sobre las operaciones de la API de ficheros  
-[ ] Cohesión de idioma a lo largo de todo el proyecto. (Evitar el uso indistinto de Español e Inglés)    
-[ ] Adición de funcionalidades requeridas en las vistas  
+[ ] Estudiar la utilización de FicheroDTO
+[x] Comprobación en los servicios: dos directorios no pueden compartir una misma ruta
+[x] Uso de API de ficheros dentro de ServicioGestorDirectorios
+[x] Tests de ServicioGestorDirectorios con API de ficheros  
+[ ] Uso de API de ficheros dentro de ServicioGestorFicheros
+[ ] Tests de ServicioGestorFicheros con API de ficheros
+[x] Cohesión de idioma a lo largo de todo el proyecto. (Evitar el uso indistinto de Español e Inglés)  
+[x] Desarrollo de VistaDocumentos
+[ ] Integración completa de funcionalidades dentro de la vista  
 [ ] Preparación de la presentación  
 [ ] Creación de documento para el cliente  
 

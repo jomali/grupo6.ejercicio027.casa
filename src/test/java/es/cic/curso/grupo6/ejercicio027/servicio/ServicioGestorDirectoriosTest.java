@@ -9,14 +9,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,28 +25,36 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 
+/**
+ * <strong>IMPORTANTE:</strong> Tests de integración sobre la implementación de
+ * <code>ServicioGestorDirectorios</code>. Se puede dar el caso (improbable) de
+ * que la aplicación contenga un documento con el mismo nombre utilizado como
+ * directorio de prueba: <em>RUTA_TEST</em> y se produzca un error. Ante esta
+ * situación, debería modificarse la ruta de este directorio para poder lanzar
+ * las pruebas correctamente.
+ * 
+ * 
+ * @author J. Francisco Martín
+ * @author José María Cagigas
+ * @serial 1.0
+ * @version 2017/02/27
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:es/cic/curso/grupo6/ejercicio027/applicationContext.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class })
 @Transactional
 public class ServicioGestorDirectoriosTest {
-	
+
 	public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
 	public static final String RUTA_TEST = "1842474819854513394test";
-	public static final String RUTA_PRUEBA_1 = RUTA_TEST + "/directorio1";
-	public static final String RUTA_PRUEBA_2 = RUTA_TEST + "/directorio2";
-	
+	public static final String RUTA_PRUEBA = RUTA_TEST + "/directorio";
+
 	@Autowired
 	private ServicioGestorDirectorios sut;
 
-	@PersistenceContext
-	private EntityManager em;
-	
 	// /////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * 
-	 */
+
 	@Before
 	public void setUp() {
 		Path rootPath = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_TEST);
@@ -85,47 +89,47 @@ public class ServicioGestorDirectoriosTest {
 			throw new RuntimeException(ioe);
 		}
 	}
-	
+
 	// /////////////////////////////////////////////////////////////////////////
 
 	@Test
 	public void testAgregaDirectorio() {
 		Directorio directorio;
-		
+
 		// 1) Introduce un directorio válido
 		directorio = new Directorio();
-		directorio.setRuta(RUTA_PRUEBA_1);
+		directorio.setRuta(RUTA_PRUEBA);
 		assertNull(directorio.getId());
-		
+
 		sut.agregaDirectorio(directorio);
 		assertNotNull(directorio.getId());
-		
+
 		// 2) Introduce un directorio inválido
 		directorio = new Directorio();
-		directorio.setRuta(RUTA_PRUEBA_1);
+		directorio.setRuta(RUTA_PRUEBA);
 		try {
 			sut.agregaDirectorio(directorio);
 			fail("No se debería poder crear un directorio en esa ruta");
 		} catch (IllegalArgumentException iae) {
-			
-		}		
+
+		}
 	}
 
 	@Test
 	public void testObtenDirectorio() {
 		Directorio resultado;
-		
+
 		// 1) Obtener un directorio que no está en BB.DD.
 		try {
 			resultado = sut.obtenDirectorio(0L);
 			fail("El directorio no existe en BB.DD.");
 		} catch (IllegalArgumentException iae) {
-			
+
 		}
-		
+
 		// 2) Obtener un directorio que está en BB.DD.
 		Directorio directorio = new Directorio();
-		directorio.setRuta(RUTA_PRUEBA_1);
+		directorio.setRuta(RUTA_PRUEBA);
 		sut.agregaDirectorio(directorio);
 		resultado = sut.obtenDirectorio(directorio.getId());
 		assertEquals(directorio, resultado);
@@ -133,42 +137,35 @@ public class ServicioGestorDirectoriosTest {
 
 	@Test
 	public void testEliminarDirectorio() {
-//		Directorio directorio;
-//
-//		
-//		directorio = generaDirectorio(RUTA_PRUEBA_1);
-//		assertNotNull(directorio.getId());
-//		sut.eliminaDirectorio(directorio.getId());
-//		
-//		try {
-//			@SuppressWarnings("unused")
-//			Directorio resultado = sut.obtenDirectorio(directorio.getId());
-//			fail("La directorio ya no debería estar registrada en BB.DD.");
-//		} catch (IllegalArgumentException iae) {
-//			
-//		}
-//		assertTrue(directorio.getId() == 0);
+		Directorio resultado;
+		
+		// 1) Eliminar un directorio que está en BB.DD.
+		Directorio directorio = new Directorio();
+		directorio.setRuta(RUTA_PRUEBA);
+		sut.agregaDirectorio(directorio);
+		resultado = sut.eliminaDirectorio(directorio.getId());
+		assertNotNull(resultado);
+		
+		// 2) Eliminar un directorio que no está en BB.DD.
+		try {
+			resultado = sut.eliminaDirectorio(directorio.getId());
+			fail("El directorio no existe en BB.DD.");
+		} catch(IllegalArgumentException iae) {
+			
+		}
 	}
+	
+	@Test
+	public void testListaDirectorios() {
+		Directorio directorio;
+		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
+			directorio = new Directorio();
+			directorio.setRuta(RUTA_PRUEBA + i);
+			sut.agregaDirectorio(directorio);
+		}
 
-//	@Test
-//	public void testModificaDirectorio() {
-//		
-//		Directorio original, clon, modificado;
-//
-//		original = generaDirectorio(RUTA_PRUEBA_1);
-//		
-//		clon = new Directorio();
-//		clon.setId(original.getId());
-//		clon.setRuta(original.getRuta());
-//
-//		original.setRuta(RUTA_PRUEBA_2);
-//		sut.modificaDirectorio(original.getId(), original);
-//
-//		modificado = sut.obtenDirectorio(original.getId());
-//		
-//		assertTrue(original.getRuta().equals(modificado.getRuta()));
-//
-//	}
-
+		List<Directorio> lista = sut.listaDirectorios();
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA, lista.size());
+	}
 
 }
