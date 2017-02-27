@@ -40,6 +40,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private Button botonAgregar, botonBorrar, botonActualizar;
 	private Directorio eliminaDirectorio;
 	private Directorio actualizaDirectorio;
+	private Directorio nuevoDirectorio;
 
 	@SuppressWarnings("serial")
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
@@ -62,6 +63,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 			public void select(SelectionEvent event) {
 				Directorio directorio = (Directorio) gridDirectorios.getSelectedRow();
 				if (directorio != null) {
+					actualizaDirectorio = directorio;
 					eliminaDirectorio = directorio;
 					botonAgregar.setVisible(false);
 					botonActualizar.setVisible(true);
@@ -70,6 +72,9 @@ public class VistaDirectorios extends VerticalLayout implements View {
 					
 				} else {
 					botonBorrar.setVisible(false);
+					botonActualizar.setVisible(false);
+					botonAgregar.setVisible(true);
+					reiniciaTextField();
 				}
 				
 			}
@@ -86,8 +91,14 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
 		botonAgregar.addClickListener(agregar -> {
-			botonAgregar.setVisible(false);
+			agregarDirectorio(nuevoDirectorio);
+			actualizarDirectorio(actualizaDirectorio);
+			cargaGridDirectorios();
+			reiniciaTextField();
+			botonAgregar.setVisible(true);
 			botonActualizar.setVisible(false);
+			botonBorrar.setVisible(false);
+			
 			
 		});
 
@@ -97,14 +108,20 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonBorrar.addClickListener(borrar -> {
 			borraDirectorio(eliminaDirectorio);
 			cargaGridDirectorios();
+			reiniciaTextField();
+			botonActualizar.setVisible(false);
+			botonBorrar.setVisible(false);
+			
+			botonAgregar.setVisible(true);
 		});
 		
 		botonActualizar = new Button("Actualizar datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(false);
 		botonActualizar.setEnabled(true);
-		botonActualizar.addClickListener(aactualizar -> {
+		botonActualizar.addClickListener(actualizar -> {
 			actualizarDirectorio(actualizaDirectorio);
+			reiniciaTextField();
 			cargaGridDirectorios();
 		});
 
@@ -125,6 +142,19 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		addComponents(menu, layoutPrincipal);
 	}
 
+	public void actualizarDirectorio(Directorio directorio){
+		Directorio nuevoDirectorio = new Directorio();
+		Long idDirectorio = textf
+		nuevoDirectorio.setRuta(textFieldRuta.getValue());
+		servicioGestorDirectorios.modificaDirectorio(idDirectorio, nuevoDirectorio);
+	}
+
+	public void agregarDirectorio(Directorio directorio){
+		Directorio nuevoDirectorio = new Directorio();
+		nuevoDirectorio.setRuta(textFieldRuta.getValue());
+		servicioGestorDirectorios.agregaDirectorio(nuevoDirectorio);
+	}
+	
 	public void borraDirectorio(Directorio directorio) {
 		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
 	}
@@ -133,10 +163,10 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		textFieldRuta.setValue(directorio.getRuta());
 	}
 	
-	public void actualizarDirectorio(Directorio directorio) {
-		servicioGestorDirectorios.modificaDirectorio(directorio.getId(), actualizaDirectorio);
+	public void reiniciaTextField() {
+		textFieldRuta.clear();
 	}
-
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		cargaGridDirectorios();
