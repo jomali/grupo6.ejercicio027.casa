@@ -63,9 +63,6 @@ public class ServicioGestorFicherosTest {
 	@Autowired
 	private ServicioGestorFicheros sut;
 
-	@Autowired
-	private ServicioGestorDirectorios servicioGestorDirectorios;
-
 	@PersistenceContext
 	private EntityManager em;
 
@@ -73,7 +70,7 @@ public class ServicioGestorFicherosTest {
 
 	@Before
 	public void setUp() {
-		Path rootPath = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_TEST);
+		Path rootPath = Paths.get(ServicioGestorFicheros.DIRECTORIO_BASE + RUTA_TEST);
 		try {
 			System.out.println("create dir: " + rootPath.toString());
 			Files.createDirectory(rootPath);
@@ -84,7 +81,7 @@ public class ServicioGestorFicherosTest {
 
 	@After
 	public void tearDown() {
-		Path rootPath = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_TEST);
+		Path rootPath = Paths.get(ServicioGestorFicheros.DIRECTORIO_BASE + RUTA_TEST);
 		try {
 			Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
 				@Override
@@ -109,22 +106,9 @@ public class ServicioGestorFicherosTest {
 	private Directorio generaDirectorioEnBD(String ruta) {
 		Directorio directorio = new Directorio();
 		directorio.setRuta(ruta);
-		servicioGestorDirectorios.agregaDirectorio(directorio);
+		sut.agregaDirectorio(directorio);
 		return directorio;
 	}
-
-//	private Directorio[] generaFicherosEnBD() {
-//		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-//		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
-//		Fichero fichero1, fichero2;
-//		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
-//			fichero1 = generaFichero(NOMBRE_FICHERO + i);
-//			sut.agregaFichero(directorio1.getId(), fichero1);
-//			fichero2 = generaFichero(NOMBRE_FICHERO + i);
-//			sut.agregaFichero(directorio2.getId(), fichero2);
-//		}
-//		return new Directorio[] {directorio1, directorio2};
-//	}
 	
 	private Fichero generaFichero(String nombre) {
 		Fichero fichero = new Fichero();

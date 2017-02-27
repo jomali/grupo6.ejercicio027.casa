@@ -29,7 +29,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaDocumentos extends VerticalLayout implements View {
@@ -38,7 +37,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	// Servicios con lógica de negocio y acceso a BB.DD.
 
 	private ServicioGestorFicheros servicioGestorFicheros;
-	private ServicioGestorDirectorios servicioGestorDirectorios;
 
 	// Componentes gráficos:
 
@@ -47,22 +45,18 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	private Grid gridDirectorios;
 	private Button botonAgregarD, botonBorrarD, botonActualizarD;
-	private Directorio nuevoDirectorio,directorioSeleccionado, eliminaDirectorio , actualizaDirectorio;
+	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
 	private Grid gridFicheros;
 	private Button botonAgregarF, botonBorrarF, botonActualizarF;
 	private Fichero eliminaFichero;
 	private Image imagen;
-	
 
 	public VistaDocumentos() {
 
 		// Servicios con lógica de negocio y acceso a BB.DD.
 
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
-		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
-				.getBean(ServicioGestorDirectorios.class);
-		
-		
+
 		// IMAGEN
 		HorizontalLayout layoutimagen = new HorizontalLayout();
 		layoutimagen.setMargin(true);
@@ -72,7 +66,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		Image imagen = new Image(null, resource);
 		imagen.setWidth(25.0F, Unit.PERCENTAGE);
 		addComponents(imagen);
-
 
 		// GRID de DIRECTORIOS
 
@@ -167,18 +160,17 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			try {
 				if (textFieldRuta.getValue() != null) {
 					String ruta = textFieldRuta.getValue();
-//					actualizarDirectorio(actualizaDirectorio.getId(),ruta);
-					
+					// actualizarDirectorio(actualizaDirectorio.getId(),ruta);
+
 					reiniciaTextField();
 					cargaGridDirectorios();
-				}else {
-					
+				} else {
+
 				}
-			}catch (Exception o) {
+			} catch (Exception o) {
 				Notification.show("Algo está mal.");
 			}
 		});
-
 
 		// BOTONES FICHEROS
 
@@ -234,7 +226,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	}
 
 	private List<Directorio> cargarLista() {
-		return servicioGestorDirectorios.listaDirectorios();
+		return servicioGestorFicheros.listaDirectorios();
 	}
 
 	public void borraFichero(Fichero fichero) {
@@ -248,19 +240,19 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
 
-	 public void actualizarDirectorio(long directorioId, Directorio directorio){
-		 
-		 servicioGestorDirectorios.modificaDirectorio(directorioId, directorio);
-	 }
+	public void actualizarDirectorio(long directorioId, Directorio directorio) {
+
+		servicioGestorFicheros.modificaDirectorio(directorioId, directorio);
+	}
 
 	public void agregarDirectorio(Directorio directorio) {
 		Directorio nuevoDirectorio = new Directorio();
 		nuevoDirectorio.setRuta(textFieldRuta.getValue());
-		servicioGestorDirectorios.agregaDirectorio(nuevoDirectorio);
+		servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
 	}
 
 	public void borraDirectorio(Directorio directorio) {
-		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
+		servicioGestorFicheros.eliminaDirectorio(directorio.getId());
 	}
 
 	public void muestraDirectorio(Directorio directorio) {
@@ -278,7 +270,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	}
 
 	public void cargaGridDirectorios() {
-		Collection<Directorio> directorios = servicioGestorDirectorios.listaDirectorios();
+		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
 	}
 }

@@ -18,7 +18,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class VistaDemo extends VerticalLayout implements View {
@@ -33,27 +32,23 @@ public class VistaDemo extends VerticalLayout implements View {
 	/** Permite navegar entre las vistas de la aplicación. */
 	private Navigator navegador;
 
-	// Servicios con lógica de negocio y acceso a BB.DD.
-
-	private ServicioGestorDirectorios servicioGestorDirectorios;
+	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
 
 	public VistaDemo(Navigator navegador) {
 		this.navegador = navegador;
-		this.servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
-				.getBean(ServicioGestorDirectorios.class);
 		this.servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorFicheros.class);
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		if (servicioGestorDirectorios.listaDirectorios().isEmpty()) {
-			limpiaDirectorio(ServicioGestorDirectorios.DIRECTORIO_BASE);
+		if (servicioGestorFicheros.listaDirectorios().isEmpty()) {
+			limpiaDirectorio(ServicioGestorFicheros.DIRECTORIO_BASE);
 			for (int i = 0; i < NUM_DIRECTORIOS; i++) {
 				Directorio directorio = new Directorio();
 				directorio.setRuta("directorio" + i);
-				servicioGestorDirectorios.agregaDirectorio(directorio);
+				servicioGestorFicheros.agregaDirectorio(directorio);
 				for (int j = 0; j < NUM_FICHEROS; j++) {
 					Fichero fichero = new Fichero();
 					fichero.setNombre("fichero" + j);
