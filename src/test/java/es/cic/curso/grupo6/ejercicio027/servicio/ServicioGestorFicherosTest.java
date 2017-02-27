@@ -11,9 +11,6 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -63,17 +60,11 @@ public class ServicioGestorFicherosTest {
 	@Autowired
 	private ServicioGestorFicheros sut;
 
-	@Autowired
-	private ServicioGestorDirectorios servicioGestorDirectorios;
-
-	@PersistenceContext
-	private EntityManager em;
-
 	// /////////////////////////////////////////////////////////////////////////
 
 	@Before
 	public void setUp() {
-		Path rootPath = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_TEST);
+		Path rootPath = Paths.get(ServicioGestorFicheros.DIRECTORIO_BASE + RUTA_TEST);
 		try {
 			System.out.println("create dir: " + rootPath.toString());
 			Files.createDirectory(rootPath);
@@ -84,7 +75,7 @@ public class ServicioGestorFicherosTest {
 
 	@After
 	public void tearDown() {
-		Path rootPath = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_TEST);
+		Path rootPath = Paths.get(ServicioGestorFicheros.DIRECTORIO_BASE + RUTA_TEST);
 		try {
 			Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
 				@Override
@@ -105,36 +96,42 @@ public class ServicioGestorFicherosTest {
 			throw new RuntimeException(ioe);
 		}
 	}
-
-	private Directorio generaDirectorioEnBD(String ruta) {
+	
+	private Directorio generaDirectorio(String ruta) {
 		Directorio directorio = new Directorio();
 		directorio.setRuta(ruta);
-		servicioGestorDirectorios.agregaDirectorio(directorio);
 		return directorio;
 	}
-
-//	private Directorio[] generaFicherosEnBD() {
-//		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-//		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
-//		Fichero fichero1, fichero2;
-//		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
-//			fichero1 = generaFichero(NOMBRE_FICHERO + i);
-//			sut.agregaFichero(directorio1.getId(), fichero1);
-//			fichero2 = generaFichero(NOMBRE_FICHERO + i);
-//			sut.agregaFichero(directorio2.getId(), fichero2);
-//		}
-//		return new Directorio[] {directorio1, directorio2};
-//	}
 	
 	private Fichero generaFichero(String nombre) {
 		Fichero fichero = new Fichero();
 		fichero.setNombre(nombre);
-		fichero.setDescripcion("Descripción " + nombre);
+		fichero.setDescripcion("Descripción de " + nombre);
 		fichero.setVersion(1.0);
 		return fichero;
 	}
 
 	// /////////////////////////////////////////////////////////////////////////
+
+	@Test
+	public void testAgregaDirectorio() {
+		Directorio directorio;
+
+		// 1) Introduce un directorio válido
+		directorio = generaDirectorio(DIRECTORIO_RUTA_1);
+		assertNull(directorio.getId());
+		sut.agregaDirectorio(directorio);
+		assertNotNull(directorio.getId());
+
+		// 2) Introduce un directorio inválido
+		directorio = generaDirectorio(DIRECTORIO_RUTA_1);
+		try {
+			sut.agregaDirectorio(directorio);
+			fail("No se debería poder crear un directorio en esa ruta");
+		} catch (IllegalArgumentException iae) {
+
+		}
+	}
 
 	@Test
 	public void testAgregaFichero() {
@@ -149,73 +146,124 @@ public class ServicioGestorFicherosTest {
 		}
 
 		// 2) Fichero sobre un directorio registrado en BB.DD.
-		Directorio directorio = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
+		Directorio directorio = generaDirectorio(DIRECTORIO_RUTA_1);
+		sut.agregaDirectorio(directorio);
 		sut.agregaFichero(directorio.getId(), fichero);
 	}
 
-	@Ignore
+	@Test
+	public void testObtenDirectorio() {
+		Directorio resultado;
+
+		// 1) Obtener un directorio que no está en BB.DD.
+		try {
+			resultado = sut.obtenDirectorio(0L);
+			fail("El directorio no existe en BB.DD.");
+		} catch (IllegalArgumentException iae) {
+
+		}
+
+		// 2) Obtener un directorio que está en BB.DD.
+		Directorio directorio = generaDirectorio(DIRECTORIO_RUTA_1);
+		sut.agregaDirectorio(directorio);
+		resultado = sut.obtenDirectorio(directorio.getId());
+		assertEquals(directorio, resultado);
+	}
+
 	@Test
 	public void testObtenFichero() {
-		Fichero resultado = null;
+		Fichero fichero;
 
 		// 1) Fichero no registrado en BB.DD.
 		try {
-			resultado = sut.obtenFichero(0L);
+			fichero = sut.obtenFichero(0L);
 			fail("Fichero no registrado en BB.DD.");
 		} catch (IllegalArgumentException iae) {
-			assertNull(resultado);
+
 		}
 
 		// 2) Fichero registrado en BB.DD.
-		Directorio directorio = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-		Fichero fichero = generaFichero(NOMBRE_FICHERO);
+		Directorio directorio = generaDirectorio(DIRECTORIO_RUTA_1);
+		sut.agregaDirectorio(directorio);
+		fichero = generaFichero(NOMBRE_FICHERO);
 		sut.agregaFichero(directorio.getId(), fichero);		
-		resultado = sut.obtenFichero(fichero.getId());
+		Fichero resultado = sut.obtenFichero(fichero.getId());
 		assertEquals(fichero, resultado);
+	}
+	
+	@Test
+	public void testModificaDirectorio() {
+		// TODO
 	}
 
 	@Ignore
 	@Test
 	public void testModificaFichero() {
-		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
-
-		Fichero original = generaFichero(NOMBRE_FICHERO);
-		sut.agregaFichero(directorio1.getId(), original);
-		
-		Fichero clon = new Fichero();
-		clon.setId(original.getId());
-		clon.setDirectorio(original.getDirectorio());
-		clon.setNombre(original.getNombre());
-		clon.setDescripcion(original.getDescripcion());
-		clon.setVersion(original.getVersion());
-		assertEquals(original, clon);
-
-		original.setDirectorio(directorio2);
-		sut.modificaFichero(original.getId(), original);
-		Fichero modificado = sut.obtenFichero(original.getId());
-		assertEquals(original, modificado);
-		assertNotEquals(clon, modificado);
+//		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
+//		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
+//
+//		Fichero original = generaFichero(NOMBRE_FICHERO);
+//		sut.agregaFichero(directorio1.getId(), original);
+//		
+//		Fichero clon = new Fichero();
+//		clon.setId(original.getId());
+//		clon.setDirectorio(original.getDirectorio());
+//		clon.setNombre(original.getNombre());
+//		clon.setDescripcion(original.getDescripcion());
+//		clon.setVersion(original.getVersion());
+//		assertEquals(original, clon);
+//
+//		original.setDirectorio(directorio2);
+//		sut.modificaFichero(original.getId(), original);
+//		Fichero modificado = sut.obtenFichero(original.getId());
+//		assertEquals(original, modificado);
+//		assertNotEquals(clon, modificado);
 	}
 
-	@Ignore
+
+	@Test
+	public void testEliminarDirectorio() {
+		Directorio resultado;
+
+		// 1) Eliminar un directorio vacío que está en BB.DD.
+		Directorio directorio = generaDirectorio(DIRECTORIO_RUTA_1);
+		sut.agregaDirectorio(directorio);
+		resultado = sut.eliminaDirectorio(directorio.getId());
+		assertNotNull(resultado);
+		
+		// 2) Eliminar un directorio no vacío que está en BB.DD.
+		// TODO
+
+		// 3) Eliminar un directorio que no está en BB.DD.
+		try {
+			resultado = sut.eliminaDirectorio(directorio.getId());
+			fail("El directorio no existe en BB.DD.");
+		} catch (IllegalArgumentException iae) {
+
+		}
+	}
+
 	@Test
 	public void testEliminaFichero() {
-		Directorio directorio = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
+		Directorio directorio = generaDirectorio(DIRECTORIO_RUTA_1);
+		sut.agregaDirectorio(directorio);
 		Fichero fichero = generaFichero(NOMBRE_FICHERO);
 		sut.agregaFichero(directorio.getId(), fichero);
 		
 		assertTrue(sut.listaFicheros().size() == 1);
 		sut.eliminaFichero(fichero.getId());
 		assertTrue(sut.listaFicheros().isEmpty());
+		
+		// TODO - Otros casos de prueba
 	}
 
-	@Ignore
 	@Test
 	public void testEliminaFicherosPorDirectorio() {
-		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
+		Directorio directorio1 = generaDirectorio(DIRECTORIO_RUTA_1);
+		Directorio directorio2 = generaDirectorio(DIRECTORIO_RUTA_2);
 		Fichero fichero1, fichero2, fichero3;
+		sut.agregaDirectorio(directorio1);
+		sut.agregaDirectorio(directorio2);
 		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
 			fichero1 = generaFichero(NOMBRE_FICHERO + i);
 			sut.agregaFichero(directorio1.getId(), fichero1);
@@ -235,10 +283,24 @@ public class ServicioGestorFicherosTest {
 	}
 
 	@Test
+	public void testListaDirectorios() {
+		Directorio directorio;
+		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
+			directorio = generaDirectorio(DIRECTORIO_RUTA_1 + i);
+			sut.agregaDirectorio(directorio);
+		}
+
+		List<Directorio> lista = sut.listaDirectorios();
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA, lista.size());
+	}
+
+	@Test
 	public void testListaFicheros() {
-		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
+		Directorio directorio1 = generaDirectorio(DIRECTORIO_RUTA_1);
+		Directorio directorio2 = generaDirectorio(DIRECTORIO_RUTA_2);
 		Fichero fichero1, fichero2, fichero3;
+		sut.agregaDirectorio(directorio1);
+		sut.agregaDirectorio(directorio2);
 		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
 			fichero1 = generaFichero(NOMBRE_FICHERO + i);
 			sut.agregaFichero(directorio1.getId(), fichero1);
