@@ -41,20 +41,12 @@ public class ServicioGestorDirectoriosTest {
 	public static final String RUTA_PRUEBA_2 = RUTA_TEST + "/directorio2";
 	
 	@Autowired
-	private ServicioGestorDirectorios servicioGestorDirectorios;
+	private ServicioGestorDirectorios sut;
 
 	@PersistenceContext
 	private EntityManager em;
 	
 	// /////////////////////////////////////////////////////////////////////////
-
-	private Directorio generaDirectorio(String ruta){
-		Directorio directorio = new Directorio();
-		directorio.setRuta(ruta);
-		em.persist(directorio);
-		em.flush();
-		return directorio;
-	}
 	
 	@Before
 	public void setUp() {
@@ -102,14 +94,14 @@ public class ServicioGestorDirectoriosTest {
 		directorio.setRuta(RUTA_PRUEBA_1);
 		assertNull(directorio.getId());
 		
-		servicioGestorDirectorios.agregaDirectorio(directorio);
+		sut.agregaDirectorio(directorio);
 		assertNotNull(directorio.getId());
 		
 		// 2) Introduce un directorio inválido
 		directorio = new Directorio();
 		directorio.setRuta(RUTA_PRUEBA_1);
 		try {
-			servicioGestorDirectorios.agregaDirectorio(directorio);
+			sut.agregaDirectorio(directorio);
 			fail("No se debería poder crear un directorio en esa ruta");
 		} catch (IllegalArgumentException iae) {
 			
@@ -118,15 +110,18 @@ public class ServicioGestorDirectoriosTest {
 
 	@Test
 	public void testObtenDirectorio() {
+		Directorio original = new Directorio();
+		original.setRuta(RUTA_PRUEBA_1);
+		sut.agregaDirectorio(original);
 		
-		Directorio elemento1 = generaDirectorio(RUTA_PRUEBA_1);
-		Directorio elemento2 = servicioGestorDirectorios.obtenDirectorio(elemento1.getId());
-		assertEquals(elemento1.getRuta(), elemento2.getRuta());
+		Directorio resultado;
+		resultado = sut.obtenDirectorio(original.getId());
+		assertEquals(original, resultado);
 
 		try {
-			Directorio elemento3 = servicioGestorDirectorios.obtenDirectorio(Long.MAX_VALUE);
-			assertNull(elemento3);
-		} catch (PersistenceException pe) {
+			resultado = sut.obtenDirectorio(Long.MAX_VALUE);
+			fail("No debería")
+		} catch (IllegalArgumentException iae) {
 
 		}
 	}
@@ -139,11 +134,11 @@ public class ServicioGestorDirectoriosTest {
 		
 		directorio = generaDirectorio(RUTA_PRUEBA_1);
 		assertNotNull(directorio.getId());
-		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
+		sut.eliminaDirectorio(directorio.getId());
 		
 		try {
 			@SuppressWarnings("unused")
-			Directorio resultado = servicioGestorDirectorios.obtenDirectorio(directorio.getId());
+			Directorio resultado = sut.obtenDirectorio(directorio.getId());
 			fail("La directorio ya no debería estar registrada en BB.DD.");
 		} catch (IllegalArgumentException iae) {
 			
@@ -163,9 +158,9 @@ public class ServicioGestorDirectoriosTest {
 		clon.setRuta(original.getRuta());
 
 		original.setRuta(RUTA_PRUEBA_2);
-		servicioGestorDirectorios.modificaDirectorio(original.getId(), original);
+		sut.modificaDirectorio(original.getId(), original);
 
-		modificado = servicioGestorDirectorios.obtenDirectorio(original.getId());
+		modificado = sut.obtenDirectorio(original.getId());
 		
 		assertTrue(original.getRuta().equals(modificado.getRuta()));
 
