@@ -64,6 +64,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 				if(directorio!=null){
 					eliminaDirectorio = directorio;
 					botonBorrar.setVisible(true);
+					botonActualizar.setVisible(true);
 				}else{
 					botonBorrar.setVisible(false);
 				}
@@ -76,9 +77,6 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
 		botonAgregar.addClickListener(d -> {
-			gridDirectorios.setVisible(false);
-			botonAgregar.setVisible(false);
-			botonActualizar.setVisible(false);
 			formulario.setEnabled(true);
 			formulario.setVisible(true);
 		});
@@ -91,10 +89,14 @@ public class VistaDirectorios extends VerticalLayout implements View {
 			cargaGridDirectorios();
 		});
 		
-		botonActualizar = new Button("Recarga datos");
+		botonActualizar = new Button("Actualizar datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(true);
 		botonActualizar.setEnabled(true);
+		botonActualizar.addClickListener(e -> {
+			//actualizaDirectorio(actualizadoDirectorio);
+			cargaGridDirectorios();
+		});
 
 		cargaGridDirectorios();
 
