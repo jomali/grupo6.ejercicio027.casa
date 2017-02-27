@@ -142,6 +142,7 @@ public class ServicioGestorFicherosTest {
 		sut.agregaFichero(directorio.getId(), fichero);
 	}
 
+	@Ignore
 	@Test
 	public void testObtenFichero() {
 		Fichero resultado = null;
@@ -218,6 +219,7 @@ public class ServicioGestorFicherosTest {
 		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 2, lista.size());
 	}
 
+	@Ignore
 	@Test
 	public void testListaFicheros() {
 		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
