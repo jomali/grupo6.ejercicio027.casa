@@ -22,6 +22,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -66,10 +67,10 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutimagen.setMargin(true);
 		layoutimagen.setSpacing(true);
 		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/CIC1.png"));
+		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
 		Image imagen = new Image(null, resource);
-		imagen.setWidth(10.0F, Unit.PERCENTAGE);
-		addComponent(imagen);
+		imagen.setWidth(25.0F, Unit.PERCENTAGE);
+		addComponents(imagen);
 
 
 		// GRID de DIRECTORIOS
