@@ -106,7 +106,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		gridFicheros.setColumns("nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
-		gridFicheros.setCaption("Lista Directorios:");
+		gridFicheros.setCaption("Lista Ficheros:");
 		gridFicheros.addSelectionListener(new SelectionListener() {
 
 			@Override
