@@ -52,6 +52,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private Button botonAgregarF, botonBorrarF, botonActualizarF;
 	private Fichero eliminaFichero;
 	private Image imagen;
+	private FormularioFicheros formulario;
 	
 
 	public VistaDocumentos() {
@@ -74,6 +75,36 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		addComponents(imagen);
 
 
+		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
+		layoutBotonesDirectorios.setMargin(false);
+		layoutBotonesDirectorios.setSpacing(true);
+		layoutBotonesDirectorios.addComponents(textFieldRuta, botonAgregarD, botonActualizarD, botonBorrarD);
+
+		cargaGridDirectorios();
+
+		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
+		layoutBotonesFicheros.setMargin(false);
+		layoutBotonesFicheros.setSpacing(true);
+		layoutBotonesFicheros.addComponents(botonAgregarF, botonActualizarF, botonBorrarF);
+
+		// LAYOUT PRINCIPAL
+
+		HorizontalLayout principalLayout = new HorizontalLayout();
+		principalLayout.setMargin(true);
+		principalLayout.setSpacing(true);
+		principalLayout.setSizeFull();
+//		formulario.setVisible(false);
+
+		VerticalLayout layoutDirectorios = new VerticalLayout();
+		layoutDirectorios.setMargin(false);
+		layoutDirectorios.setSpacing(true);
+		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
+
+		VerticalLayout layoutFicheros = new VerticalLayout();
+		layoutFicheros.setMargin(false);
+		layoutFicheros.setSpacing(true);
+		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
+		
 		// GRID de DIRECTORIOS
 
 		gridDirectorios = new Grid();
@@ -187,7 +218,11 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonAgregarF.setVisible(false);
 		botonAgregarF.setEnabled(true);
 		botonAgregarF.addClickListener(agregar -> {
-			agregarDirectorio(nuevoDirectorio);
+//			layoutDirectorios.setVisible(false);
+//			layoutFicheros.setVisible(false);
+//			formulario.setVisible(true);
+			
+			
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonAgregarD.setVisible(true);
@@ -210,34 +245,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonActualizarF.setVisible(false);
 		botonActualizarF.setEnabled(true);
 
-		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
-		layoutBotonesDirectorios.setMargin(false);
-		layoutBotonesDirectorios.setSpacing(true);
-		layoutBotonesDirectorios.addComponents(textFieldRuta, botonAgregarD, botonActualizarD, botonBorrarD);
-
-		cargaGridDirectorios();
-
-		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
-		layoutBotonesFicheros.setMargin(false);
-		layoutBotonesFicheros.setSpacing(true);
-		layoutBotonesFicheros.addComponents(botonAgregarF, botonActualizarF, botonBorrarF);
-
-		// LAYOUT PRINCIPAL
-
-		HorizontalLayout principalLayout = new HorizontalLayout();
-		principalLayout.setMargin(true);
-		principalLayout.setSpacing(true);
-		principalLayout.setSizeFull();
-
-		VerticalLayout layoutDirectorios = new VerticalLayout();
-		layoutDirectorios.setMargin(false);
-		layoutDirectorios.setSpacing(true);
-		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
-
-		VerticalLayout layoutFicheros = new VerticalLayout();
-		layoutFicheros.setMargin(false);
-		layoutFicheros.setSpacing(true);
-		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
+		
 
 		principalLayout.addComponents(layoutDirectorios, layoutFicheros);
 		addComponents(imagen, principalLayout);
@@ -268,7 +276,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		nuevoDirectorio.setRuta(textFieldRuta.getValue());
 		servicioGestorDirectorios.agregaDirectorio(nuevoDirectorio);
 	}
-
+	
+	
 	public void borraDirectorio(Directorio directorio) {
 		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
 	}
