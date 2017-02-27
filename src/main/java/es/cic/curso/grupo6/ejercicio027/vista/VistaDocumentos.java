@@ -69,7 +69,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
 		Image imagen = new Image(null, resource);
-		imagen.setWidth(15.0F, Unit.PERCENTAGE);
+		imagen.setWidth(10.0F, Unit.PERCENTAGE);
 		addComponents(imagen);
 
 
