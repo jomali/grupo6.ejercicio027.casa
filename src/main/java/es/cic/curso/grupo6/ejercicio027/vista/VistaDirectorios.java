@@ -83,8 +83,6 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		textFieldRuta = new TextField();
 		textFieldRuta.setInputPrompt("Ruta de la Carpeta");
 		
-		
-		
 		botonAgregar = new Button("Añadir Directorio");
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
