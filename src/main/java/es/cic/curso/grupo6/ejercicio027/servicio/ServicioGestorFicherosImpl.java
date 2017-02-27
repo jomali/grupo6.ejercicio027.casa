@@ -89,8 +89,16 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	@Override
 	public Fichero eliminaFichero(Long idFichero) {
 		Fichero fichero = obtenFichero(idFichero);
-		repositorioFichero.delete(fichero);
-		return fichero;
+		Path ruta = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + fichero.getDirectorio().getRuta() + "/"
+				+ fichero.getNombre());
+		try {
+			Files.delete(ruta);
+			repositorioFichero.delete(fichero);
+			return fichero;
+		} catch (IOException ioe) {
+			// Error al eliminar el fichero
+			throw new RuntimeException(ioe);
+		}
 	}
 
 	@Override
