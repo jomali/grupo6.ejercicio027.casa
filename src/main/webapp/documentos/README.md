@@ -1,0 +1,1 @@
+Directorio raíz para el Gestor de Documentos.

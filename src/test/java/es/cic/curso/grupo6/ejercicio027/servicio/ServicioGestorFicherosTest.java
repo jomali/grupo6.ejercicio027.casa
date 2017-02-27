@@ -27,8 +27,8 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 public class ServicioGestorFicherosTest {
 
 	public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
-	public static final String DIRECTORIO_RUTA_1 = "/directorio/prueba1/";
-	public static final String DIRECTORIO_RUTA_2 = "/directorio/prueba2/";
+	public static final String DIRECTORIO_RUTA_1 = "directorio/prueba1/";
+	public static final String DIRECTORIO_RUTA_2 = "directorio/prueba2/";
 	public static final String NOMBRE_FICHERO = "fichero";
 
 	@Autowired

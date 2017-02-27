@@ -1,5 +1,8 @@
 package es.cic.curso.grupo6.ejercicio027.servicio;
 
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -37,7 +40,15 @@ public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios 
 
 	@Override
 	public void agregaDirectorio(Directorio directorio) {
-		repositorioDirectorio.create(directorio);
+		Path ruta = Paths.get(DIRECTORIO_BASE + directorio.getRuta());
+		try {
+			Files.createDirectory(ruta);
+			repositorioDirectorio.create(directorio);
+		} catch (FileAlreadyExistsException faee) {
+			throw new IllegalArgumentException(ERROR_RUTA_DIRECTORIO);
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
 	}
 
 	@Override
@@ -71,11 +82,6 @@ public class ServicioGestorDirectoriosImpl implements ServicioGestorDirectorios 
 	@Override
 	public List<Directorio> listaDirectorios() {
 		return repositorioDirectorio.list();
-	}
-	
-	public Path test() {
-		Path currentDir = Paths.get(".");
-		return currentDir.toAbsolutePath();
 	}
 
 }
