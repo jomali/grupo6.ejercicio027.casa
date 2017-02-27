@@ -26,9 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 
 /**
- * <strong>IMPORTANTE:</strong> Tests de integración sobre la implementación de
- * <code>ServicioGestorDirectorios</code>. Se puede dar el caso (improbable) de
- * que la aplicación contenga un documento con el mismo nombre utilizado como
+ * Tests de integración sobre la implementación de
+ * <code>ServicioGestorDirectorios</code>.
+ * 
+ * <p>
+ * <strong>IMPORTANTE:</strong> Se puede dar el caso (improbable) de que la
+ * aplicación contenga un documento con el mismo nombre utilizado como
  * directorio de prueba: <em>RUTA_TEST</em> y se produzca un error. Ante esta
  * situación, debería modificarse la ruta de este directorio para poder lanzar
  * las pruebas correctamente.
@@ -138,23 +141,23 @@ public class ServicioGestorDirectoriosTest {
 	@Test
 	public void testEliminarDirectorio() {
 		Directorio resultado;
-		
+
 		// 1) Eliminar un directorio que está en BB.DD.
 		Directorio directorio = new Directorio();
 		directorio.setRuta(RUTA_PRUEBA);
 		sut.agregaDirectorio(directorio);
 		resultado = sut.eliminaDirectorio(directorio.getId());
 		assertNotNull(resultado);
-		
+
 		// 2) Eliminar un directorio que no está en BB.DD.
 		try {
 			resultado = sut.eliminaDirectorio(directorio.getId());
 			fail("El directorio no existe en BB.DD.");
-		} catch(IllegalArgumentException iae) {
-			
+		} catch (IllegalArgumentException iae) {
+
 		}
 	}
-	
+
 	@Test
 	public void testListaDirectorios() {
 		Directorio directorio;

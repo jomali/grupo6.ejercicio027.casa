@@ -26,7 +26,8 @@ public interface ServicioGestorFicheros {
 	 *            Nuevo fichero que se añade al sistema
 	 * @throws IllegalArgumentException
 	 *             Si el identificador dado no se corresponde con ningún
-	 *             directorio registrado en el sistema
+	 *             directorio registrado en el sistema o si ya existe un fichero
+	 *             en el sistema con el mismo nombre
 	 */
 	void agregaFichero(Long idDirectorio, Fichero fichero);
 
