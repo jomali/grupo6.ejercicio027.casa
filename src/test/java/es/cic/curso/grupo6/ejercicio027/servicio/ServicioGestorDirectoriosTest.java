@@ -3,14 +3,19 @@ package es.cic.curso.grupo6.ejercicio027.servicio;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,8 +36,9 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 public class ServicioGestorDirectoriosTest {
 	
 	public static final int NUMERO_ELEMENTOS_PRUEBA = 10;
-	public static final String RUTA_PRUEBA_1 = "1842474819854513394_directorio1";
-	public static final String RUTA_PRUEBA_2 = "1842474819854513394_directorio2";
+	public static final String RUTA_TEST = "1842474819854513394test";
+	public static final String RUTA_PRUEBA_1 = RUTA_TEST + "/directorio1";
+	public static final String RUTA_PRUEBA_2 = RUTA_TEST + "/directorio2";
 	
 	@Autowired
 	private ServicioGestorDirectorios servicioGestorDirectorios;
@@ -50,15 +56,38 @@ public class ServicioGestorDirectoriosTest {
 		return directorio;
 	}
 	
-	private void limpia(String ruta) {
-		Path path = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + ruta);
-
+	@Before
+	public void setUp() {
+		Path rootPath = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_TEST);
 		try {
-		    Files.delete(path);
-		    System.out.println("Directorio/Fichero eliminado con éxito: " + path.toAbsolutePath());
-		} catch (IOException e) {
-		    //deleting file failed
-		    e.printStackTrace();
+			System.out.println("create dir: " + rootPath.toString());
+			Files.createDirectory(rootPath);
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+	}
+
+	@After
+	public void tearDown() {
+		Path rootPath = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_TEST);
+		try {
+			Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					System.out.println("delete file: " + file.toString());
+					Files.delete(file);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					Files.delete(dir);
+					System.out.println("delete dir: " + dir.toString());
+					return FileVisitResult.CONTINUE;
+				}
+			});
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
 		}
 	}
 	
@@ -84,9 +113,7 @@ public class ServicioGestorDirectoriosTest {
 			fail("No se debería poder crear un directorio en esa ruta");
 		} catch (IllegalArgumentException iae) {
 			
-		}
-		
-		limpia(RUTA_PRUEBA_1);
+		}		
 	}
 
 	@Test
