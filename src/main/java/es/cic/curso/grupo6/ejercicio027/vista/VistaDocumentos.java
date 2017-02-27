@@ -64,12 +64,11 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		
 		// IMAGEN
 		HorizontalLayout layoutimagen = new HorizontalLayout();
-		layoutimagen.setMargin(true);
 		layoutimagen.setSpacing(true);
 		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
 		Image imagen = new Image(null, resource);
-		imagen.setWidth(10.0F, Unit.PERCENTAGE);
+		imagen.setSizeFull();
 		layoutimagen.addComponents(imagen);
 		addComponent(layoutimagen);
 
@@ -218,7 +217,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
 
 		principalLayout.addComponents(layoutDirectorios, layoutFicheros);
-		addComponents(imagen, principalLayout);
+		addComponents(layoutimagen, principalLayout);
 	}
 
 	private List<Directorio> cargarLista() {
