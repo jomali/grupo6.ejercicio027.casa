@@ -63,20 +63,19 @@ public class ServicioGestorDirectoriosTest {
 		return fichero;
 	}
 	
-	// /////////////////////////////////////////////////////////////////////////
-	
-	@After
-	public void tearDown() {
-		Path path = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + RUTA_PRUEBA_1);
+	private void limpia(String ruta) {
+		Path path = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + ruta);
 
 		try {
 		    Files.delete(path);
-		    System.out.println("Fichero eliminado con éxito: " + path.toAbsolutePath());
+		    System.out.println("Directorio/Fichero eliminado con éxito: " + path.toAbsolutePath());
 		} catch (IOException e) {
 		    //deleting file failed
 		    e.printStackTrace();
 		}
 	}
+	
+	// /////////////////////////////////////////////////////////////////////////
 
 	@Test
 	public void testAgregaDirectorio() {
@@ -99,6 +98,8 @@ public class ServicioGestorDirectoriosTest {
 		} catch (IllegalArgumentException iae) {
 			
 		}
+		
+		limpia(RUTA_PRUEBA_1);
 	}
 
 	@Test
