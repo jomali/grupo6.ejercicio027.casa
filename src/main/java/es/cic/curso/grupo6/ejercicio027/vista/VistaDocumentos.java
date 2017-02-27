@@ -167,7 +167,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			try {
 				if (textFieldRuta.getValue() != null) {
 					String ruta = textFieldRuta.getValue();
-					actualizarDirectorio(actualizaDirectorio.getId(),ruta);
+//					actualizarDirectorio(actualizaDirectorio.getId(),ruta);
 					
 					reiniciaTextField();
 					cargaGridDirectorios();

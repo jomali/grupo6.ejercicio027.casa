@@ -113,18 +113,18 @@ public class ServicioGestorFicherosTest {
 		return directorio;
 	}
 
-	private Directorio[] generaFicherosEnBD() {
-		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
-		Fichero fichero1, fichero2;
-		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
-			fichero1 = generaFichero(NOMBRE_FICHERO + i);
-			sut.agregaFichero(directorio1.getId(), fichero1);
-			fichero2 = generaFichero(NOMBRE_FICHERO + i);
-			sut.agregaFichero(directorio2.getId(), fichero2);
-		}
-		return new Directorio[] {directorio1, directorio2};
-	}
+//	private Directorio[] generaFicherosEnBD() {
+//		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
+//		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
+//		Fichero fichero1, fichero2;
+//		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
+//			fichero1 = generaFichero(NOMBRE_FICHERO + i);
+//			sut.agregaFichero(directorio1.getId(), fichero1);
+//			fichero2 = generaFichero(NOMBRE_FICHERO + i);
+//			sut.agregaFichero(directorio2.getId(), fichero2);
+//		}
+//		return new Directorio[] {directorio1, directorio2};
+//	}
 	
 	private Fichero generaFichero(String nombre) {
 		Fichero fichero = new Fichero();
@@ -215,32 +215,46 @@ public class ServicioGestorFicherosTest {
 	public void testEliminaFicherosPorDirectorio() {
 		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
 		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
-		Fichero fichero;
+		Fichero fichero1, fichero2, fichero3;
 		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
-			fichero = generaFichero(NOMBRE_FICHERO + i);
-			sut.agregaFichero(directorio1.getId(), fichero);
-			sut.agregaFichero(directorio2.getId(), fichero);
+			fichero1 = generaFichero(NOMBRE_FICHERO + i);
+			sut.agregaFichero(directorio1.getId(), fichero1);
+			fichero2 = generaFichero(NOMBRE_FICHERO + i + "a");
+			sut.agregaFichero(directorio2.getId(), fichero2);
+			fichero3 = generaFichero(NOMBRE_FICHERO + i + "b");
+			sut.agregaFichero(directorio2.getId(), fichero3);
 		}
-		List<Fichero> lista;
-		lista = sut.listaFicheros();
-		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 3, lista.size());
+		List<Fichero> ficheros;
+		
+		ficheros = sut.listaFicheros();
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 3, ficheros.size());
 
-		sut.eliminaFicherosPorDirectorio(directorio1.getId());
-		lista = sut.listaFicheros();
-		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 2, lista.size());
+		sut.eliminaFicherosPorDirectorio(directorio2.getId());
+		ficheros = sut.listaFicheros();
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA, ficheros.size());
 	}
 
 	@Test
 	public void testListaFicheros() {
-		Directorio[] dirs = generaFicherosEnBD();
+		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
+		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
+		Fichero fichero1, fichero2, fichero3;
+		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
+			fichero1 = generaFichero(NOMBRE_FICHERO + i);
+			sut.agregaFichero(directorio1.getId(), fichero1);
+			fichero2 = generaFichero(NOMBRE_FICHERO + i + "a");
+			sut.agregaFichero(directorio2.getId(), fichero2);
+			fichero3 = generaFichero(NOMBRE_FICHERO + i + "b");
+			sut.agregaFichero(directorio2.getId(), fichero3);
+		}
 		List<Fichero> ficheros;
-
+		
 		ficheros = sut.listaFicheros();
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 3, ficheros.size());
+		ficheros = sut.listaFicherosPorDirectorio(directorio1.getId());
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA, ficheros.size());
+		ficheros = sut.listaFicherosPorDirectorio(directorio2.getId());
 		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 2, ficheros.size());
-		ficheros = sut.listaFicherosPorDirectorio(dirs[0].getId());
-		assertEquals(NUMERO_ELEMENTOS_PRUEBA, ficheros.size());
-		ficheros = sut.listaFicherosPorDirectorio(dirs[1].getId());
-		assertEquals(NUMERO_ELEMENTOS_PRUEBA, ficheros.size());
 	}
 
 }

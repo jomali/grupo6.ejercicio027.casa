@@ -26,8 +26,8 @@ public interface ServicioGestorFicheros {
 	 *            Nuevo fichero que se añade al sistema
 	 * @throws IllegalArgumentException
 	 *             Si el identificador dado no se corresponde con ningún
-	 *             directorio registrado en el sistema o si ya existe un fichero
-	 *             en el sistema con el mismo nombre
+	 *             directorio registrado en el sistema, o si ya existe un
+	 *             fichero en el sistema con el mismo nombre
 	 */
 	void agregaFichero(Long idDirectorio, Fichero fichero);
 
@@ -55,7 +55,9 @@ public interface ServicioGestorFicheros {
 	 * @return Fichero original registrado en el sistema antes del reemplazo
 	 * @throws IllegalArgumentException
 	 *             Si el identificador dado no se corresponde con ningún fichero
-	 *             registrado en el sistema
+	 *             registrado en el sistema o si ya existe un fichero en el
+	 *             sistema con el mismo nombre y en el mismo directorio del
+	 *             fichero que se pretende modificar
 	 */
 	Fichero modificaFichero(Long idFichero, Fichero fichero);
 

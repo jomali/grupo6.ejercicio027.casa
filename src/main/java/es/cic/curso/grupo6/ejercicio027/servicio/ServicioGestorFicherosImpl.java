@@ -5,6 +5,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +45,13 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 		Path ruta = Paths
 				.get(ServicioGestorDirectorios.DIRECTORIO_BASE + directorio.getRuta() + "/" + fichero.getNombre());
 		try {
-			Files.createDirectory(ruta);
+			Files.createFile(ruta);
 			fichero.setDirectorio(directorio);
 			repositorioFichero.create(fichero);
 		} catch (FileAlreadyExistsException faee) {
 			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
 		} catch (IOException ioe) {
+			// Error en la creación del fichero nuevo
 			throw new RuntimeException(ioe);
 		}
 	}
@@ -66,9 +68,22 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	@Override
 	public Fichero modificaFichero(Long idFichero, Fichero fichero) {
 		Fichero original = obtenFichero(idFichero);
-		fichero.setId(idFichero);
-		repositorioFichero.update(fichero);
-		return original;
+		Path rutaOriginal = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + original.getDirectorio().getRuta()
+				+ "/" + original.getNombre());
+		Path rutaNueva = Paths.get(ServicioGestorDirectorios.DIRECTORIO_BASE + fichero.getDirectorio().getRuta() + "/"
+				+ fichero.getNombre());
+		if (Files.exists(rutaNueva)) {
+			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
+		}
+		try {
+			Files.move(rutaOriginal, rutaNueva, StandardCopyOption.REPLACE_EXISTING);
+			fichero.setId(idFichero);
+			repositorioFichero.update(fichero);
+			return original;
+		} catch (IOException ioe) {
+			// Error al mover el fichero
+			throw new RuntimeException(ioe);
+		}
 	}
 
 	@Override
