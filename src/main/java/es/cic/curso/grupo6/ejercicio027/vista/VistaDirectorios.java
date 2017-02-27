@@ -74,7 +74,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		});
 
 		// BOTONES
-		ruta = new TextField("Ruta de la Carpeta: ");
+		ruta = new TextField();
 		ruta.setInputPrompt("Ruta de la Carpeta:");
 		
 		botonAgregar = new Button("Añadir Directorio");
@@ -109,7 +109,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		HorizontalLayout layoutBotones = new HorizontalLayout();
 		layoutBotones.setMargin(false);
 		layoutBotones.setSpacing(true);
-		layoutBotones.addComponents(botonAgregar, botonBorrar, botonActualizar);
+		layoutBotones.addComponents(ruta, botonAgregar, botonBorrar, botonActualizar);
 
 		// FORMULARIO
 
