@@ -30,9 +30,9 @@ public class FormularioFicheros extends FormLayout{
 	private Button cancelar;
 	private Fichero fichero;
 	
-	private VistaFicheros padre;
+	private VistaDocumentos padre;
 	
-	public FormularioFicheros(VistaFicheros padre) {
+	public FormularioFicheros(VistaDocumentos padre) {
 		this.padre = padre;
 		
 		VerticalLayout verticalPrincipal= new VerticalLayout();
