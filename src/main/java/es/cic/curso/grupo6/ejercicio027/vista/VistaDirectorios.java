@@ -34,7 +34,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	// Componentes gráficos:
 	
 	@PropertyId("ruta")
-	protected TextField ruta;
+	protected TextField textFieldRuta;
 
 	private Grid gridDirectorios;
 	private Button botonAgregar, botonBorrar, botonActualizar;
@@ -66,6 +66,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 					botonAgregar.setVisible(false);
 					botonActualizar.setVisible(true);
 					botonBorrar.setVisible(true);
+					muestraDirectorio(directorio);
 					
 				} else {
 					botonBorrar.setVisible(false);
@@ -75,14 +76,16 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		});
 
 		// BOTONES
-		ruta = new TextField();
-		ruta.setInputPrompt("Ruta de la Carpeta:");
+		textFieldRuta = new TextField();
+		textFieldRuta.setInputPrompt("Ruta de la Carpeta");
+		
+		
 		
 		botonAgregar = new Button("Añadir Directorio");
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
-		botonAgregar.addClickListener(d -> {
+		botonAgregar.addClickListener(agregar -> {
 			botonAgregar.setVisible(false);
 			botonActualizar.setVisible(false);
 			
@@ -91,7 +94,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonBorrar = new Button("Borrar");
 		botonBorrar.setIcon(FontAwesome.ERASER);
 		botonBorrar.setVisible(false);
-		botonBorrar.addClickListener(e -> {
+		botonBorrar.addClickListener(borrar -> {
 			borraDirectorio(eliminaDirectorio);
 			cargaGridDirectorios();
 		});
@@ -100,7 +103,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(false);
 		botonActualizar.setEnabled(true);
-		botonActualizar.addClickListener(e -> {
+		botonActualizar.addClickListener(aactualizar -> {
 			actualizarDirectorio(actualizaDirectorio);
 			cargaGridDirectorios();
 		});
@@ -110,7 +113,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		HorizontalLayout layoutBotones = new HorizontalLayout();
 		layoutBotones.setMargin(false);
 		layoutBotones.setSpacing(true);
-		layoutBotones.addComponents(ruta, botonAgregar, botonActualizar, botonBorrar);
+		layoutBotones.addComponents(textFieldRuta, botonAgregar, botonActualizar, botonBorrar);
 
 		// LAYOUT PRINCIPAL
 
@@ -124,6 +127,10 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 	public void borraDirectorio(Directorio directorio) {
 		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
+	}
+	
+	public void muestraDirectorio(Directorio directorio) {
+		textFieldRuta.setValue(directorio.getRuta());
 	}
 	
 	public void actualizarDirectorio(Directorio directorio) {

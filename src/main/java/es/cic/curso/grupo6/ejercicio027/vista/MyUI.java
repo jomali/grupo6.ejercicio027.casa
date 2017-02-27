@@ -47,6 +47,9 @@ public class MyUI extends UI {
 		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(menu));
 		navegador.addView(VISTA_FICHEROS, new VistaFicheros(menu));
 		navegador.addView(VISTA_DEMO, new VistaDemo(navegador));
+		
+		// XXX - ELIMINAR
+		navegador.navigateTo(VISTA_DEMO);
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
