@@ -91,7 +91,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonAgregar.setEnabled(true);
 		botonAgregar.addClickListener(agregar -> {
 			agregarDirectorio(nuevoDirectorio);
-			actualizarDirectorio(actualizaDirectorio);
+	//		actualizarDirectorio(actualizaDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonAgregar.setVisible(true);
@@ -119,7 +119,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		botonActualizar.setVisible(false);
 		botonActualizar.setEnabled(true);
 		botonActualizar.addClickListener(actualizar -> {
-			actualizarDirectorio(actualizaDirectorio);
+//			actualizarDirectorio(actualizaDirectorio);
 			reiniciaTextField();
 			cargaGridDirectorios();
 		});
@@ -141,12 +141,12 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		addComponents(menu, layoutPrincipal);
 	}
 
-	public void actualizarDirectorio(Directorio directorio){
-		Directorio nuevoDirectorio = new Directorio();
-		Long idDirectorio = textf
-		nuevoDirectorio.setRuta(textFieldRuta.getValue());
-		servicioGestorDirectorios.modificaDirectorio(idDirectorio, nuevoDirectorio);
-	}
+//	public void actualizarDirectorio(Directorio directorio){
+//		Directorio nuevoDirectorio = new Directorio();
+//		nuevoDirectorio
+//		nuevoDirectorio.setRuta(textFieldRuta.getValue());
+//		servicioGestorDirectorios.modificaDirectorio(idDirectorio, nuevoDirectorio);
+//	}
 
 	public void agregarDirectorio(Directorio directorio){
 		Directorio nuevoDirectorio = new Directorio();
