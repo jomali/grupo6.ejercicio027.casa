@@ -1,10 +1,15 @@
+
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.web.context.ContextLoader;
 
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -13,6 +18,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -30,6 +36,9 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private Grid gridDirectorios;
 	private FormularioDirectorios formulario;
 	private Button botonAgregar, botonBorrar, botonActualizar;
+	private Notification muestraError = new Notification("ERROR: Algún dato está mal introducido o no ha sido introducido");
+	private Directorio directorio;
+	private Directorio eliminaDirectorio;
 
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
@@ -45,37 +54,49 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		gridDirectorios.setColumns("id", "ruta");
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
-		gridDirectorios.addSelectionListener(e -> {
-			if (!e.getSelected().isEmpty()) {
-				// Directorio directorioSeleccionado = (Directorio)
-				// e.getSelected().iterator().next();
-				botonAgregar.setEnabled(true);
-				botonBorrar.setEnabled(true);
-				botonActualizar.setEnabled(true);
-			} else {
-				botonAgregar.setEnabled(true);
-				botonBorrar.setEnabled(false);
-				botonActualizar.setEnabled(true);
+		gridDirectorios.setCaption("Lista Directorios:");		
+		gridDirectorios.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void select(SelectionEvent event) {
+				Set<Object> selected = event.getSelected();
+				Directorio directorio =  (Directorio) gridDirectorios.getSelectedRow();
+				if(directorio!=null){
+					eliminaDirectorio = directorio;
+					botonBorrar.setVisible(true);
+				}else{
+					botonBorrar.setVisible(false);
+				}
 			}
 		});
-
 		// BOTONES
 
 		botonAgregar = new Button("Añadir Directorio");
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
 		botonAgregar.setEnabled(true);
-
+		botonAgregar.addClickListener(d -> {
+			gridDirectorios.setVisible(false);
+			botonAgregar.setVisible(false);
+			botonActualizar.setVisible(false);
+			formulario.setEnabled(true);
+			formulario.setVisible(true);
+		});
+		
 		botonBorrar = new Button("Borrar");
-		botonBorrar.setIcon(FontAwesome.MINUS_CIRCLE);
-		botonBorrar.setVisible(true);
-		botonBorrar.setEnabled(false);
-
+		botonBorrar.setIcon(FontAwesome.ERASER);
+		botonBorrar.setVisible(false);
+		botonBorrar.addClickListener(e -> {
+			borraDirectorio(eliminaDirectorio);
+			cargaGridDirectorios();
+		});
+		
 		botonActualizar = new Button("Recarga datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(true);
 		botonActualizar.setEnabled(true);
-		botonActualizar.addClickListener(e -> cargaGridDirectorios());
+
+		cargaGridDirectorios();
 
 		HorizontalLayout layoutBotones = new HorizontalLayout();
 		layoutBotones.setMargin(false);
@@ -84,7 +105,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 
 		// FORMULARIO
 
-		formulario = new FormularioDirectorios(null);
+		formulario = new FormularioDirectorios(this);
 		formulario.setVisible(false);
 
 		// LAYOUT PRINCIPAL
@@ -97,8 +118,13 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		addComponents(menu, layoutPrincipal);
 	}
 
+	public void borraDirectorio(Directorio directorio){
+		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
+	}
+
 	@Override
 	public void enter(ViewChangeEvent event) {
+		Notification.show("Vista Directorios");
 		cargaGridDirectorios();
 	}
 
