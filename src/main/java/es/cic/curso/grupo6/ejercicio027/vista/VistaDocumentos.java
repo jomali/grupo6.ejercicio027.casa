@@ -109,6 +109,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 				Set<Object> selected = event.getSelected();
 				Fichero fchero = (Fichero) gridFicheros.getSelectedRow();
 				if (fchero != null) {
+					
 					eliminaFichero = fchero;
 					botonAgregarF.setVisible(false);
 					botonBorrarF.setVisible(true);
@@ -130,7 +131,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonAgregarD.setEnabled(true);
 		botonAgregarD.addClickListener(agregar -> {
 			agregarDirectorio(nuevoDirectorio);
-			// actualizarDirectorio(actualizaDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonAgregarD.setVisible(true);
@@ -160,8 +160,9 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			try {
 				if (textFieldRuta.getValue() != null) {
 					String ruta = textFieldRuta.getValue();
-					// actualizarDirectorio(actualizaDirectorio.getId(),ruta);
-
+					actualizaDirectorio.setRuta(ruta);
+					actualizarDirectorio(actualizaDirectorio.getId(),actualizaDirectorio);
+					Notification.show("Directorio modificado.");
 					reiniciaTextField();
 					cargaGridDirectorios();
 				} else {
@@ -177,6 +178,15 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonAgregarF = new Button("Añade fichero");
 		botonAgregarF.setVisible(false);
 		botonAgregarF.setEnabled(true);
+		botonAgregarF.addClickListener(agregar -> {
+			agregarDirectorio(nuevoDirectorio);
+			cargaGridDirectorios();
+			reiniciaTextField();
+			botonAgregarD.setVisible(true);
+			botonActualizarD.setVisible(false);
+			botonBorrarD.setVisible(false);
+
+		});
 
 		botonBorrarF = new Button("Borrar");
 		botonBorrarF.setIcon(FontAwesome.ERASER);
