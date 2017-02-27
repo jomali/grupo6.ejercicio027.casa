@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
