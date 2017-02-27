@@ -1,5 +1,6 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +21,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import es.cic.curso.grupo5.ejercicio024.modelo.Pelicula;
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
@@ -204,12 +204,9 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	}
 
 	public void cargaGridFicheros(Directorio directorio) {
-		if (directorio == null) {
-//			gridFicheros.dele
-		} else {
-			Collection<Fichero> ficheros = servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
-			gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
-		}
+		Collection<Fichero> ficheros = (directorio == null) ? new ArrayList<>()
+				: servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
+		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
 
 	// public void actualizarDirectorio(Directorio directorio){
