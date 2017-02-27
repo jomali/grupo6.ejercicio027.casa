@@ -1,5 +1,6 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -12,15 +13,17 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import es.cic.curso.grupo5.ejercicio024.modelo.Pelicula;
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
@@ -46,6 +49,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private Grid gridFicheros;
 	private Button botonAgregarF, botonBorrarF, botonActualizarF;
 	private Fichero eliminaFichero;
+	private Image imagen;
 
 	public VistaDocumentos() {
 
@@ -54,6 +58,18 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorDirectorios.class);
+		
+		
+		// IMAGEN
+		HorizontalLayout layoutimagen = new HorizontalLayout();
+		layoutimagen.setMargin(true);
+		layoutimagen.setSpacing(true);
+		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/CIC1.png"));
+		Image imagen = new Image(null, resource);
+		imagen.setWidth(10.0F, Unit.PERCENTAGE);
+		addComponent(imagen);
+
 
 		// GRID de DIRECTORIOS
 
@@ -83,7 +99,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		// GRID de FICHEROS
 
 		gridFicheros = new Grid();
-		gridFicheros.setColumns("directorio", "nombre", "descripcion", "version");
+		gridFicheros.setColumns("nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
 		gridFicheros.setCaption("Lista Directorios:");
@@ -192,7 +208,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
 
 		principalLayout.addComponents(layoutDirectorios, layoutFicheros);
-		addComponent(principalLayout);
+		addComponents(imagen, principalLayout);
 	}
 
 	private List<Directorio> cargarLista() {
