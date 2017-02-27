@@ -106,8 +106,6 @@ public class ServicioGestorFicherosTest {
 		}
 	}
 
-	// /////////////////////////////////////////////////////////////////////////
-
 	private Directorio generaDirectorioEnBD(String ruta) {
 		Directorio directorio = new Directorio();
 		directorio.setRuta(ruta);
@@ -115,6 +113,19 @@ public class ServicioGestorFicherosTest {
 		return directorio;
 	}
 
+	private Directorio[] generaFicherosEnBD() {
+		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
+		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
+		Fichero fichero1, fichero2;
+		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
+			fichero1 = generaFichero(NOMBRE_FICHERO + i);
+			sut.agregaFichero(directorio1.getId(), fichero1);
+			fichero2 = generaFichero(NOMBRE_FICHERO + i);
+			sut.agregaFichero(directorio2.getId(), fichero2);
+		}
+		return new Directorio[] {directorio1, directorio2};
+	}
+	
 	private Fichero generaFichero(String nombre) {
 		Fichero fichero = new Fichero();
 		fichero.setNombre(nombre);
@@ -219,26 +230,17 @@ public class ServicioGestorFicherosTest {
 		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 2, lista.size());
 	}
 
-	@Ignore
 	@Test
 	public void testListaFicheros() {
-		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
-		Fichero fichero1, fichero2;
-		for (int i = 0; i < NUMERO_ELEMENTOS_PRUEBA; i++) {
-			fichero1 = generaFichero(NOMBRE_FICHERO + i);
-			sut.agregaFichero(directorio1.getId(), fichero1);
-			fichero2 = generaFichero(NOMBRE_FICHERO + i);
-			sut.agregaFichero(directorio2.getId(), fichero2);
-		}
+		Directorio[] dirs = generaFicherosEnBD();
+		List<Fichero> ficheros;
 
-		List<Fichero> lista;
-		lista = sut.listaFicheros();
-		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 2, lista.size());
-		lista = sut.listaFicherosPorDirectorio(directorio1.getId());
-		assertEquals(NUMERO_ELEMENTOS_PRUEBA, lista.size());
-		lista = sut.listaFicherosPorDirectorio(directorio2.getId());
-		assertEquals(NUMERO_ELEMENTOS_PRUEBA, lista.size());
+		ficheros = sut.listaFicheros();
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA * 2, ficheros.size());
+		ficheros = sut.listaFicherosPorDirectorio(dirs[0].getId());
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA, ficheros.size());
+		ficheros = sut.listaFicherosPorDirectorio(dirs[1].getId());
+		assertEquals(NUMERO_ELEMENTOS_PRUEBA, ficheros.size());
 	}
 
 }
