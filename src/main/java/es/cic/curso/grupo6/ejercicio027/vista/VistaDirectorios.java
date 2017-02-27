@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.web.context.ContextLoader;
 
+import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
@@ -17,6 +18,7 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -30,6 +32,9 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private ServicioGestorDirectorios servicioGestorDirectorios;
 
 	// Componentes gráficos:
+	
+	@PropertyId("ruta")
+	protected TextField ruta;
 
 	private Grid gridDirectorios;
 	private FormularioDirectorios formulario;
@@ -69,7 +74,9 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		});
 
 		// BOTONES
-
+		ruta = new TextField("Ruta de la Carpeta: ");
+		ruta.setInputPrompt("Ruta de la Carpeta:");
+		
 		botonAgregar = new Button("Añadir Directorio");
 		botonAgregar.setIcon(FontAwesome.PLUS_CIRCLE);
 		botonAgregar.setVisible(true);
