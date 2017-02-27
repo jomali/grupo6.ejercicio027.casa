@@ -64,7 +64,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		// GRID de DIRECTORIOS
 
 		gridDirectorios = new Grid();
-		gridDirectorios.setColumns("id", "ruta");
+		gridDirectorios.setColumns("ruta");
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
 		gridDirectorios.setCaption("Lista Directorios:");
@@ -79,6 +79,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 					botonActualizarD.setVisible(true);
 					botonBorrarD.setVisible(true);
 					muestraDirectorio(directorio);
+					cargaGridFicheros(directorio);
 					
 				} else {
 					botonBorrarD.setVisible(false);
@@ -93,7 +94,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		// GRID de FICHEROS
 
 		gridFicheros = new Grid();
-		gridFicheros.setColumns("id", "directorio", "nombre", "descripcion", "version");
+		gridFicheros.setColumns("directorio", "nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
 		gridFicheros.setCaption("Lista Directorios:");
@@ -112,7 +113,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			}
 		});
 		
-		
 		// BOTONES DIRECTORIOS
 		textFieldRuta = new TextField();
 		textFieldRuta.setInputPrompt("Ruta de la Carpeta");
@@ -129,7 +129,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			botonAgregarD.setVisible(true);
 			botonActualizarD.setVisible(false);
 			botonBorrarD.setVisible(false);
-			
 			
 		});
 
@@ -158,7 +157,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		
 		// BOTONES FICHEROS
 
-		
 		botonAgregarF = new Button("Añade fichero");
 		botonAgregarF.setVisible(true);
 		botonAgregarF.setEnabled(false);
@@ -168,26 +166,24 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonBorrarF.setVisible(false);
 		botonBorrarF.addClickListener(e -> {
 			borraFichero(eliminaFichero);
-			cargaGridFicheros();
+			cargaGridFicheros(null);
 		});
-		
 		
 		botonActualizarF = new Button("Actualizar");
 		botonActualizarF.setVisible(true);
 		botonActualizarF.setEnabled(false);
 
-		HorizontalLayout layoutBotones = new HorizontalLayout();
-		layoutBotones.setMargin(false);
-		layoutBotones.setSpacing(true);
-		layoutBotones.addComponents(botonAgregarD, botonBorrarD, botonActualizarD);
-		
+		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
+		layoutBotonesDirectorios.setMargin(false);
+		layoutBotonesDirectorios.setSpacing(true);
+		layoutBotonesDirectorios.addComponents(textFieldRuta, botonAgregarD, botonBorrarD, botonActualizarD);
 		
 		cargaGridDirectorios();
 
 		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
 		layoutBotonesFicheros.setMargin(false);
 		layoutBotonesFicheros.setSpacing(true);
-		layoutBotonesFicheros.addComponents(textFieldRuta, botonAgregarF, botonActualizarF, botonBorrarF);
+		layoutBotonesFicheros.addComponents(botonAgregarF, botonActualizarF, botonBorrarF);
 		
 		// LAYOUT PRINCIPAL
 		
@@ -199,7 +195,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		VerticalLayout layoutDirectorios = new VerticalLayout();
 		layoutDirectorios.setMargin(false);
 		layoutDirectorios.setSpacing(true);
-		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesFicheros);
+		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
 		
 		VerticalLayout layoutFicheros = new VerticalLayout();
 		layoutFicheros.setMargin(false);
@@ -220,8 +216,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		servicioGestorFicheros.eliminaFichero(fichero.getId());
 	}
 
-	public void cargaGridFicheros() {
-		Collection<Fichero> ficheros = servicioGestorFicheros.listaFicheros();
+	public void cargaGridFicheros(Directorio directorio) {
+		Collection<Fichero> ficheros = servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
 		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
 
@@ -254,7 +250,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		cargaGridDirectorios();
-		cargaGridFicheros();
+		
 	}
 
 	public void cargaGridDirectorios() {
