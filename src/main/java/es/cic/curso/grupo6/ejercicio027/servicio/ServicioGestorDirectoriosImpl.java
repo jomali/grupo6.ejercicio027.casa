@@ -24,7 +24,7 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
  * @author J. Francisco Martín
  * @author José María Cagigas
  * @serial 1.0
- * @version 2017/02/25
+ * @version 2017/02/27
  *
  */
 @Service

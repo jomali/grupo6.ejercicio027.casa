@@ -85,6 +85,7 @@ public class VistaDemo extends VerticalLayout implements View {
 					return FileVisitResult.CONTINUE;
 				}
 			});
+			System.out.println("create dir: " + rootPath.toString());
 			Files.createDirectory(rootPath);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
