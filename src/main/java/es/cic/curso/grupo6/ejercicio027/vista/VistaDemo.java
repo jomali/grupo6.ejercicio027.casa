@@ -43,7 +43,7 @@ public class VistaDemo extends VerticalLayout implements View {
 		if (servicioGestorDirectorios.listaDirectorios().isEmpty()) {
 			for (int i = 0; i < NUM_DIRECTORIOS; i++) {
 				Directorio directorio = new Directorio();
-				directorio.setRuta("demo/directorio" + i + "/");
+				directorio.setRuta("directorio" + i);
 				servicioGestorDirectorios.agregaDirectorio(directorio);
 				for (int j = 0; j < NUM_FICHEROS; j++) {
 					Fichero fichero = new Fichero();
