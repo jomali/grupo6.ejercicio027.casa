@@ -1,5 +1,10 @@
 package es.cic.curso.grupo6.ejercicio027.servicio;
 
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +22,7 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioFichero;
  * @author J. Francisco Martín
  * @author José María Cagigas
  * @serial 1.0
- * @version 2017/02/24
+ * @version 2017/02/27
  *
  */
 @Service
@@ -25,18 +30,28 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioFichero;
 public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 
 	private static final String ERROR_ID_FICHERO = "No existe ningún fichero en BB.DD. con ese ID";
-	
+	private static final String ERROR_RUTA_FICHERO = "Ya existe un fichero con ese nombre";
+
 	@Autowired
 	private ServicioGestorDirectorios servicioGestorDirectorios;
-	
+
 	@Autowired
 	private RepositorioFichero repositorioFichero;
 
 	@Override
 	public void agregaFichero(Long idDirectorio, Fichero fichero) {
 		Directorio directorio = servicioGestorDirectorios.obtenDirectorio(idDirectorio);
-		fichero.setDirectorio(directorio);
-		repositorioFichero.create(fichero);
+		Path ruta = Paths
+				.get(ServicioGestorDirectorios.DIRECTORIO_BASE + directorio.getRuta() + "/" + fichero.getNombre());
+		try {
+			Files.createDirectory(ruta);
+			fichero.setDirectorio(directorio);
+			repositorioFichero.create(fichero);
+		} catch (FileAlreadyExistsException faee) {
+			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
 	}
 
 	@Override
