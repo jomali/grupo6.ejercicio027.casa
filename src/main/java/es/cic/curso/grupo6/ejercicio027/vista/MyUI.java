@@ -21,7 +21,7 @@ import com.vaadin.ui.UI;
 @Theme("mytheme")
 public class MyUI extends UI {
 	private static final long serialVersionUID = 1343484792150289272L;
-	
+
 	public static final String VISTA_DIRECTORIOS = "directorios";
 	public static final String VISTA_FICHEROS = "ficheros";
 	public static final String VISTA_DEMO = "demo";
@@ -35,17 +35,9 @@ public class MyUI extends UI {
 
 		// Crea el navegador para controlar las vistas:
 		navegador = new Navigator(this, this);
-		
-		// Crea el menú de navegación
-		MenuNavegacion menu = new MenuNavegacion(navegador);
-		menu.agregaEntrada("Principal", "");
-		menu.agregaEntrada("Directorios", VISTA_DIRECTORIOS);
-		menu.agregaEntrada("Ficheros", VISTA_FICHEROS);
 
 		// Crea y registra las vistas:
-		navegador.addView("", new VistaPrincipal(menu));
-		navegador.addView(VISTA_DIRECTORIOS, new VistaDirectorios(menu));
-		navegador.addView(VISTA_FICHEROS, new VistaFicheros(menu));
+		navegador.addView("", new VistaDocumentos());
 		navegador.addView(VISTA_DEMO, new VistaDemo(navegador));
 		
 		// XXX - ELIMINAR

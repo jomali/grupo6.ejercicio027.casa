@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +23,6 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
-import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:es/cic/curso/grupo6/ejercicio027/applicationContext.xml" })
@@ -50,17 +48,6 @@ public class ServicioGestorDirectoriosTest {
 		em.persist(directorio);
 		em.flush();
 		return directorio;
-	}
-	
-	private Fichero generaFichero(Directorio directorio){
-		Fichero fichero = new Fichero();
-		fichero.setNombre("ags");
-		fichero.setDescripcion("dafdas");
-		fichero.setVersion(3.0);
-		fichero.setDirectorio(directorio);
-		em.persist(fichero);
-		em.flush();
-		return fichero;
 	}
 	
 	private void limpia(String ruta) {
@@ -156,16 +143,6 @@ public class ServicioGestorDirectoriosTest {
 		assertTrue(original.getRuta().equals(modificado.getRuta()));
 
 	}
-
-//	@Test
-//	public void testListaEntradasPorDirectorio() {
-//		
-//		directorio = generaDirectorio(RUTA_PRUEBA_1);
-//		directorio = generaDirectorio(RUTA_PRUEBA_2);
-//
-//		List<Directorio> lista = servicioGestorDirectorios.listaEntradasPorDirectorio(directorio.getId());
-//		assertEquals(2, lista.size());
-//	}
 
 
 }
