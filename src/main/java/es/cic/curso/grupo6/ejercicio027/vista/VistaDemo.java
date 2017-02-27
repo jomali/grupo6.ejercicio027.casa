@@ -1,5 +1,13 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+
 import org.springframework.web.context.ContextLoader;
 
 import com.vaadin.navigator.Navigator;
@@ -41,6 +49,7 @@ public class VistaDemo extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		if (servicioGestorDirectorios.listaDirectorios().isEmpty()) {
+			limpiaDirectorio(ServicioGestorDirectorios.DIRECTORIO_BASE);
 			for (int i = 0; i < NUM_DIRECTORIOS; i++) {
 				Directorio directorio = new Directorio();
 				directorio.setRuta("directorio" + i);
@@ -56,6 +65,30 @@ public class VistaDemo extends VerticalLayout implements View {
 			Notification.show("Cargados datos de DEMOSTRACIÓN");
 		}
 		navegador.navigateTo("");
+	}
+
+	private void limpiaDirectorio(String ruta) {
+		Path rootPath = Paths.get(ruta);
+		try {
+			Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					System.out.println("delete file: " + file.toString());
+					Files.delete(file);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					Files.delete(dir);
+					System.out.println("delete dir: " + dir.toString());
+					return FileVisitResult.CONTINUE;
+				}
+			});
+			Files.createDirectory(rootPath);
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
 	}
 
 }

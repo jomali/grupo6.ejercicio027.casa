@@ -62,7 +62,8 @@ public interface ServicioGestorDirectorios {
 
 	/**
 	 * Elimina del sistema el directorio que se corresponde con el identificador
-	 * pasado como parámetro.
+	 * pasado como parámetro. Si el directorio no está vacío, se eliminan además
+	 * todos los ficheros que cuelgan de él.
 	 * 
 	 * @param idDirectorio
 	 *            Identificador del directorio
@@ -70,6 +71,9 @@ public interface ServicioGestorDirectorios {
 	 * @throws IllegalArgumentException
 	 *             Si el identificador dado no se corresponde con ningún
 	 *             directorio registrado en el sistema
+	 * @throws RuntimeException
+	 *             Si se produce un error de entrada/salida inesperado al tratar
+	 *             de eliminar el directorio y sus ficheros
 	 */
 	Directorio eliminaDirectorio(Long idDirectorio);
 
