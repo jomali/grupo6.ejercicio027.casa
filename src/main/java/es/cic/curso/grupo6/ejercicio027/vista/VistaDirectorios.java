@@ -2,11 +2,9 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
@@ -36,10 +34,9 @@ public class VistaDirectorios extends VerticalLayout implements View {
 	private Grid gridDirectorios;
 	private FormularioDirectorios formulario;
 	private Button botonAgregar, botonBorrar, botonActualizar;
-	private Notification muestraError = new Notification("ERROR: Algún dato está mal introducido o no ha sido introducido");
-	private Directorio directorio;
 	private Directorio eliminaDirectorio;
 
+	@SuppressWarnings("serial")
 	public VistaDirectorios(MenuNavegacion menuNavegacion) {
 		servicioGestorDirectorios = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorDirectorios.class);
@@ -54,21 +51,21 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		gridDirectorios.setColumns("id", "ruta");
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
-		gridDirectorios.setCaption("Lista Directorios:");		
+		gridDirectorios.setCaption("Lista Directorios:");
 		gridDirectorios.addSelectionListener(new SelectionListener() {
-
 			@Override
 			public void select(SelectionEvent event) {
-				Set<Object> selected = event.getSelected();
-				Directorio directorio =  (Directorio) gridDirectorios.getSelectedRow();
-				if(directorio!=null){
+				Directorio directorio = (Directorio) gridDirectorios.getSelectedRow();
+				if (directorio != null) {
 					eliminaDirectorio = directorio;
 					botonBorrar.setVisible(true);
-				}else{
+				} else {
 					botonBorrar.setVisible(false);
 				}
+				formulario.estableceDirectorio(directorio);
 			}
 		});
+
 		// BOTONES
 
 		botonAgregar = new Button("Añadir Directorio");
@@ -79,10 +76,9 @@ public class VistaDirectorios extends VerticalLayout implements View {
 			gridDirectorios.setVisible(false);
 			botonAgregar.setVisible(false);
 			botonActualizar.setVisible(false);
-			formulario.setEnabled(true);
 			formulario.setVisible(true);
 		});
-		
+
 		botonBorrar = new Button("Borrar");
 		botonBorrar.setIcon(FontAwesome.ERASER);
 		botonBorrar.setVisible(false);
@@ -90,7 +86,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 			borraDirectorio(eliminaDirectorio);
 			cargaGridDirectorios();
 		});
-		
+
 		botonActualizar = new Button("Recarga datos");
 		botonActualizar.setIcon(FontAwesome.REFRESH);
 		botonActualizar.setVisible(true);
@@ -118,7 +114,7 @@ public class VistaDirectorios extends VerticalLayout implements View {
 		addComponents(menu, layoutPrincipal);
 	}
 
-	public void borraDirectorio(Directorio directorio){
+	public void borraDirectorio(Directorio directorio) {
 		servicioGestorDirectorios.eliminaDirectorio(directorio.getId());
 	}
 

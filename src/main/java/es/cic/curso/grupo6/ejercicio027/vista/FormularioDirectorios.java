@@ -1,26 +1,17 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
-import java.util.Collection;
-
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
-import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorDirectorios;
 
 public class FormularioDirectorios extends FormLayout{
-
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5081842639219654799L;
 
 	@PropertyId("ruta")
@@ -60,19 +51,17 @@ public class FormularioDirectorios extends FormLayout{
 		
 		addComponents(verticalPrincipal);
 		
-		
-		//setFichero(null);
+		estableceDirectorio(null);
 	}
 
-	public void Directorio(Directorio directorio)
-	{  
+	public void estableceDirectorio(Directorio directorio) {  
 		this.directorio=directorio;
 		
-		if(directorio!=null)
-		{
+		if(directorio!=null) {
 		    BeanFieldGroup.bindFieldsUnbuffered(directorio, this);			
 		} else {
 			BeanFieldGroup.bindFieldsUnbuffered(new Directorio(), this);
 		}
 	}
+	
 }
