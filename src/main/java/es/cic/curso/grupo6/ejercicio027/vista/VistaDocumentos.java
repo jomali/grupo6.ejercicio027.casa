@@ -35,14 +35,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
 
-	// Componentes gráficos:
-	private LayoutDirectorios layoutDirectorios;
-	private LayoutFicheros layoutFicheros;
-
-	@PropertyId("ruta")
-	protected TextField textFieldRutaDirectorio;
-
-	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
 	
 
 	public VistaDocumentos() {
@@ -52,10 +44,10 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 		
 		// layout. DIRECTORIOS
-		layoutDirectorios = new LayoutDirectorios(this);
+		VerticalLayout layoutDirectorios = new LayoutDirectorios(this);
 
 		// layout. FICHEROS
-		layoutFicheros = new LayoutFicheros(this);
+		VerticalLayout layoutFicheros = new LayoutFicheros(this);
 
 		// layout. PRINCIPAL
 		HorizontalLayout principalLayout = new HorizontalLayout();
@@ -89,14 +81,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 		cargaGridDirectorios();
 	}
-	
-	public void modificaBotonesDirectorios() {
-		
-
-		botonAgregarDirectorio.setVisible(true);
-		botonRenombrarDirectorio.setVisible(false);
-		botonBorrarDirectorio.setVisible(false);
-	}
 
 	private List<Directorio> cargarLista() {
 		return servicioGestorFicheros.listaDirectorios();
@@ -105,6 +89,9 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	public void borraFichero(Fichero fichero) {
 		servicioGestorFicheros.eliminaFichero(fichero.getId());
 	}
+	 public void activaBotonAgregaFichero (boolean activado){
+		 layoutFicheros
+	 }
 
 	public void cargaGridFicheros(Directorio directorio) {
 		directorioSeleccionado = directorio;
@@ -127,16 +114,5 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		servicioGestorFicheros.eliminaDirectorio(directorio.getId());
 	}
 
-	public void muestraDirectorio(Directorio directorio) {
-		textFieldRutaDirectorio.setValue(directorio.getRuta());
-	}
 
-	public void reiniciaTextField() {
-		textFieldRutaDirectorio.clear();
-	}
-
-	public void cargaGridDirectorios() {
-		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
-		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
-	}
 }
