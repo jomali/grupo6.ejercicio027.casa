@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.cic.curso.grupo6.ejercicio027.ExcepcionES;
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
@@ -56,7 +57,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 			throw new IllegalArgumentException(ERROR_RUTA_DIRECTORIO);
 		} catch (IOException ioe) {
 			// Error en la creación del directorio nuevo
-			throw new RuntimeException(ioe);
+			throw new ExcepcionES(ioe);
 		}
 	}
 
@@ -72,7 +73,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
 		} catch (IOException ioe) {
 			// Error en la creación del fichero nuevo
-			throw new RuntimeException(ioe);
+			throw new ExcepcionES(ioe);
 		}
 	}
 
@@ -127,7 +128,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 			return original;
 		} catch (IOException ioe) {
 			// Error al mover el fichero
-			throw new RuntimeException(ioe);
+			throw new ExcepcionES(ioe);
 		}
 	}
 
@@ -155,7 +156,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 			repositorioDirectorio.delete(directorio);
 			return directorio;
 		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
+			throw new ExcepcionES(ioe);
 		}
 	}
 
@@ -169,7 +170,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 			return fichero;
 		} catch (IOException ioe) {
 			// Error al eliminar el fichero
-			throw new RuntimeException(ioe);
+			throw new ExcepcionES(ioe);
 		}
 	}
 
