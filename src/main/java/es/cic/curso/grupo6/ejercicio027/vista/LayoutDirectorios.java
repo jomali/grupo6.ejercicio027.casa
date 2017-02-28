@@ -5,12 +5,16 @@ import java.util.Collection;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.Grid.SelectionMode;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -21,21 +25,21 @@ public class LayoutDirectorios extends VerticalLayout {
 
 	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
-	
+
 	/** Componente de tipo grid. */
 	private Grid gridDirectorios;
 
 	/** Referencia al directorio seleccionado en el grid. */
 	private Directorio directorioSeleccionado;
-	
+
 	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 
 	@PropertyId("ruta")
-	protected TextField textFieldRutaDirectorio;
+	private TextField textFieldRutaDirectorio;
 
 	public LayoutDirectorios(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.servicioGestorFicheros = servicioGestorFicheros;
-		
+
 		// GRID DIRECTORIOS
 		gridDirectorios = new Grid();
 		gridDirectorios.setColumns("ruta");
@@ -75,9 +79,9 @@ public class LayoutDirectorios extends VerticalLayout {
 			servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
 			textFieldRutaDirectorio.clear();
 			cargaGridDirectorios();
-//			botonAgregarDirectorio.setVisible(true);
-//			botonRenombrarDirectorio.setVisible(false);
-//			botonBorrarDirectorio.setVisible(false);
+			// botonAgregarDirectorio.setVisible(true);
+			// botonRenombrarDirectorio.setVisible(false);
+			// botonBorrarDirectorio.setVisible(false);
 
 		});
 
@@ -85,11 +89,7 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonBorrarDirectorio = new Button("Borrar");
 		botonBorrarDirectorio.setIcon(FontAwesome.ERASER);
 		botonBorrarDirectorio.setVisible(false);
-		botonBorrarDirectorio.addClickListener(e -> {
-			servicioGestorFicheros.eliminaDirectorio(directorioSeleccionado.getId());
-			textFieldRutaDirectorio.clear();
-			cargaGridDirectorios();
-		});
+		botonBorrarDirectorio.addClickListener(e -> this.getUI().getUI().addWindow(creaVentanaConfirmacion("")) );
 
 		// BUTTON RENOMBRAR DIRECTORIO
 		botonRenombrarDirectorio = new Button("Renombrar");
@@ -118,16 +118,54 @@ public class LayoutDirectorios extends VerticalLayout {
 		layoutBotonesDirectorios.setSpacing(true);
 		layoutBotonesDirectorios.addComponents(textFieldRutaDirectorio, botonAgregarDirectorio,
 				botonRenombrarDirectorio, botonBorrarDirectorio);
-		
+
 		this.setSizeFull();
 		this.setMargin(false);
 		this.setSpacing(true);
 		this.addComponents(gridDirectorios, layoutBotonesDirectorios);
+
 	}
 
-	public void cargaGridDirectorios() {	
+	public void cargaGridDirectorios() {
 		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
+	}
+
+	private Window creaVentanaConfirmacion(String titulo) {
+		Window resultado = new Window(titulo);
+		resultado.setWidth(400.0F, Unit.PIXELS);
+		resultado.setModal(true);
+		resultado.setClosable(false);
+		resultado.setResizable(false);
+		resultado.setDraggable(false);
+
+		Label label = new Label(
+				"¿Está seguro de que desea borrar este directorio junto con <strong>todos sus ficheros</strong>?");
+		label.setContentMode(ContentMode.HTML);
+		
+		Button botonAceptar = new Button("Aceptar");
+		botonAceptar.addClickListener(e -> {
+			servicioGestorFicheros.eliminaDirectorio(directorioSeleccionado.getId());
+			textFieldRutaDirectorio.clear();
+			cargaGridDirectorios();
+			resultado.close();
+		});
+		
+		Button botonCancelar = new Button("Cancelar");
+		botonCancelar.addClickListener(e -> resultado.close() );
+		
+		HorizontalLayout layoutBotones = new HorizontalLayout();
+		layoutBotones.setMargin(true);
+		layoutBotones.setSpacing(true);
+		layoutBotones.setWidth(100.0F, Unit.PERCENTAGE);
+		layoutBotones.addComponents(botonAceptar, botonCancelar);
+		
+		final FormLayout content = new FormLayout();
+		content.setMargin(true);
+		content.addComponents(label, layoutBotones);
+		resultado.setContent(content);
+		resultado.center();
+		return resultado;
 	}
 
 }
