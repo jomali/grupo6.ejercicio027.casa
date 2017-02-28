@@ -52,6 +52,7 @@ Punto de partida del desarrollo:
 	- MyUI
 	- VistaDocumentos
 	- VistaDemo
+	- FormularioFichero
 
 
 ## Tareas pendientes
