@@ -10,6 +10,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Grid.SelectionMode;
 
@@ -64,9 +65,13 @@ public class LayoutFicheros extends VerticalLayout {
 			}
 		});
 
+		// FORMULARIO FICHEROS
+		formulario = new FormularioFicheros(null, null);
+		formulario.setVisible(false);
+		
 		// BUTTON AGREGAR FICHERO
 		botonAgregarFichero = new Button("Añadir fichero");
-		botonAgregarFichero.setVisible(false);
+		botonAgregarFichero.setVisible(true);
 		botonAgregarFichero.setEnabled(true);
 		botonAgregarFichero.addClickListener(e -> {
 			formulario.setVisible(true);
@@ -74,9 +79,6 @@ public class LayoutFicheros extends VerticalLayout {
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
 			padre.modificaBotonesDirectorios();
-			padre.cargaGridDirectorios();
-			Notification.show("Funcionalidad no implementada.");
-			this.getUI().getUI().addWindow(new VentanaConfirmacion("Confirmación"));
 		});
 
 		// BUTTON BORRAR FICHERO
@@ -87,7 +89,7 @@ public class LayoutFicheros extends VerticalLayout {
 		botonBorrarFichero.addClickListener(e -> {
 			servicioGestorFicheros.eliminaFichero(ficheroSeleccionado.getId());
 			ficheroSeleccionado = null;
-			cargaGridFicheros(null);
+			//padre.cargaGridFicheros(directorio);
 		});
 
 		// BUTTON ACTUALIZAR FICHERO
@@ -96,19 +98,17 @@ public class LayoutFicheros extends VerticalLayout {
 		botonActualizarFichero.setVisible(false);
 		botonActualizarFichero.setEnabled(true);
 
-		// FORMULARIO FICHEROS
-		formulario = new FormularioFicheros(null);
-		formulario.setVisible(false);
+
 		
 		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
 		layoutBotonesFicheros.setMargin(false);
 		layoutBotonesFicheros.setSpacing(true);
-		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero);
+		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero, formulario);
 
 		this.setSizeFull();
 		this.setMargin(false);
 		this.setSpacing(true);
-		this.addComponents(gridFicheros, layoutBotonesFicheros, formulario);
+		this.addComponents(gridFicheros, layoutBotonesFicheros);
 	}
 
 	public void cargaGridFicheros(Directorio directorio) {
@@ -125,5 +125,6 @@ public class LayoutFicheros extends VerticalLayout {
 		botonAgregarFichero.setEnabled(activado);
 	}
 	
+
 	
 }
