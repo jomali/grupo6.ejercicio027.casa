@@ -78,7 +78,7 @@ public class LayoutFicheros extends VerticalLayout {
 			botonAgregarFichero.setVisible(false);
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
-			padre.modificaBotonesDirectorios();
+
 		});
 
 		// BUTTON BORRAR FICHERO
