@@ -39,7 +39,6 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 	private Button aceptar;
 	private Button cancelar;
 	private Fichero fichero;
-	
 
 	/** Referencia a la vista padre de la que cuelga el layout. */
 	private VistaDocumentos padre;
@@ -137,8 +136,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 	}
 	
 	private void editarFichero(){
-		
-		
+
 		VerticalLayout verticalPrincipal= new VerticalLayout();
 		verticalPrincipal.setMargin(true);
 		verticalPrincipal.setSpacing(true);
@@ -152,7 +150,6 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		descripcion.setInputPrompt("Descripción");
 		version = new TextField("Versión: ");
 		version.setInputPrompt("Versión");
-
 
 		HorizontalLayout buttonsLayout = new HorizontalLayout();
 //		datosLayout.setMargin(true);
@@ -212,8 +209,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 				}
 		});
 		cargaGridFicheros(directorioActual);
-	
-		
+
 	}
 	public Directorio getDirectorioSeleccionado(Directorio directorioSeleccionado){
 		directorioSeleccionado = ficheroSeleccionado.getDirectorio();
