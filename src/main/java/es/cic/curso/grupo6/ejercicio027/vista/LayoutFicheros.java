@@ -20,7 +20,6 @@ public class LayoutFicheros extends VerticalLayout {
 	private FormularioFicheros formulario;
 	private Fichero eliminaFichero;
 
-
 	public LayoutFicheros(VistaDocumentos padre) {
 		this.padre = padre;
 

@@ -116,4 +116,10 @@ public class LayoutDirectorios extends VerticalLayout {
 		this.addComponents(gridDirectorios, layoutBotonesDirectorios);
 	}
 	
+	public void modificaBotones() {
+		botonAgregarDirectorio.setVisible(true);
+		botonRenombrarDirectorio.setVisible(false);
+		botonBorrarDirectorio.setVisible(false);
+	}
+	
 }

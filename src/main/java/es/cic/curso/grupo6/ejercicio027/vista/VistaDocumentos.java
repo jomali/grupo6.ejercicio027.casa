@@ -36,6 +36,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private ServicioGestorFicheros servicioGestorFicheros;
 
 	// Componentes gráficos:
+	private LayoutDirectorios layoutDirectorios;
+	private LayoutFicheros layoutFicheros;
 
 	@PropertyId("ruta")
 	protected TextField textFieldRutaDirectorio;
@@ -50,10 +52,10 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 		
 		// layout. DIRECTORIOS
-		VerticalLayout layoutDirectorios = new LayoutDirectorios(this);
+		layoutDirectorios = new LayoutDirectorios(this);
 
 		// layout. FICHEROS
-		VerticalLayout layoutFicheros = new LayoutFicheros(this);
+		layoutFicheros = new LayoutFicheros(this);
 
 		// layout. PRINCIPAL
 		HorizontalLayout principalLayout = new HorizontalLayout();
@@ -86,6 +88,14 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		cargaGridDirectorios();
+	}
+	
+	public void modificaBotonesDirectorios() {
+		
+
+		botonAgregarDirectorio.setVisible(true);
+		botonRenombrarDirectorio.setVisible(false);
+		botonBorrarDirectorio.setVisible(false);
 	}
 
 	private List<Directorio> cargarLista() {
