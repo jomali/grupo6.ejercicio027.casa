@@ -1,6 +1,7 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.web.context.ContextLoader;
 
@@ -50,13 +51,13 @@ public class LayoutDirectorios extends VerticalLayout {
 				botonAgregarDirectorio.setVisible(false);
 				botonRenombrarDirectorio.setVisible(true);
 				botonBorrarDirectorio.setVisible(true);
-				botonAgregarFichero.setVisible(true);
+				padre.activaBotonAgregarFichero(true);
 				muestraDirectorio(directorio);
 			} else {
 				botonBorrarDirectorio.setVisible(false);
 				botonRenombrarDirectorio.setVisible(false);
 				botonAgregarDirectorio.setVisible(true);
-				botonAgregarFichero.setVisible(false);
+				padre.activaBotonAgregarFichero(false);
 				reiniciaTextField();
 			}
 			padre.cargaGridFicheros(directorio);
@@ -72,7 +73,7 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonAgregarDirectorio.setVisible(true);
 		botonAgregarDirectorio.setEnabled(true);
 		botonAgregarDirectorio.addClickListener(agregar -> {
-			padre.agregarDirectorio(nuevoDirectorio);
+			agregarDirectorio(nuevoDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonAgregarDirectorio.setVisible(true);
@@ -86,7 +87,7 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonBorrarDirectorio.setIcon(FontAwesome.ERASER);
 		botonBorrarDirectorio.setVisible(false);
 		botonBorrarDirectorio.addClickListener(borrar -> {
-			padre.borraDirectorio(eliminaDirectorio);
+			borraDirectorio(eliminaDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonRenombrarDirectorio.setVisible(false);
@@ -105,7 +106,7 @@ public class LayoutDirectorios extends VerticalLayout {
 				if (textFieldRutaDirectorio.getValue() != null) {
 					String ruta = textFieldRutaDirectorio.getValue();
 					actualizaDirectorio.setRuta(ruta);
-					padre.actualizarDirectorio(actualizaDirectorio.getId(), actualizaDirectorio);
+					actualizarDirectorio(actualizaDirectorio.getId(), actualizaDirectorio);
 					Notification.show("Directorio modificado.");
 					reiniciaTextField();
 					cargaGridDirectorios();
@@ -134,7 +135,6 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonRenombrarDirectorio.setVisible(false);
 		botonBorrarDirectorio.setVisible(false);
 	}
-	
 
 	public void muestraDirectorio(Directorio directorio) {
 		textFieldRutaDirectorio.setValue(directorio.getRuta());
@@ -143,5 +143,29 @@ public class LayoutDirectorios extends VerticalLayout {
 	public void reiniciaTextField() {
 		textFieldRutaDirectorio.clear();
 	}
+
+	public void agregarDirectorio(Directorio directorio) {
+		Directorio nuevoDirectorio = new Directorio();
+		nuevoDirectorio.setRuta(textFieldRutaDirectorio.getValue());
+		servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
+	}
+
+	private List<Directorio> cargarLista() {
+		return servicioGestorFicheros.listaDirectorios();
+	}
+
+	public void cargaGridDirectorios() {
+		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
+		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
+	}
+
+	public void actualizarDirectorio(long directorioId, Directorio directorio) {
+		servicioGestorFicheros.modificaDirectorio(directorioId, directorio);
+	}
+
+	public void borraDirectorio(Directorio directorio) {
+		servicioGestorFicheros.eliminaDirectorio(directorio.getId());
+	}
+
 
 }
