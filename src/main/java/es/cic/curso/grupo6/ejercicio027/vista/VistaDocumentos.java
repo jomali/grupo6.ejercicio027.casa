@@ -41,7 +41,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	protected TextField textFieldRutaDirectorio;
 
 	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
-	private Fichero eliminaFichero;
+	
 
 	public VistaDocumentos() {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);

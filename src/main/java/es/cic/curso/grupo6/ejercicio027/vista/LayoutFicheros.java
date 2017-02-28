@@ -18,6 +18,7 @@ public class LayoutFicheros extends VerticalLayout {
 	private Grid gridFicheros;
 	private Button botonAgregarFichero, botonBorrarFichero, botonActualizarFichero;
 	private FormularioFicheros formulario;
+	private Fichero eliminaFichero;
 
 
 	public LayoutFicheros(VistaDocumentos padre) {
