@@ -144,10 +144,5 @@ public class LayoutDirectorios extends VerticalLayout {
 	public void reiniciaTextField() {
 		textFieldRutaDirectorio.clear();
 	}
-	
 
-	public void cargaGridDirectorios() {
-		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
-		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
-	}
 }

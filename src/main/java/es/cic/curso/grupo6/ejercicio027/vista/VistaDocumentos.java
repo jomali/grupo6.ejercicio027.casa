@@ -100,6 +100,11 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
 
+	public void cargaGridDirectorios() {
+		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
+		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
+	}
+
 	public void actualizarDirectorio(long directorioId, Directorio directorio) {
 		servicioGestorFicheros.modificaDirectorio(directorioId, directorio);
 	}
