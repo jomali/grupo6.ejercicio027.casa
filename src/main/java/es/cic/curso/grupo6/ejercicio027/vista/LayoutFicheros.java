@@ -53,12 +53,12 @@ public class LayoutFicheros extends VerticalLayout {
 		gridFicheros.setColumns("nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
-		gridFicheros.addSelectionListener(new SelectionListener() {
-			@Override
-			public void select(SelectionEvent event) {
-				Fichero fchero = (Fichero) gridFicheros.getSelectedRow();
-				if (fchero != null) {
-					ficheroSeleccionado = fchero;
+		gridFicheros.addSelectionListener(e -> {
+			ficheroSeleccionado = null;
+			Directorio directorio = null;
+			if (!e.getSelected().isEmpty()) {
+					ficheroSeleccionado = (Fichero) e.getSelected().iterator().next();
+					directorio = ficheroSeleccionado.getDirectorio();
 					botonAgregarFichero.setVisible(false);
 					botonBorrarFichero.setVisible(true);
 					botonActualizarFichero.setVisible(true);
@@ -66,8 +66,10 @@ public class LayoutFicheros extends VerticalLayout {
 					botonBorrarFichero.setVisible(false);
 					botonActualizarFichero.setVisible(false);
 				}
-			}
+			padre.cargaGridFicheros(directorio);
 		});
+
+
 
 		// FORMULARIO FICHEROS
 		formulario = new FormularioFicheros(null, null);
@@ -100,6 +102,15 @@ public class LayoutFicheros extends VerticalLayout {
 		botonActualizarFichero.setIcon(FontAwesome.REFRESH);
 		botonActualizarFichero.setVisible(false);
 		botonActualizarFichero.setEnabled(true);
+		botonActualizarFichero.addClickListener(e -> {
+			formulario.setVisible(true);
+			botonAgregarFichero.setVisible(false);
+			botonBorrarFichero.setVisible(false);
+			botonActualizarFichero.setVisible(false);
+			
+
+		});
+
 
 
 		
@@ -128,6 +139,6 @@ public class LayoutFicheros extends VerticalLayout {
 		botonAgregarFichero.setEnabled(activado);
 	}
 	
-
+	
 	
 }

@@ -67,8 +67,7 @@ public class FormularioFicheros extends FormLayout{
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
 //			padre.cargaGridDirectorios();
-			verticalPrincipal.setVisible(false);
-//			maestro.activaBotonAgregarFichero(true);
+			maestro.muestraBotonAgregarFichero(true);
 			
 		});
 		datosLayout.addComponents(nombre, descripcion, version);
