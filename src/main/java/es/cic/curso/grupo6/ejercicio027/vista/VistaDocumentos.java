@@ -33,8 +33,7 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 public class VistaDocumentos extends VerticalLayout implements View {
 	private static final long serialVersionUID = 6070082071055226969L;
 
-	// Servicios con lógica de negocio y acceso a BB.DD.
-
+	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
 
 	// Componentes gráficos:
@@ -48,25 +47,14 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private Grid gridFicheros;
 	private Button botonAgregarF, botonBorrarF, botonActualizarF;
 	private Fichero eliminaFichero;
-	private Image imagen;
 	private FormularioFicheros formulario;
 
-
 	public VistaDocumentos() {
-
-		// Servicios con lógica de negocio y acceso a BB.DD.
-
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
+		
+		// LAYOUT. ENCABEZADO
+		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 
-		// IMAGEN
-		HorizontalLayout layoutimagen = new HorizontalLayout();
-		layoutimagen.setSpacing(true);
-		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
-		Image imagen = new Image(null, resource);
-		imagen.setHeight(10.0F, Unit.PERCENTAGE);
-		layoutimagen.addComponents(imagen);
-		addComponent(layoutimagen);
 
 		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
 		layoutBotonesDirectorios.setMargin(false);
@@ -243,8 +231,30 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		
 
 		principalLayout.addComponents(layoutDirectorios, layoutFicheros,formulario);
-		addComponents(layoutimagen, principalLayout);
+		addComponents(layoutEncabezado, principalLayout);
 	}
+	
+	// /////////////////////////////////////////////////////////////////////////
+	// Inicialización de componentes gráficos:
+	
+	private HorizontalLayout inicializaLayoutEncabezado() {
+		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
+		Image imagen = new Image(null, resource);
+		imagen.setHeight(10.0F, Unit.PERCENTAGE);
+		
+		HorizontalLayout layoutEncabezado = new HorizontalLayout();
+		layoutEncabezado.setMargin(true);
+		layoutEncabezado.setSpacing(false);
+		layoutEncabezado.addComponent(imagen);
+		return layoutEncabezado;
+	}
+
+	// /////////////////////////////////////////////////////////////////////////
+
+	
+	
+	
 
 	private List<Directorio> cargarLista() {
 		return servicioGestorFicheros.listaDirectorios();
