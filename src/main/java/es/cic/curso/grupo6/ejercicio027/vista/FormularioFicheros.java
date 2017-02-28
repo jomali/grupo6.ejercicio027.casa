@@ -39,7 +39,7 @@ public class FormularioFicheros extends FormLayout{
 
 		HorizontalLayout nombreLayout = new HorizontalLayout();
 		nombre = new TextField("Nombre del Archivo: ");
-		nombre.setInputPrompt("Nombre del Archivoe:");
+		nombre.setInputPrompt("Nombre del Archivo:");
 		nombreLayout.addComponent(nombre);
 		HorizontalLayout descripcionLayout = new HorizontalLayout();
 		descripcion = new TextField("Descripión: ");

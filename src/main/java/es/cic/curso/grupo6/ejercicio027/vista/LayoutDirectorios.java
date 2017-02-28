@@ -1,5 +1,11 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.util.Collection;
+
+import org.springframework.web.context.ContextLoader;
+
+import com.vaadin.data.fieldgroup.PropertyId;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -20,6 +26,10 @@ public class LayoutDirectorios extends VerticalLayout {
 	private Grid gridDirectorios;
 	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 
+	@PropertyId("ruta")
+	protected TextField textFieldRutaDirectorio;
+
+	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
 
 	public LayoutDirectorios(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.padre = padre;
@@ -49,7 +59,7 @@ public class LayoutDirectorios extends VerticalLayout {
 				botonAgregarFichero.setVisible(false);
 				reiniciaTextField();
 			}
-			cargaGridFicheros(directorio);
+			padre.cargaGridFicheros(directorio);
 		});
 
 		// TEXTFIELD RUTA DIRECTORIO
@@ -62,7 +72,7 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonAgregarDirectorio.setVisible(true);
 		botonAgregarDirectorio.setEnabled(true);
 		botonAgregarDirectorio.addClickListener(agregar -> {
-			agregarDirectorio(nuevoDirectorio);
+			padre.agregarDirectorio(nuevoDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonAgregarDirectorio.setVisible(true);
@@ -76,7 +86,7 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonBorrarDirectorio.setIcon(FontAwesome.ERASER);
 		botonBorrarDirectorio.setVisible(false);
 		botonBorrarDirectorio.addClickListener(borrar -> {
-			borraDirectorio(eliminaDirectorio);
+			padre.borraDirectorio(eliminaDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonRenombrarDirectorio.setVisible(false);
@@ -95,7 +105,7 @@ public class LayoutDirectorios extends VerticalLayout {
 				if (textFieldRutaDirectorio.getValue() != null) {
 					String ruta = textFieldRutaDirectorio.getValue();
 					actualizaDirectorio.setRuta(ruta);
-					actualizarDirectorio(actualizaDirectorio.getId(), actualizaDirectorio);
+					padre.actualizarDirectorio(actualizaDirectorio.getId(), actualizaDirectorio);
 					Notification.show("Directorio modificado.");
 					reiniciaTextField();
 					cargaGridDirectorios();
@@ -125,4 +135,13 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonBorrarDirectorio.setVisible(false);
 	}
 	
+
+	public void muestraDirectorio(Directorio directorio) {
+		textFieldRutaDirectorio.setValue(directorio.getRuta());
+	}
+
+	public void reiniciaTextField() {
+		textFieldRutaDirectorio.clear();
+	}
+
 }
