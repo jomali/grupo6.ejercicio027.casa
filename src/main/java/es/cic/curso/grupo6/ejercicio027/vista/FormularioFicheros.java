@@ -7,9 +7,11 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
@@ -65,11 +67,13 @@ public class FormularioFicheros extends FormLayout{
 		buttonsLayout.setSpacing(true);
 		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
-//		aceptar.addClickListener(e -> {
-//			Fichero fichero = new Fichero(nombre.getValue(), descripcion.getValue(), Double.parseDouble(version.getValue()))));
-//			servicioGestorFicheros.agregaFichero(hermano.getDirectorioSeleccionado().getId(), fichero);
-//	
-//		});
+		aceptar.addClickListener(e -> {
+			if (nombre.getValue().equals("")  || descripcion.getValue().equals("") || version.getValue().equals("")) {
+				Notification.show("Falta alguno de los datos a rellenar.");
+			} else {
+//				Notification.show("Fichero \"" + nuevoFichero.getNombre() + "\" añadido con éxito.");
+			}
+		});
 		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
