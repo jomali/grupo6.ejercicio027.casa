@@ -68,7 +68,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 		HorizontalLayout layoutEncabezado = new HorizontalLayout();
 		layoutEncabezado.setMargin(new MarginInfo(true, true, true, true));
-		layoutEncabezado.setSpacing(true);
+		layoutEncabezado.setSpacing(false);
 		layoutEncabezado.addComponents(imagen, titulo);
 		layoutEncabezado.setComponentAlignment(titulo, Alignment.MIDDLE_LEFT);
 		return layoutEncabezado;
