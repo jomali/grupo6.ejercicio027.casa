@@ -54,7 +54,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 			Files.createDirectory(ruta);
 			repositorioDirectorio.create(directorio);
 		} catch (FileAlreadyExistsException faee) {
-			throw new IllegalArgumentException(ERROR_RUTA_DIRECTORIO);
+			throw new IllegalArgumentException(ERROR_RUTA_DIRECTORIO, faee);
 		} catch (IOException ioe) {
 			// Error en la creación del directorio nuevo
 			throw new ExcepcionES(ioe);
@@ -70,7 +70,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 			fichero.setDirectorio(directorio);
 			repositorioFichero.create(fichero);
 		} catch (FileAlreadyExistsException faee) {
-			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
+			throw new IllegalArgumentException(ERROR_RUTA_FICHERO, faee);
 		} catch (IOException ioe) {
 			// Error en la creación del fichero nuevo
 			throw new ExcepcionES(ioe);
