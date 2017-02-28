@@ -211,9 +211,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonAgregarF.addClickListener(agregar -> {
 			layoutDirectorios.setVisible(false);
 			layoutFicheros.setVisible(false);
+			formulario.setEnabled(true);
 			formulario.setVisible(true);
-			
-			
 			cargaGridDirectorios();
 			reiniciaTextField();
 			botonAgregarD.setVisible(true);
