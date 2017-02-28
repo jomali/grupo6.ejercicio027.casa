@@ -10,7 +10,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Grid.SelectionMode;
 
@@ -105,10 +104,10 @@ public class LayoutFicheros extends VerticalLayout {
 		layoutBotonesFicheros.setMargin(false);
 		layoutBotonesFicheros.setSpacing(true);
 		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero);
-		
-		this.setMargin(true);
-		this.setSpacing(false);
+
 		this.setSizeFull();
+		this.setMargin(false);
+		this.setSpacing(true);
 		this.addComponents(gridFicheros, layoutBotonesFicheros, formulario);
 	}
 
@@ -117,7 +116,10 @@ public class LayoutFicheros extends VerticalLayout {
 				: servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
 		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
-
+	
+	public void muestraBotonAgregarFichero(boolean visible) {
+		botonAgregarFichero.setVisible(visible);
+	}
 	
 	public void activaBotonAgregarFichero(boolean activado) {
 		botonAgregarFichero.setEnabled(activado);
