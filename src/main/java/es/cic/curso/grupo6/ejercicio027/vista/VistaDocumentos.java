@@ -35,15 +35,11 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
 
-<<<<<<< HEAD
 	/** Controles para la manipulación de los directorios del sistema. */
 	private LayoutDirectorios layoutDirectorios;
 
 	/** Controles para la manipulación de los ficheros del sistema. */
 	private LayoutFicheros layoutFicheros;
-=======
-	
->>>>>>> 6acad788cf9aae46ecb2614450a676f85ce96225
 
 	public VistaDocumentos() {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
@@ -52,17 +48,10 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 
 		// layout. DIRECTORIOS
-<<<<<<< HEAD
 		layoutDirectorios = new LayoutDirectorios(this, servicioGestorFicheros);
 
 		// layout. FICHEROS
 		layoutFicheros = new LayoutFicheros(this, servicioGestorFicheros);
-=======
-		VerticalLayout layoutDirectorios = new LayoutDirectorios(this);
-
-		// layout. FICHEROS
-		VerticalLayout layoutFicheros = new LayoutFicheros(this);
->>>>>>> 6acad788cf9aae46ecb2614450a676f85ce96225
 
 		// layout. PRINCIPAL
 		HorizontalLayout principalLayout = new HorizontalLayout();
@@ -94,7 +83,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
 		cargaGridDirectorios();
 	}
 	

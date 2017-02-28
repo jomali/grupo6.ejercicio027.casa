@@ -73,8 +73,8 @@ public class LayoutFicheros extends VerticalLayout {
 //			formulario.setVisible(true);
 //			padre.modificaBotonesDirectorios();
 //			cargaGridDirectorios();
-//			reiniciaTextField();
-			Notification.show("Funcionalidad no implementada.");
+//			Notification.show("Funcionalidad no implementada.");
+			this.getUI().getUI().addWindow(new VentanaConfirmacion("Confirmación"));
 		});
 
 		// BUTTON BORRAR FICHERO
