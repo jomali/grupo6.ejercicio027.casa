@@ -78,7 +78,7 @@ public class LayoutFicheros extends VerticalLayout {
 
 
 		// FORMULARIO FICHEROS
-		formulario = new FormularioFicheros(null, null);
+		formulario = new FormularioFicheros(padre, null, null);
 		formulario.setVisible(false);
 		
 		// BUTTON AGREGAR FICHERO
@@ -106,7 +106,7 @@ public class LayoutFicheros extends VerticalLayout {
 		botonActualizarFichero.setVisible(false);
 		botonActualizarFichero.setEnabled(true);
 		botonActualizarFichero.addClickListener(e -> {
-			formulario.setVisible(true);
+//			formulario.setVisible(true);
 			botonAgregarFichero.setVisible(false);
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
@@ -122,6 +122,14 @@ public class LayoutFicheros extends VerticalLayout {
 		this.setMargin(new MarginInfo(false, true, false, true));
 		this.setSpacing(true);
 		this.addComponents(titulo, gridFicheros, layoutBotonesFicheros);
+	}
+	
+	public Fichero getFicheroSeleccionado() {
+		return ficheroSeleccionado;
+	}
+
+	public void setFicheroSeleccionado(Fichero ficheroSeleccionado) {
+		this.ficheroSeleccionado = ficheroSeleccionado;
 	}
 
 	public void cargaGridFicheros(Directorio directorio) {

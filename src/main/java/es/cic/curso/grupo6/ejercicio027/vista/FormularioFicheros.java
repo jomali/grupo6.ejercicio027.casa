@@ -11,6 +11,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class FormularioFicheros extends FormLayout{
 
@@ -34,10 +35,15 @@ public class FormularioFicheros extends FormLayout{
 	
 	private VistaDocumentos padre;
 	private LayoutFicheros maestro;
+	private LayoutDirectorios hermano;
+	private ServicioGestorFicheros servicioGestorFicheros;
 	
-	public FormularioFicheros(VistaDocumentos padre, LayoutFicheros maestro) {
+	
+	
+	public FormularioFicheros(VistaDocumentos padre, LayoutFicheros maestro, LayoutDirectorios hermano) {
 		this.padre = padre;
 		this.maestro = maestro;
+		this.hermano = hermano;
 		
 		VerticalLayout verticalPrincipal= new VerticalLayout();
 		verticalPrincipal.setMargin(true);
@@ -59,17 +65,19 @@ public class FormularioFicheros extends FormLayout{
 		buttonsLayout.setSpacing(true);
 		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
-		aceptar.addClickListener(e -> {
-			//padre.cargaGrid(fichero);
-			//TODO Aqui tenemos que hacer que vaya a VistaFile
-		});
+//		aceptar.addClickListener(e -> {
+//			Fichero fichero = new Fichero(nombre.getValue(), descripcion.getValue(), Double.parseDouble(version.getValue()))));
+//			servicioGestorFicheros.agregaFichero(hermano.getDirectorioSeleccionado().getId(), fichero);
+//	
+//		});
 		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
-//			padre.cargaGridDirectorios();
-			maestro.muestraBotonAgregarFichero(true);
+			padre.cargaGridDirectorios();
+			verticalPrincipal.setVisible(false);
 			
 		});
+		
 		datosLayout.addComponents(nombre, descripcion, version);
 		buttonsLayout.addComponents(aceptar, cancelar);
 		verticalPrincipal.addComponents(datosLayout, buttonsLayout);
@@ -90,11 +98,5 @@ public class FormularioFicheros extends FormLayout{
 		}
 	}
 	
-//	public void crearFichero(String nombre, String descripcion, double version) {
-//		Fichero f = new Fichero();
-//		
-//		setFichero(f);
-//		padre.setContainerDataSource(new BeanItemContainer<>(Fichero.class, listaFicheros));
-//		servicioGestorFicheros.agregaFichero(idDirectorio, fichero);
-//	}
+
 }

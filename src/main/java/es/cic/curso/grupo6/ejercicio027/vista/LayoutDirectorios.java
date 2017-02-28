@@ -153,6 +153,14 @@ public class LayoutDirectorios extends VerticalLayout {
 		this.addComponents(titulo, gridDirectorios, layoutBotonesDirectorios);
 	}
 
+	public Directorio getDirectorioSeleccionado() {
+		return directorioSeleccionado;
+	}
+
+	public void setDirectorioSeleccionado(Directorio directorioSeleccionado) {
+		this.directorioSeleccionado = directorioSeleccionado;
+	}
+
 	public void cargaGridDirectorios() {
 		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
