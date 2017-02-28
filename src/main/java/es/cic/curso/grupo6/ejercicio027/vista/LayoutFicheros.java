@@ -70,6 +70,7 @@ public class LayoutFicheros extends VerticalLayout {
 				} else {
 					botonBorrarFichero.setVisible(false);
 					botonActualizarFichero.setVisible(false);
+					botonAgregarFichero.setVisible(true);
 				}
 		});
 
@@ -150,8 +151,8 @@ public class LayoutFicheros extends VerticalLayout {
 
 		Button botonAceptar = new Button("Aceptar");
 		botonAceptar.addClickListener(e -> {
-			servicioGestorFicheros.eliminaDirectorio(ficheroSeleccionado.getId());
-			padre.cargaGridDirectorios();
+			servicioGestorFicheros.eliminaFichero(ficheroSeleccionado.getId());
+			cargaGridFicheros(ficheroSeleccionado.getDirectorio());
 			resultado.close();
 		});
 
