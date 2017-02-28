@@ -1,6 +1,8 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.PropertyId;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
@@ -31,26 +33,30 @@ public class FormularioFicheros extends FormLayout{
 	private Fichero fichero;
 	
 	private VistaDocumentos padre;
+	private LayoutFicheros maestro;
 	
-	public FormularioFicheros(VistaDocumentos padre) {
+	public FormularioFicheros(VistaDocumentos padre, LayoutFicheros maestro) {
 		this.padre = padre;
+		this.maestro = maestro;
 		
 		VerticalLayout verticalPrincipal= new VerticalLayout();
-
-		HorizontalLayout nombreLayout = new HorizontalLayout();
-		nombre = new TextField("Nombre del Archivo: ");
-		nombre.setInputPrompt("Nombre del Archivo:");
-		nombreLayout.addComponent(nombre);
-		HorizontalLayout descripcionLayout = new HorizontalLayout();
-		descripcion = new TextField("Descripión: ");
-		descripcion.setInputPrompt("Descripión");
-		descripcionLayout.addComponent(descripcion);
-		HorizontalLayout versionLayout = new HorizontalLayout();
+		verticalPrincipal.setMargin(true);
+		verticalPrincipal.setSpacing(true);
+		
+		HorizontalLayout datosLayout = new HorizontalLayout();
+//		datosLayout.setMargin(true);
+		datosLayout.setSpacing(true);
+		nombre = new TextField("Nombre: ");
+		nombre.setInputPrompt("Nombre:");
+		descripcion = new TextField("Descripción: ");
+		descripcion.setInputPrompt("Descripción");
 		version = new TextField("Versión: ");
 		version.setInputPrompt("Versión");
-		versionLayout.addComponent(version);
+
 
 		HorizontalLayout buttonsLayout = new HorizontalLayout();
+//		datosLayout.setMargin(true);
+		buttonsLayout.setSpacing(true);
 		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
 		aceptar.addClickListener(e -> {
@@ -60,15 +66,36 @@ public class FormularioFicheros extends FormLayout{
 		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
-			//padre.borrarGrid(fichero);
-			//TODO Aqui tenemos que hacer que vaya a VisaHome
+//			padre.cargaGridDirectorios();
+			verticalPrincipal.setVisible(false);
+//			maestro.activaBotonAgregarFichero(true);
+			
 		});
-		
+		datosLayout.addComponents(nombre, descripcion, version);
 		buttonsLayout.addComponents(aceptar, cancelar);
-		
+		verticalPrincipal.addComponents(datosLayout, buttonsLayout);
 		addComponents(verticalPrincipal);
-		
-		
-		//setFichero(null);
+
+		setFichero(null);
 	}
+	
+	public void setFichero(Fichero fichero) {
+		this.setVisible(fichero != null);
+		this.fichero = fichero;
+
+		if (fichero != null) {
+			BeanFieldGroup.bindFieldsUnbuffered(fichero, this);
+		} else {
+			BeanFieldGroup.bindFieldsUnbuffered(new Fichero(), this);
+
+		}
+	}
+	
+//	public void crearFichero(String nombre, String descripcion, double version) {
+//		Fichero f = new Fichero();
+//		
+//		setFichero(f);
+//		padre.setContainerDataSource(new BeanItemContainer<>(Fichero.class, listaFicheros));
+//		servicioGestorFicheros.agregaFichero(idDirectorio, fichero);
+//	}
 }

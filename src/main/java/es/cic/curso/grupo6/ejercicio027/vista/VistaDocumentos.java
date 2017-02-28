@@ -75,6 +75,13 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	
 	public void cargaGridFicheros(Directorio directorio){
 		layoutFicheros.cargaGridFicheros(directorio);
+
 	}
+
+	
+	public void cargaGridDirectorios(){
+		layoutDirectorios.cargaGridDirectorios();
+	}
+
 
 }
