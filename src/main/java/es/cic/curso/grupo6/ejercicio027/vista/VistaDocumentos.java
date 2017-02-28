@@ -68,17 +68,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutimagen.addComponents(imagen);
 		addComponent(layoutimagen);
 
-		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
-		layoutBotonesDirectorios.setMargin(false);
-		layoutBotonesDirectorios.setSpacing(true);
-		layoutBotonesDirectorios.addComponents(textFieldRuta, botonAgregarD, botonActualizarD, botonBorrarD);
-
-		cargaGridDirectorios();
-
-		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
-		layoutBotonesFicheros.setMargin(false);
-		layoutBotonesFicheros.setSpacing(true);
-		layoutBotonesFicheros.addComponents(botonAgregarF, botonActualizarF, botonBorrarF);
+		
 
 		// LAYOUT PRINCIPAL
 
@@ -91,12 +81,18 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		VerticalLayout layoutDirectorios = new VerticalLayout();
 		layoutDirectorios.setMargin(false);
 		layoutDirectorios.setSpacing(true);
-		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
+		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
+		layoutBotonesDirectorios.setMargin(false);
+		layoutBotonesDirectorios.setSpacing(true);
+
 
 		VerticalLayout layoutFicheros = new VerticalLayout();
 		layoutFicheros.setMargin(false);
 		layoutFicheros.setSpacing(true);
-		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
+		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
+		layoutBotonesFicheros.setMargin(false);
+		layoutBotonesFicheros.setSpacing(true);
+
 		
 		// GRID de DIRECTORIOS
 
@@ -240,8 +236,11 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonActualizarF.setVisible(false);
 		botonActualizarF.setEnabled(true);
 
-		
-
+		layoutBotonesDirectorios.addComponents(textFieldRuta, botonAgregarD, botonActualizarD, botonBorrarD);
+		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
+		cargaGridDirectorios();
+		layoutBotonesFicheros.addComponents(botonAgregarF, botonActualizarF, botonBorrarF);
+		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
 		principalLayout.addComponents(layoutDirectorios, layoutFicheros,formulario);
 		addComponents(layoutimagen, principalLayout);
 	}
