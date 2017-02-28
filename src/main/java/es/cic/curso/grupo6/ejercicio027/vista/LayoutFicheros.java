@@ -77,7 +77,7 @@ public class LayoutFicheros extends VerticalLayout {
 		
 		// BUTTON AGREGAR FICHERO
 		botonAgregarFichero = new Button("Añadir fichero");
-		botonAgregarFichero.setVisible(true);
+		botonAgregarFichero.setVisible(false);
 		botonAgregarFichero.setEnabled(true);
 		botonAgregarFichero.addClickListener(e -> {
 			formulario.setVisible(true);
