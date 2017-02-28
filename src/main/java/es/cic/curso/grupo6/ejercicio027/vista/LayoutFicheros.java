@@ -70,10 +70,13 @@ public class LayoutFicheros extends VerticalLayout {
 		botonAgregarFichero.setVisible(false);
 		botonAgregarFichero.setEnabled(true);
 		botonAgregarFichero.addClickListener(e -> {
-//			formulario.setVisible(true);
-//			padre.modificaBotonesDirectorios();
-//			cargaGridDirectorios();
-//			Notification.show("Funcionalidad no implementada.");
+			formulario.setVisible(true);
+			botonAgregarFichero.setVisible(false);
+			botonBorrarFichero.setVisible(false);
+			botonActualizarFichero.setVisible(false);
+			padre.modificaBotonesDirectorios();
+			padre.cargaGridDirectorios();
+			Notification.show("Funcionalidad no implementada.");
 			this.getUI().getUI().addWindow(new VentanaConfirmacion("Confirmación"));
 		});
 
