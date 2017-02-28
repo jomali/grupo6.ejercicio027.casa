@@ -13,13 +13,15 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 
 public class LayoutFicheros extends VerticalLayout {
 	private static final long serialVersionUID = -7013768321773232310L;
-	
+
+	private VistaDocumentos padre;
 	private Grid gridFicheros;
 	private Button botonAgregarFichero, botonBorrarFichero, botonActualizarFichero;
 	private FormularioFicheros formulario;
 
 
-	public LayoutFicheros() {
+	public LayoutFicheros(VistaDocumentos padre) {
+		this.padre = padre;
 
 		// GRID FICHEROS
 		gridFicheros = new Grid();

@@ -14,12 +14,14 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 public class LayoutDirectorios extends VerticalLayout {
 	private static final long serialVersionUID = -514197825792558255L;
 	
+	private VistaDocumentos padre;
 	private Grid gridDirectorios;
 	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 
 
-	public LayoutDirectorios() {
-
+	public LayoutDirectorios(VistaDocumentos padre) {
+		this.padre = padre;
+		
 		// GRID DIRECTORIOS
 		gridDirectorios = new Grid();
 		gridDirectorios.setColumns("ruta");

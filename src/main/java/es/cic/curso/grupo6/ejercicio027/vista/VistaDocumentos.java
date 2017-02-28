@@ -36,16 +36,12 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private ServicioGestorFicheros servicioGestorFicheros;
 
 	// Componentes gráficos:
-	private Grid gridDirectorios, gridFicheros;
 
 	@PropertyId("ruta")
 	protected TextField textFieldRutaDirectorio;
 
-	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
-	private Button botonAgregarFichero, botonBorrarFichero, botonActualizarFichero;
 	private Fichero eliminaFichero;
-	private FormularioFicheros formulario;
 
 	public VistaDocumentos() {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
@@ -54,10 +50,10 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 		
 		// layout. DIRECTORIOS
-		VerticalLayout layoutDirectorios = new ComponenteDirectorios();
+		VerticalLayout layoutDirectorios = new LayoutDirectorios(this);
 
 		// layout. FICHEROS
-		VerticalLayout layoutFicheros = new ComponenteFicheros();
+		VerticalLayout layoutFicheros = new LayoutFicheros(this);
 
 		// layout. PRINCIPAL
 		HorizontalLayout principalLayout = new HorizontalLayout();
