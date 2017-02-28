@@ -50,19 +50,30 @@ public class LayoutDirectorios extends VerticalLayout {
 			directorioSeleccionado = null;
 			if (!e.getSelected().isEmpty()) {
 				directorioSeleccionado = (Directorio) e.getSelected().iterator().next();
+				textFieldRutaDirectorio.setValue(directorioSeleccionado.getRuta());
 				botonAgregarDirectorio.setVisible(false);
 				botonRenombrarDirectorio.setVisible(true);
 				botonBorrarDirectorio.setVisible(true);
 				padre.muestraBotonAgregarFichero(true);
+				
+				boolean hoja = servicioGestorFicheros.esHoja(directorioSeleccionado.getId());
+				textFieldRutaDirectorio.setEnabled(hoja);
+				botonRenombrarDirectorio.setEnabled(hoja);
 			} else {
 				botonAgregarDirectorio.setVisible(true);
 				botonRenombrarDirectorio.setVisible(false);
 				botonBorrarDirectorio.setVisible(false);
 				padre.muestraBotonAgregarFichero(false);
 				textFieldRutaDirectorio.clear();
+				textFieldRutaDirectorio.setEnabled(true);
+				botonRenombrarDirectorio.setEnabled(true);
 			}
 			padre.cargaGridFicheros(directorioSeleccionado);
 		});
+
+		// LABEL RUTA DIRECTORIO
+		Label labelRutaDirectorio = new Label("<strong>Dir.:</strong>");
+		labelRutaDirectorio.setContentMode(ContentMode.HTML);
 
 		// TEXTFIELD RUTA DIRECTORIO
 		textFieldRutaDirectorio = new TextField();
@@ -79,17 +90,14 @@ public class LayoutDirectorios extends VerticalLayout {
 			servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
 			textFieldRutaDirectorio.clear();
 			cargaGridDirectorios();
-			// botonAgregarDirectorio.setVisible(true);
-			// botonRenombrarDirectorio.setVisible(false);
-			// botonBorrarDirectorio.setVisible(false);
-
 		});
 
 		// BUTTON BORRAR DIRECTORIO
 		botonBorrarDirectorio = new Button("Borrar");
 		botonBorrarDirectorio.setIcon(FontAwesome.ERASER);
 		botonBorrarDirectorio.setVisible(false);
-		botonBorrarDirectorio.addClickListener(e -> this.getUI().getUI().addWindow(creaVentanaConfirmacion("")) );
+		botonBorrarDirectorio.addClickListener(
+				e -> this.getUI().getUI().addWindow(creaVentanaConfirmacionBorrado(directorioSeleccionado.getRuta())));
 
 		// BUTTON RENOMBRAR DIRECTORIO
 		botonRenombrarDirectorio = new Button("Renombrar");
@@ -97,18 +105,12 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonRenombrarDirectorio.setVisible(false);
 		botonRenombrarDirectorio.setEnabled(true);
 		botonRenombrarDirectorio.addClickListener(e -> {
-			try {
-				if (textFieldRutaDirectorio.getValue() != null) {
-					directorioSeleccionado.setRuta(textFieldRutaDirectorio.getValue());
-					servicioGestorFicheros.modificaDirectorio(directorioSeleccionado.getId(), directorioSeleccionado);
-					textFieldRutaDirectorio.clear();
-					cargaGridDirectorios();
-					Notification.show("Directorio modificado.");
-				} else {
-					// TODO - Validar campo
-				}
-			} catch (Exception ex) {
-				// TODO - Gestionar errores
+			if (textFieldRutaDirectorio.getValue() != "") {
+				directorioSeleccionado.setRuta(textFieldRutaDirectorio.getValue());
+				servicioGestorFicheros.modificaDirectorio(directorioSeleccionado.getId(), directorioSeleccionado);
+				textFieldRutaDirectorio.clear();
+				cargaGridDirectorios();
+				Notification.show("Directorio modificado.");
 			}
 		});
 
@@ -116,14 +118,13 @@ public class LayoutDirectorios extends VerticalLayout {
 		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
 		layoutBotonesDirectorios.setMargin(false);
 		layoutBotonesDirectorios.setSpacing(true);
-		layoutBotonesDirectorios.addComponents(textFieldRutaDirectorio, botonAgregarDirectorio,
+		layoutBotonesDirectorios.addComponents(labelRutaDirectorio, textFieldRutaDirectorio, botonAgregarDirectorio,
 				botonRenombrarDirectorio, botonBorrarDirectorio);
 
 		this.setSizeFull();
 		this.setMargin(false);
 		this.setSpacing(true);
 		this.addComponents(gridDirectorios, layoutBotonesDirectorios);
-
 	}
 
 	public void cargaGridDirectorios() {
@@ -131,18 +132,18 @@ public class LayoutDirectorios extends VerticalLayout {
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
 	}
 
-	private Window creaVentanaConfirmacion(String titulo) {
-		Window resultado = new Window(titulo);
-		resultado.setWidth(300.0F, Unit.PIXELS);
+	private Window creaVentanaConfirmacionBorrado(String directorioRuta) {
+		Window resultado = new Window();
+		resultado.setWidth(350.0F, Unit.PIXELS);
 		resultado.setModal(true);
 		resultado.setClosable(false);
 		resultado.setResizable(false);
 		resultado.setDraggable(false);
 
-		Label label = new Label(
-				"¿Está seguro de que desea borrar este directorio junto con <strong>todos sus ficheros</strong>?");
+		Label label = new Label("¿Está seguro de que desea borrar el directorio: <strong>\"" + directorioRuta
+				+ "\"</strong>, junto con todos sus ficheros?");
 		label.setContentMode(ContentMode.HTML);
-		
+
 		Button botonAceptar = new Button("Aceptar");
 		botonAceptar.addClickListener(e -> {
 			servicioGestorFicheros.eliminaDirectorio(directorioSeleccionado.getId());
@@ -150,16 +151,16 @@ public class LayoutDirectorios extends VerticalLayout {
 			cargaGridDirectorios();
 			resultado.close();
 		});
-		
+
 		Button botonCancelar = new Button("Cancelar");
-		botonCancelar.addClickListener(e -> resultado.close() );
-		
+		botonCancelar.addClickListener(e -> resultado.close());
+
 		HorizontalLayout layoutBotones = new HorizontalLayout();
 		layoutBotones.setMargin(true);
 		layoutBotones.setSpacing(true);
 		layoutBotones.setWidth(100.0F, Unit.PERCENTAGE);
 		layoutBotones.addComponents(botonAceptar, botonCancelar);
-		
+
 		final FormLayout content = new FormLayout();
 		content.setMargin(true);
 		content.addComponents(label, layoutBotones);

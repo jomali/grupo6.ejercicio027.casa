@@ -73,6 +73,20 @@ public interface ServicioGestorFicheros {
 	Fichero obtenFichero(Long idFichero);
 
 	/**
+	 * Indica si el directorio que se corresponda con el identificador pasado
+	 * como parámetro tiene o no ficheros colgando de él.
+	 * 
+	 * @param idDirectorio
+	 *            Identificador del directorio dado
+	 * @return Verdadero si no cuelgan ficheros del directorio; falso en caso
+	 *         contrario
+	 * @throws IllegalArgumentException
+	 *             Si el identificador dado no se corresponde con ningún
+	 *             directorio registrado en el sistema
+	 */
+	boolean esHoja(Long idDirectorio);
+
+	/**
 	 * Reemplaza en el sistema el directorio que se corresponde con el
 	 * identificador pasado como parámetro por el nuevo directorio indicado.
 	 * 

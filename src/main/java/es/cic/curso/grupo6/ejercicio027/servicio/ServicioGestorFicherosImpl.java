@@ -95,6 +95,11 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	}
 
 	@Override
+	public boolean esHoja(Long idDirectorio) {
+		return listaFicherosPorDirectorio(idDirectorio).isEmpty();
+	}
+
+	@Override
 	public Directorio modificaDirectorio(Long idDirectorio, Directorio directorio) {
 		// TODO - Modificación física del directorio
 		Directorio directorioOriginal = obtenDirectorio(idDirectorio);
