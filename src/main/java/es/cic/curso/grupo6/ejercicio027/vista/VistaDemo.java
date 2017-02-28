@@ -25,10 +25,10 @@ public class VistaDemo extends VerticalLayout implements View {
 	private static final long serialVersionUID = -8229167069516384540L;
 
 	/** Número de directorios que se crean para la demo. */
-	public static final int NUM_DIRECTORIOS = 4;
+	public static final int NUM_DIRECTORIOS = 5;
 
 	/** Número de ficheros que se crean por directorio para la demo. */
-	public static final int NUM_FICHEROS = 8;
+	public static final int NUM_FICHEROS_INICIAL = 5;
 
 	/** Permite navegar entre las vistas de la aplicación. */
 	private Navigator navegador;
@@ -46,11 +46,11 @@ public class VistaDemo extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 		if (servicioGestorFicheros.listaDirectorios().isEmpty()) {
 			limpiaDirectorio(ServicioGestorFicheros.DIRECTORIO_BASE);
-			for (int i = 0; i < NUM_DIRECTORIOS; i++) {
+			for (int i = 1; i <= NUM_DIRECTORIOS; i++) {
 				Directorio directorio = new Directorio();
 				directorio.setRuta("directorio" + i);
 				servicioGestorFicheros.agregaDirectorio(directorio);
-				for (int j = 0; j < NUM_FICHEROS; j++) {
+				for (int j = 1; j <= (NUM_FICHEROS_INICIAL * (i +1)); j++) {
 					Fichero fichero = new Fichero();
 					fichero.setNombre("fichero" + j);
 					fichero.setDescripcion("Fichero de prueba");

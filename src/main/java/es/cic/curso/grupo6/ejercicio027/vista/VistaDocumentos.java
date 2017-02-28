@@ -30,8 +30,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private LayoutFicheros layoutFicheros;
 
 	public VistaDocumentos() {
-		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);	
-		
+		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
+
 		// layout. ENCABEZADO
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 		// layout. DIRECTORIOS
@@ -56,9 +56,9 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	private HorizontalLayout inicializaLayoutEncabezado() {
 		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
+		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/cic_grupo6.png"));
 		Image imagen = new Image(null, resource);
-		imagen.setHeight(10.0F, Unit.PERCENTAGE);
+		imagen.setHeight(100.0F, Unit.PIXELS);
 
 		HorizontalLayout layoutEncabezado = new HorizontalLayout();
 		layoutEncabezado.setMargin(new MarginInfo(true, true, true, true));
@@ -74,20 +74,10 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutDirectorios.cargaGridDirectorios();
 	}
 	
-	public void muestraBotonAgregarFichero(boolean activado) {
-		layoutFicheros.muestraBotonAgregarFichero(activado);
-		layoutFicheros.activaBotonAgregarFichero(activado);
-	}
-	
-	public void cargaGridFicheros(Directorio directorio){
+	public void activaGridFicheros(Directorio directorio) {
+		layoutFicheros.modificaDirectorioActual(directorio);
+		layoutFicheros.muestraBotonAgregarFichero(directorio == null ? false : true);
 		layoutFicheros.cargaGridFicheros(directorio);
-
 	}
-
-	
-	public void cargaGridDirectorios(){
-		layoutDirectorios.cargaGridDirectorios();
-	}
-
 
 }

@@ -73,7 +73,6 @@ public class FormularioFicheros extends FormLayout{
 		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
-			padre.cargaGridDirectorios();
 			verticalPrincipal.setVisible(false);
 			
 		});
