@@ -10,17 +10,20 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Grid.SelectionMode;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class LayoutDirectorios extends VerticalLayout {
 	private static final long serialVersionUID = -514197825792558255L;
 	
 	private VistaDocumentos padre;
+	private ServicioGestorFicheros servicioGestorFicheros;
 	private Grid gridDirectorios;
 	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 
 
-	public LayoutDirectorios(VistaDocumentos padre) {
+	public LayoutDirectorios(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.padre = padre;
+		this.servicioGestorFicheros = servicioGestorFicheros;
 		
 		// GRID DIRECTORIOS
 		gridDirectorios = new Grid();

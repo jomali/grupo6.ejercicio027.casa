@@ -1,29 +1,47 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Grid.SelectionMode;
 
+import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
+import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class LayoutFicheros extends VerticalLayout {
 	private static final long serialVersionUID = -7013768321773232310L;
 
+	/** Referencia a la vista padre de la que cuelga el layout. */
 	private VistaDocumentos padre;
+
+	/** Lógica de negocio con acceso a BB.DD. */
+	private ServicioGestorFicheros servicioGestorFicheros;
+	
+	/** Referencia al fichero seleccionado en el grid. */
+	private Fichero ficheroSeleccionado;
+	
+	/** Grid de ficheros. */
 	private Grid gridFicheros;
+	
+	/** Acciones sobre los ficheros. */
 	private Button botonAgregarFichero, botonBorrarFichero, botonActualizarFichero;
+	
+	/** Formulario para editar los campos de un fichero. */
 	private FormularioFicheros formulario;
-	private Fichero eliminaFichero;
 
-
-
-	public LayoutFicheros(VistaDocumentos padre) {
+	public LayoutFicheros(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.padre = padre;
+		this.servicioGestorFicheros = servicioGestorFicheros;
 
 		// GRID FICHEROS
 		gridFicheros = new Grid();
@@ -36,7 +54,7 @@ public class LayoutFicheros extends VerticalLayout {
 			public void select(SelectionEvent event) {
 				Fichero fchero = (Fichero) gridFicheros.getSelectedRow();
 				if (fchero != null) {
-					eliminaFichero = fchero;
+					ficheroSeleccionado = fchero;
 					botonAgregarFichero.setVisible(false);
 					botonBorrarFichero.setVisible(true);
 					botonActualizarFichero.setVisible(true);
@@ -52,12 +70,11 @@ public class LayoutFicheros extends VerticalLayout {
 		botonAgregarFichero.setVisible(false);
 		botonAgregarFichero.setEnabled(true);
 		botonAgregarFichero.addClickListener(e -> {
-			formulario.setVisible(true);
-			botonAgregarDirectorio.setVisible(true);
-			botonRenombrarDirectorio.setVisible(false);
-			botonBorrarDirectorio.setVisible(false);
-			cargaGridDirectorios();
-			reiniciaTextField();
+//			formulario.setVisible(true);
+//			padre.modificaBotonesDirectorios();
+//			cargaGridDirectorios();
+//			reiniciaTextField();
+			Notification.show("Funcionalidad no implementada.");
 		});
 
 		// BUTTON BORRAR FICHERO
@@ -66,8 +83,9 @@ public class LayoutFicheros extends VerticalLayout {
 		botonBorrarFichero.setEnabled(true);
 		botonBorrarFichero.setVisible(false);
 		botonBorrarFichero.addClickListener(e -> {
-			borraFichero(eliminaFichero);
-			cargaGridFicheros(directorioSeleccionado);
+			servicioGestorFicheros.eliminaFichero(ficheroSeleccionado.getId());
+			ficheroSeleccionado = null;
+			cargaGridFicheros(null);
 		});
 
 		// BUTTON ACTUALIZAR FICHERO
@@ -89,6 +107,12 @@ public class LayoutFicheros extends VerticalLayout {
 		this.setSpacing(false);
 		this.setSizeFull();
 		this.addComponents(gridFicheros, layoutBotonesFicheros, formulario);
+	}
+
+	public void cargaGridFicheros(Directorio directorio) {
+		Collection<Fichero> ficheros = (directorio == null) ? new ArrayList<>()
+				: servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
+		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
 	
 }

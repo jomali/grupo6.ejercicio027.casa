@@ -35,27 +35,23 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
 
-	// Componentes gráficos:
+	/** Controles para la manipulación de los directorios del sistema. */
 	private LayoutDirectorios layoutDirectorios;
+
+	/** Controles para la manipulación de los ficheros del sistema. */
 	private LayoutFicheros layoutFicheros;
-
-	@PropertyId("ruta")
-	protected TextField textFieldRutaDirectorio;
-
-	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
-	private Fichero eliminaFichero;
 
 	public VistaDocumentos() {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
 
 		// layout. ENCABEZADO
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
-		
+
 		// layout. DIRECTORIOS
-		layoutDirectorios = new LayoutDirectorios(this);
+		layoutDirectorios = new LayoutDirectorios(this, servicioGestorFicheros);
 
 		// layout. FICHEROS
-		layoutFicheros = new LayoutFicheros(this);
+		layoutFicheros = new LayoutFicheros(this, servicioGestorFicheros);
 
 		// layout. PRINCIPAL
 		HorizontalLayout principalLayout = new HorizontalLayout();
@@ -63,7 +59,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		principalLayout.setSpacing(true);
 		principalLayout.setSizeFull();
 		principalLayout.addComponents(layoutDirectorios, layoutFicheros);
-		
+
 		addComponents(layoutEncabezado, principalLayout);
 	}
 
@@ -87,31 +83,22 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		
 		cargaGridDirectorios();
 	}
 	
-	public void modificaBotonesDirectorios() {
-		
+	
+	
+	
 
-		botonAgregarDirectorio.setVisible(true);
-		botonRenombrarDirectorio.setVisible(false);
-		botonBorrarDirectorio.setVisible(false);
+	public void modificaBotonesDirectorios() {
+		layoutDirectorios.modificaBotones();
 	}
 
 	private List<Directorio> cargarLista() {
 		return servicioGestorFicheros.listaDirectorios();
 	}
 
-	public void borraFichero(Fichero fichero) {
-		servicioGestorFicheros.eliminaFichero(fichero.getId());
-	}
-
-	public void cargaGridFicheros(Directorio directorio) {
-		directorioSeleccionado = directorio;
-		Collection<Fichero> ficheros = (directorio == null) ? new ArrayList<>()
-				: servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
-		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
-	}
 
 	public void actualizarDirectorio(long directorioId, Directorio directorio) {
 		servicioGestorFicheros.modificaDirectorio(directorioId, directorio);
