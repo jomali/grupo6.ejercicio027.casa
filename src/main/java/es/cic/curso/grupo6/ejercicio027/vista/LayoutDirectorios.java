@@ -133,7 +133,7 @@ public class LayoutDirectorios extends VerticalLayout {
 
 	private Window creaVentanaConfirmacion(String titulo) {
 		Window resultado = new Window(titulo);
-		resultado.setWidth(400.0F, Unit.PIXELS);
+		resultado.setWidth(300.0F, Unit.PIXELS);
 		resultado.setModal(true);
 		resultado.setClosable(false);
 		resultado.setResizable(false);
