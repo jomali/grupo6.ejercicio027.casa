@@ -16,6 +16,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
+import es.cic.curso.grupo6.ejercicio027.ExcepcionES;
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
@@ -83,7 +84,7 @@ public class VistaDemo extends VerticalLayout implements View {
 			System.out.println("create dir: " + rootPath.toString());
 			Files.createDirectory(rootPath);
 		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
+			throw new ExcepcionES(ioe);
 		}
 	}
 
