@@ -11,7 +11,7 @@ import com.vaadin.ui.Grid.SelectionMode;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 
-public class ComponenteFicheros extends VerticalLayout {
+public class LayoutFicheros extends VerticalLayout {
 	private static final long serialVersionUID = -7013768321773232310L;
 	
 	private Grid gridFicheros;
@@ -19,7 +19,7 @@ public class ComponenteFicheros extends VerticalLayout {
 	private FormularioFicheros formulario;
 
 
-	public ComponenteFicheros() {
+	public LayoutFicheros() {
 
 		// GRID FICHEROS
 		gridFicheros = new Grid();

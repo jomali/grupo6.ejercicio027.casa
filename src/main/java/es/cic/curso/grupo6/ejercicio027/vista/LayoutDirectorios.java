@@ -11,14 +11,14 @@ import com.vaadin.ui.Grid.SelectionMode;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 
-public class ComponenteDirectorios extends VerticalLayout {
+public class LayoutDirectorios extends VerticalLayout {
 	private static final long serialVersionUID = -514197825792558255L;
 	
 	private Grid gridDirectorios;
 	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 
 
-	public ComponenteDirectorios() {
+	public LayoutDirectorios() {
 
 		// GRID DIRECTORIOS
 		gridDirectorios = new Grid();
