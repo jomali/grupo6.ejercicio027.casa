@@ -2,9 +2,13 @@ package es.cic.curso.grupo6.ejercicio027.servicio;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
+import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioDirectorio;
 import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioFichero;
 
 /**
@@ -29,29 +34,55 @@ import es.cic.curso.grupo6.ejercicio027.repositorio.RepositorioFichero;
 @Transactional
 public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 
+	private static final String ERROR_ID_DIRECTORIO = "No existe ningún directorio en BB.DD. con ese ID";
+	private static final String ERROR_RUTA_DIRECTORIO = "Ya existe un directorio con esa ruta";
+	private static final String ERROR_ESTADO_DIRECTORIO = "Existen ficheros colgando del directorio";
 	private static final String ERROR_ID_FICHERO = "No existe ningún fichero en BB.DD. con ese ID";
 	private static final String ERROR_RUTA_FICHERO = "Ya existe un fichero con ese nombre";
 
 	@Autowired
-	private ServicioGestorDirectorios servicioGestorDirectorios;
+	private RepositorioDirectorio repositorioDirectorio;
 
 	@Autowired
 	private RepositorioFichero repositorioFichero;
 
 	@Override
-	public void agregaFichero(Long idDirectorio, Fichero fichero) {
-		Directorio directorio = servicioGestorDirectorios.obtenDirectorio(idDirectorio);
-		Path ruta = Paths
-				.get(ServicioGestorDirectorios.DIRECTORIO_BASE + directorio.getRuta() + "/" + fichero.getNombre());
+	public void agregaDirectorio(Directorio directorio) {
+		Path ruta = Paths.get(DIRECTORIO_BASE + directorio.getRuta());
 		try {
 			Files.createDirectory(ruta);
+			repositorioDirectorio.create(directorio);
+		} catch (FileAlreadyExistsException faee) {
+			throw new IllegalArgumentException(ERROR_RUTA_DIRECTORIO);
+		} catch (IOException ioe) {
+			// Error en la creación del directorio nuevo
+			throw new RuntimeException(ioe);
+		}
+	}
+
+	@Override
+	public void agregaFichero(Long idDirectorio, Fichero fichero) {
+		Directorio directorio = obtenDirectorio(idDirectorio);
+		Path ruta = Paths.get(DIRECTORIO_BASE + directorio.getRuta() + "/" + fichero.getNombre());
+		try {
+			Files.createFile(ruta);
 			fichero.setDirectorio(directorio);
 			repositorioFichero.create(fichero);
 		} catch (FileAlreadyExistsException faee) {
 			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
 		} catch (IOException ioe) {
+			// Error en la creación del fichero nuevo
 			throw new RuntimeException(ioe);
 		}
+	}
+
+	@Override
+	public Directorio obtenDirectorio(Long idDirectorio) {
+		Directorio directorio = repositorioDirectorio.read(idDirectorio);
+		if (directorio == null) {
+			throw new IllegalArgumentException(ERROR_ID_DIRECTORIO + ": " + idDirectorio);
+		}
+		return directorio;
 	}
 
 	@Override
@@ -64,26 +95,89 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	}
 
 	@Override
+	public Directorio modificaDirectorio(Long idDirectorio, Directorio directorio) {
+		Directorio directorioOriginal = obtenDirectorio(idDirectorio);
+		if (!listaFicherosPorDirectorio(idDirectorio).isEmpty()) {
+			throw new IllegalStateException(ERROR_ESTADO_DIRECTORIO);
+		}
+		directorio.setId(idDirectorio);
+		repositorioDirectorio.update(directorio);
+		return directorioOriginal;
+	}
+
+	@Override
 	public Fichero modificaFichero(Long idFichero, Fichero fichero) {
 		Fichero original = obtenFichero(idFichero);
-		fichero.setId(idFichero);
-		repositorioFichero.update(fichero);
-		return original;
+		Path rutaOriginal = Paths
+				.get(DIRECTORIO_BASE + original.getDirectorio().getRuta() + "/" + original.getNombre());
+		Path rutaNueva = Paths.get(DIRECTORIO_BASE + fichero.getDirectorio().getRuta() + "/" + fichero.getNombre());
+		if (Files.exists(rutaNueva)) {
+			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
+		}
+		try {
+			Files.move(rutaOriginal, rutaNueva, StandardCopyOption.REPLACE_EXISTING);
+			fichero.setId(idFichero);
+			repositorioFichero.update(fichero);
+			return original;
+		} catch (IOException ioe) {
+			// Error al mover el fichero
+			throw new RuntimeException(ioe);
+		}
+	}
+
+	@Override
+	public Directorio eliminaDirectorio(Long idDirectorio) {
+		Directorio directorio = obtenDirectorio(idDirectorio);
+		Path ruta = Paths.get(DIRECTORIO_BASE + directorio.getRuta());
+		try {
+			Files.walkFileTree(ruta, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					System.out.println("delete file: " + file.toString());
+					Files.delete(file);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					Files.delete(dir);
+					System.out.println("delete dir: " + dir.toString());
+					return FileVisitResult.CONTINUE;
+				}
+			});
+			repositorioFichero.deleteByDirectory(idDirectorio);
+			repositorioDirectorio.delete(directorio);
+			return directorio;
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
 	}
 
 	@Override
 	public Fichero eliminaFichero(Long idFichero) {
 		Fichero fichero = obtenFichero(idFichero);
-		repositorioFichero.delete(fichero);
-		return fichero;
+		Path ruta = Paths.get(DIRECTORIO_BASE + fichero.getDirectorio().getRuta() + "/" + fichero.getNombre());
+		try {
+			Files.delete(ruta);
+			repositorioFichero.delete(fichero);
+			return fichero;
+		} catch (IOException ioe) {
+			// Error al eliminar el fichero
+			throw new RuntimeException(ioe);
+		}
 	}
 
 	@Override
 	public List<Fichero> eliminaFicherosPorDirectorio(Long idDirectorio) {
-		// Comprueba que el directorio esté registrado en el sistema
-		servicioGestorDirectorios.obtenDirectorio(idDirectorio);
-		// Elimina y retorna los ficheros que cuelgan del directorio dado
-		return repositorioFichero.deleteByDirectory(idDirectorio);
+		List<Fichero> ficheros = listaFicherosPorDirectorio(idDirectorio);
+		Directorio directorio = eliminaDirectorio(idDirectorio);
+		agregaDirectorio(directorio);
+		return ficheros;
+	}
+	
+	@Override
+	public List<Directorio> listaDirectorios() {
+		return repositorioDirectorio.list();
 	}
 
 	@Override
@@ -94,7 +188,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	@Override
 	public List<Fichero> listaFicherosPorDirectorio(Long idDirectorio) {
 		// Comprueba que el directorio esté registrado en el sistema
-		servicioGestorDirectorios.obtenDirectorio(idDirectorio);
+		obtenDirectorio(idDirectorio);
 		// Retorna la lista de ficheros para el directorio dado
 		return repositorioFichero.listByDirectory(idDirectorio);
 	}

@@ -63,6 +63,7 @@ public class FormularioFicheros extends FormLayout{
 			//padre.borrarGrid(fichero);
 			//TODO Aqui tenemos que hacer que vaya a VisaHome
 		});
+		
 		buttonsLayout.addComponents(aceptar, cancelar);
 		
 		addComponents(verticalPrincipal);
