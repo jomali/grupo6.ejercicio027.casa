@@ -22,8 +22,6 @@ import com.vaadin.ui.UI;
 public class MyUI extends UI {
 	private static final long serialVersionUID = 1343484792150289272L;
 
-	public static final String VISTA_DIRECTORIOS = "directorios";
-	public static final String VISTA_FICHEROS = "ficheros";
 	public static final String VISTA_DEMO = "demo";
 
 	/** Gestiona una colección de implementaciones de <code>View</code>. */
