@@ -7,9 +7,11 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Grid.SelectionMode;
@@ -43,12 +45,14 @@ public class LayoutFicheros extends VerticalLayout {
 		this.padre = padre;
 		this.servicioGestorFicheros = servicioGestorFicheros;
 
+		Label titulo = new Label("Ficheros:");
+		titulo.setContentMode(ContentMode.HTML);
+		
 		// GRID FICHEROS
 		gridFicheros = new Grid();
 		gridFicheros.setColumns("nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
-		gridFicheros.setCaption("Lista Ficheros:");
 		gridFicheros.addSelectionListener(new SelectionListener() {
 			@Override
 			public void select(SelectionEvent event) {
@@ -105,9 +109,9 @@ public class LayoutFicheros extends VerticalLayout {
 		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero, formulario);
 
 		this.setSizeFull();
-		this.setMargin(false);
+		this.setMargin(true);
 		this.setSpacing(true);
-		this.addComponents(gridFicheros, layoutBotonesFicheros);
+		this.addComponents(titulo, gridFicheros, layoutBotonesFicheros);
 	}
 
 	public void cargaGridFicheros(Directorio directorio) {

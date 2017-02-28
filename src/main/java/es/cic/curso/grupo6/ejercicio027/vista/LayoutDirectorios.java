@@ -40,12 +40,14 @@ public class LayoutDirectorios extends VerticalLayout {
 	public LayoutDirectorios(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.servicioGestorFicheros = servicioGestorFicheros;
 
+		Label titulo = new Label("Directorios:");
+		titulo.setContentMode(ContentMode.HTML);
+		
 		// GRID DIRECTORIOS
 		gridDirectorios = new Grid();
 		gridDirectorios.setColumns("ruta");
 		gridDirectorios.setSizeFull();
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
-		gridDirectorios.setCaption("Lista Directorios:");
 		gridDirectorios.addSelectionListener(e -> {
 			directorioSeleccionado = null;
 			if (!e.getSelected().isEmpty()) {
@@ -74,10 +76,12 @@ public class LayoutDirectorios extends VerticalLayout {
 		// LABEL RUTA DIRECTORIO
 		Label labelRutaDirectorio = new Label("<strong>Dir.:</strong>");
 		labelRutaDirectorio.setContentMode(ContentMode.HTML);
+		labelRutaDirectorio.setVisible(false);
 
 		// TEXTFIELD RUTA DIRECTORIO
 		textFieldRutaDirectorio = new TextField();
-		textFieldRutaDirectorio.setInputPrompt("Ruta del directorio");
+		textFieldRutaDirectorio.setCaption("Nombre:");
+		textFieldRutaDirectorio.setInputPrompt("Nombre del directorio");
 
 		// BUTTON AGREGAR DIRECTORIO
 		botonAgregarDirectorio = new Button("Añadir Directorio");
@@ -115,16 +119,16 @@ public class LayoutDirectorios extends VerticalLayout {
 		});
 
 		// LAYOUT BOTONES DIRECTORIOS
-		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
-		layoutBotonesDirectorios.setMargin(false);
-		layoutBotonesDirectorios.setSpacing(true);
-		layoutBotonesDirectorios.addComponents(labelRutaDirectorio, textFieldRutaDirectorio, botonAgregarDirectorio,
+		VerticalLayout layoutBotonesDirectoriosA = new VerticalLayout();
+		layoutBotonesDirectoriosA.setMargin(false);
+		layoutBotonesDirectoriosA.setSpacing(true);
+		layoutBotonesDirectoriosA.addComponents(labelRutaDirectorio, textFieldRutaDirectorio, botonAgregarDirectorio,
 				botonRenombrarDirectorio, botonBorrarDirectorio);
 
 		this.setSizeFull();
-		this.setMargin(false);
+		this.setMargin(true);
 		this.setSpacing(true);
-		this.addComponents(gridDirectorios, layoutBotonesDirectorios);
+		this.addComponents(titulo, gridDirectorios, layoutBotonesDirectoriosA);
 	}
 
 	public void cargaGridDirectorios() {

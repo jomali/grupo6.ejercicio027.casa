@@ -9,6 +9,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.VerticalLayout;
 
@@ -28,21 +29,25 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private LayoutFicheros layoutFicheros;
 
 	public VistaDocumentos() {
-		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
+		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);	
+		
 		// layout. ENCABEZADO
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 		// layout. DIRECTORIOS
 		layoutDirectorios = new LayoutDirectorios(this, servicioGestorFicheros);
 		// layout. FICHEROS
 		layoutFicheros = new LayoutFicheros(this, servicioGestorFicheros);
-		// layout. PRINCIPAL
-		HorizontalLayout principalLayout = new HorizontalLayout();
-		principalLayout.setMargin(true);
-		principalLayout.setSpacing(true);
-		principalLayout.setSizeFull();
-		principalLayout.addComponents(layoutDirectorios, layoutFicheros);
+		// splitPanel. PRINCIPAL
+		HorizontalSplitPanel splitPanelPrincipal = new HorizontalSplitPanel();
+		splitPanelPrincipal.setSizeFull();
+		splitPanelPrincipal.setSplitPosition(30.0F, Unit.PERCENTAGE);
+		splitPanelPrincipal.setMinSplitPosition(275.0F, Unit.PIXELS);
+		splitPanelPrincipal.setMaxSplitPosition(75.0F, Unit.PERCENTAGE);
+		splitPanelPrincipal.setLocked(true);
+		splitPanelPrincipal.setFirstComponent(layoutDirectorios);
+		splitPanelPrincipal.setSecondComponent(layoutFicheros);
 
-		addComponents(layoutEncabezado, principalLayout);
+		addComponents(layoutEncabezado, splitPanelPrincipal);
 	}
 
 	// /////////////////////////////////////////////////////////////////////////
