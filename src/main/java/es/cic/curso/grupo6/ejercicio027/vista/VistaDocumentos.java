@@ -61,13 +61,13 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 		// IMAGEN
 		HorizontalLayout layoutimagen = new HorizontalLayout();
-		layoutimagen.setMargin(true);
 		layoutimagen.setSpacing(true);
 		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
 		Image imagen = new Image(null, resource);
-		imagen.setWidth(25.0F, Unit.PERCENTAGE);
-		addComponents(imagen);
+		imagen.setSizeFull();
+		layoutimagen.addComponents(imagen);
+		addComponent(layoutimagen);
 
 		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
 		layoutBotonesDirectorios.setMargin(false);
@@ -133,7 +133,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		gridFicheros.setColumns("nombre", "descripcion", "version");
 		gridFicheros.setSizeFull();
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
-		gridFicheros.setCaption("Lista Directorios:");
+		gridFicheros.setCaption("Lista Ficheros:");
 		gridFicheros.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -241,7 +241,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		
 
 		principalLayout.addComponents(layoutDirectorios, layoutFicheros);
-		addComponents(imagen, principalLayout);
+		addComponents(layoutimagen, principalLayout);
 	}
 
 	private List<Directorio> cargarLista() {
