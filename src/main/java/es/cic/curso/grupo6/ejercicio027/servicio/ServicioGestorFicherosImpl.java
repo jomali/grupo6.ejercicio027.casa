@@ -96,20 +96,25 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 	}
 
 	@Override
-	public boolean esHoja(Long idDirectorio) {
-		return listaFicherosPorDirectorio(idDirectorio).isEmpty();
-	}
-
-	@Override
 	public Directorio modificaDirectorio(Long idDirectorio, Directorio directorio) {
-		// TODO - Modificación física del directorio
-		Directorio directorioOriginal = obtenDirectorio(idDirectorio);
+		Directorio original = obtenDirectorio(idDirectorio);
 		if (!listaFicherosPorDirectorio(idDirectorio).isEmpty()) {
 			throw new IllegalStateException(ERROR_ESTADO_DIRECTORIO);
 		}
-		directorio.setId(idDirectorio);
-		repositorioDirectorio.update(directorio);
-		return directorioOriginal;
+		Path rutaOriginal = Paths.get(DIRECTORIO_BASE + original.getRuta());
+		Path rutaNueva = Paths.get(DIRECTORIO_BASE + directorio.getRuta());
+		if (Files.exists(rutaNueva)) {
+			throw new IllegalArgumentException(ERROR_RUTA_DIRECTORIO);
+		}
+		try {
+			Files.move(rutaOriginal, rutaNueva, StandardCopyOption.REPLACE_EXISTING);
+			directorio.setId(idDirectorio);
+			repositorioDirectorio.update(directorio);
+			return original;
+		} catch (IOException ioe) {
+			// Error al renombrar el directorio
+			throw new ExcepcionES(ioe);
+		}
 	}
 
 	@Override
@@ -198,6 +203,11 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 		obtenDirectorio(idDirectorio);
 		// Retorna la lista de ficheros para el directorio dado
 		return repositorioFichero.listByDirectory(idDirectorio);
+	}
+
+	@Override
+	public boolean esHoja(Long idDirectorio) {
+		return listaFicherosPorDirectorio(idDirectorio).isEmpty();
 	}
 
 }

@@ -8,6 +8,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Image;
@@ -41,9 +42,9 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		HorizontalSplitPanel splitPanelPrincipal = new HorizontalSplitPanel();
 		splitPanelPrincipal.setSizeFull();
 		splitPanelPrincipal.setSplitPosition(30.0F, Unit.PERCENTAGE);
-		splitPanelPrincipal.setMinSplitPosition(275.0F, Unit.PIXELS);
-		splitPanelPrincipal.setMaxSplitPosition(75.0F, Unit.PERCENTAGE);
-		splitPanelPrincipal.setLocked(true);
+		splitPanelPrincipal.setMinSplitPosition(10.0F, Unit.PERCENTAGE);
+		splitPanelPrincipal.setMaxSplitPosition(90.0F, Unit.PERCENTAGE);
+		splitPanelPrincipal.setLocked(false);
 		splitPanelPrincipal.setFirstComponent(layoutDirectorios);
 		splitPanelPrincipal.setSecondComponent(layoutFicheros);
 
@@ -60,7 +61,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		imagen.setHeight(10.0F, Unit.PERCENTAGE);
 
 		HorizontalLayout layoutEncabezado = new HorizontalLayout();
-		layoutEncabezado.setMargin(false);
+		layoutEncabezado.setMargin(new MarginInfo(true, true, true, true));
 		layoutEncabezado.setSpacing(false);
 		layoutEncabezado.addComponent(imagen);
 		return layoutEncabezado;

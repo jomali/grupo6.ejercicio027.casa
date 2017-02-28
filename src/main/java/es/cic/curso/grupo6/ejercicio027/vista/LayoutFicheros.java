@@ -8,6 +8,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
@@ -118,7 +119,7 @@ public class LayoutFicheros extends VerticalLayout {
 		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero, formulario);
 
 		this.setSizeFull();
-		this.setMargin(true);
+		this.setMargin(new MarginInfo(false, true, false, true));
 		this.setSpacing(true);
 		this.addComponents(titulo, gridFicheros, layoutBotonesFicheros);
 	}
