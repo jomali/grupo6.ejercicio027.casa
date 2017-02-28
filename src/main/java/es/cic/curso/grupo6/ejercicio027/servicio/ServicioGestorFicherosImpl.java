@@ -96,6 +96,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 
 	@Override
 	public Directorio modificaDirectorio(Long idDirectorio, Directorio directorio) {
+		// TODO - Modificación física del directorio
 		Directorio directorioOriginal = obtenDirectorio(idDirectorio);
 		if (!listaFicherosPorDirectorio(idDirectorio).isEmpty()) {
 			throw new IllegalStateException(ERROR_ESTADO_DIRECTORIO);
