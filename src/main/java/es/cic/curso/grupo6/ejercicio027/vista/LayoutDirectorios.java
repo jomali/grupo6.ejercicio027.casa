@@ -142,7 +142,6 @@ public class LayoutDirectorios extends VerticalLayout {
 		layoutBotonesDirectorios.addComponents(textFieldRutaDirectorio, botonAgregar, botonRenombrar, botonBorrar,
 				botonCancelar);
 
-		this.setSizeFull();
 		this.setMargin(new MarginInfo(false, true, true, true));
 		this.setSpacing(true);
 		this.addComponents(titulo, gridDirectorios, layoutBotonesDirectorios);

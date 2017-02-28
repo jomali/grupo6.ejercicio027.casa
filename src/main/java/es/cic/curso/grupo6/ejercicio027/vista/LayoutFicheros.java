@@ -113,7 +113,6 @@ public class LayoutFicheros extends VerticalLayout {
 		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero,
 				formulario);
 
-		this.setSizeFull();
 		this.setMargin(new MarginInfo(false, true, false, true));
 		this.setSpacing(true);
 		this.addComponents(titulo, gridFicheros, layoutBotonesFicheros);
