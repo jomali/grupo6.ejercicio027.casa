@@ -7,13 +7,16 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.Grid.SelectionMode;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -40,11 +43,15 @@ public class LayoutFicheros extends VerticalLayout {
 	
 	/** Formulario para editar los campos de un fichero. */
 	private FormularioFicheros formulario;
+	
+	private Directorio directorioActual;
 
 	public LayoutFicheros(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.padre = padre;
 		this.servicioGestorFicheros = servicioGestorFicheros;
 
+		directorioActual = null;
+		
 		Label titulo = new Label("Ficheros:");
 		titulo.setContentMode(ContentMode.HTML);
 		
@@ -55,10 +62,8 @@ public class LayoutFicheros extends VerticalLayout {
 		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
 		gridFicheros.addSelectionListener(e -> {
 			ficheroSeleccionado = null;
-			Directorio directorio = null;
 			if (!e.getSelected().isEmpty()) {
 					ficheroSeleccionado = (Fichero) e.getSelected().iterator().next();
-					directorio = ficheroSeleccionado.getDirectorio();
 					botonAgregarFichero.setVisible(false);
 					botonBorrarFichero.setVisible(true);
 					botonActualizarFichero.setVisible(true);
@@ -66,7 +71,6 @@ public class LayoutFicheros extends VerticalLayout {
 					botonBorrarFichero.setVisible(false);
 					botonActualizarFichero.setVisible(false);
 				}
-			padre.cargaGridFicheros(directorio);
 		});
 
 
@@ -91,11 +95,8 @@ public class LayoutFicheros extends VerticalLayout {
 		botonBorrarFichero.setIcon(FontAwesome.ERASER);
 		botonBorrarFichero.setEnabled(true);
 		botonBorrarFichero.setVisible(false);
-		botonBorrarFichero.addClickListener(e -> {
-			servicioGestorFicheros.eliminaFichero(ficheroSeleccionado.getId());
-			ficheroSeleccionado = null;
-			//padre.cargaGridFicheros(directorio);
-		});
+		botonBorrarFichero.addClickListener(
+				e -> this.getUI().getUI().addWindow(creaVentanaConfirmacionBorradoFicheros(ficheroSeleccionado.getNombre())));
 
 		// BUTTON ACTUALIZAR FICHERO
 		botonActualizarFichero = new Button("Actualizar fichero");
@@ -108,11 +109,7 @@ public class LayoutFicheros extends VerticalLayout {
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
 			
-
 		});
-
-
-
 		
 		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
 		layoutBotonesFicheros.setMargin(false);
@@ -139,6 +136,39 @@ public class LayoutFicheros extends VerticalLayout {
 		botonAgregarFichero.setEnabled(activado);
 	}
 	
-	
-	
+	private Window creaVentanaConfirmacionBorradoFicheros(String nombre) {
+		Window resultado = new Window();
+		resultado.setWidth(350.0F, Unit.PIXELS);
+		resultado.setModal(true);
+		resultado.setClosable(false);
+		resultado.setResizable(false);
+		resultado.setDraggable(false);
+
+		Label label = new Label("¿Está seguro de que desea borrar el archivo: <strong>\"" + nombre
+				+ "?");
+		label.setContentMode(ContentMode.HTML);
+
+		Button botonAceptar = new Button("Aceptar");
+		botonAceptar.addClickListener(e -> {
+			servicioGestorFicheros.eliminaDirectorio(ficheroSeleccionado.getId());
+			padre.cargaGridDirectorios();
+			resultado.close();
+		});
+
+		Button botonCancelar = new Button("Cancelar");
+		botonCancelar.addClickListener(e -> resultado.close());
+
+		HorizontalLayout layoutBotones = new HorizontalLayout();
+		layoutBotones.setMargin(true);
+		layoutBotones.setSpacing(true);
+		layoutBotones.setWidth(100.0F, Unit.PERCENTAGE);
+		layoutBotones.addComponents(botonAceptar, botonCancelar);
+
+		final FormLayout content = new FormLayout();
+		content.setMargin(true);
+		content.addComponents(label, layoutBotones);
+		resultado.setContent(content);
+		resultado.center();
+		return resultado;
+	}
 }
