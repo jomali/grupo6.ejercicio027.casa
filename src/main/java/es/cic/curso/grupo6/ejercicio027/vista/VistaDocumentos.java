@@ -9,9 +9,12 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
@@ -30,8 +33,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private LayoutFicheros layoutFicheros;
 
 	public VistaDocumentos() {
-		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);	
-		
+		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
+
 		// layout. ENCABEZADO
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
 		// layout. DIRECTORIOS
@@ -56,14 +59,18 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	private HorizontalLayout inicializaLayoutEncabezado() {
 		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
+		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/cic_logo.png"));
 		Image imagen = new Image(null, resource);
-		imagen.setHeight(10.0F, Unit.PERCENTAGE);
+		imagen.setHeight(60.0F, Unit.PIXELS);
+		
+		Label titulo = new Label("<span style=\"font-size: 175%;\">Gestor de Documentos</span>");
+		titulo.setContentMode(ContentMode.HTML);
 
 		HorizontalLayout layoutEncabezado = new HorizontalLayout();
 		layoutEncabezado.setMargin(new MarginInfo(true, true, true, true));
 		layoutEncabezado.setSpacing(false);
-		layoutEncabezado.addComponent(imagen);
+		layoutEncabezado.addComponents(imagen, titulo);
+		layoutEncabezado.setComponentAlignment(titulo, Alignment.MIDDLE_LEFT);
 		return layoutEncabezado;
 	}
 
@@ -73,21 +80,11 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 		layoutDirectorios.cargaGridDirectorios();
 	}
-	
-	public void muestraBotonAgregarFichero(boolean activado) {
-		layoutFicheros.muestraBotonAgregarFichero(activado);
-		layoutFicheros.activaBotonAgregarFichero(activado);
-	}
-	
-	public void cargaGridFicheros(Directorio directorio){
+
+	public void activaGridFicheros(Directorio directorio) {
+		layoutFicheros.modificaDirectorioActual(directorio);
+		layoutFicheros.muestraBotonAgregarFichero(directorio == null ? false : true);
 		layoutFicheros.cargaGridFicheros(directorio);
-
 	}
-
-	
-	public void cargaGridDirectorios(){
-		layoutDirectorios.cargaGridDirectorios();
-	}
-
 
 }

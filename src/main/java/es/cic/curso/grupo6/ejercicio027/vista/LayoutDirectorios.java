@@ -59,22 +59,17 @@ public class LayoutDirectorios extends VerticalLayout {
 				botonRenombrar.setVisible(true);
 				botonBorrar.setVisible(true);
 				botonCancelar.setVisible(true);
-				padre.muestraBotonAgregarFichero(true);
-
 				boolean hoja = servicioGestorFicheros.esHoja(directorioSeleccionado.getId());
 				textFieldRutaDirectorio.setEnabled(hoja);
-				// botonRenombrarDirectorio.setEnabled(hoja);
 			} else {
 				botonAgregar.setVisible(true);
 				botonRenombrar.setVisible(false);
 				botonBorrar.setVisible(false);
 				botonCancelar.setVisible(false);
-				padre.muestraBotonAgregarFichero(false);
 				textFieldRutaDirectorio.clear();
 				textFieldRutaDirectorio.setEnabled(true);
-				// botonRenombrarDirectorio.setEnabled(true);
 			}
-			padre.cargaGridFicheros(directorioSeleccionado);
+			padre.activaGridFicheros(directorioSeleccionado);
 		});
 
 		// TEXTFIELD RUTA DIRECTORIO
@@ -147,7 +142,6 @@ public class LayoutDirectorios extends VerticalLayout {
 		layoutBotonesDirectorios.addComponents(textFieldRutaDirectorio, botonAgregar, botonRenombrar, botonBorrar,
 				botonCancelar);
 
-		this.setSizeFull();
 		this.setMargin(new MarginInfo(false, true, true, true));
 		this.setSpacing(true);
 		this.addComponents(titulo, gridDirectorios, layoutBotonesDirectorios);
