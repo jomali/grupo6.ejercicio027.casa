@@ -11,7 +11,7 @@ public class UtilidadesVista {
 	
 	public static Window creaVentanaModal(String mensaje) {
 		Window resultado = new Window();
-		resultado.setWidth(350.0F, Unit.PIXELS);
+		resultado.setWidth(500.0F, Unit.PIXELS);
 		resultado.setModal(true);
 		resultado.setClosable(false);
 		resultado.setResizable(false);
