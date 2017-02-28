@@ -1,7 +1,6 @@
 package es.cic.curso.grupo6.ejercicio027.vista;
 
 import java.util.Collection;
-import java.util.List;
 
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.BeanItemContainer;
@@ -20,15 +19,14 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 public class LayoutDirectorios extends VerticalLayout {
 	private static final long serialVersionUID = -514197825792558255L;
 
-	/** Referencia a la vista padre de la que cuelga el layout. */
-	private VistaDocumentos padre;
-
 	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
-
-	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
 	
+	/** Componente de tipo grid. */
 	private Grid gridDirectorios;
+
+	/** Referencia al directorio seleccionado en el grid. */
+	private Directorio directorioSeleccionado;
 	
 	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 
@@ -36,7 +34,6 @@ public class LayoutDirectorios extends VerticalLayout {
 	protected TextField textFieldRutaDirectorio;
 
 	public LayoutDirectorios(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
-		this.padre = padre;
 		this.servicioGestorFicheros = servicioGestorFicheros;
 		
 		// GRID DIRECTORIOS
@@ -46,27 +43,21 @@ public class LayoutDirectorios extends VerticalLayout {
 		gridDirectorios.setSelectionMode(SelectionMode.SINGLE);
 		gridDirectorios.setCaption("Lista Directorios:");
 		gridDirectorios.addSelectionListener(e -> {
-			Directorio directorio = null;
+			directorioSeleccionado = null;
 			if (!e.getSelected().isEmpty()) {
-				directorio = (Directorio) e.getSelected().iterator().next();
-				
-				
-				
-				actualizaDirectorio = directorio;
-				eliminaDirectorio = directorio;
+				directorioSeleccionado = (Directorio) e.getSelected().iterator().next();
 				botonAgregarDirectorio.setVisible(false);
 				botonRenombrarDirectorio.setVisible(true);
 				botonBorrarDirectorio.setVisible(true);
-				padre.activaBotonAgregarFichero(true);
-				muestraDirectorio(directorio);
+				padre.muestraBotonAgregarFichero(true);
 			} else {
-				botonBorrarDirectorio.setVisible(false);
-				botonRenombrarDirectorio.setVisible(false);
 				botonAgregarDirectorio.setVisible(true);
-				padre.activaBotonAgregarFichero(false);
-				reiniciaTextField();
+				botonRenombrarDirectorio.setVisible(false);
+				botonBorrarDirectorio.setVisible(false);
+				padre.muestraBotonAgregarFichero(false);
+				textFieldRutaDirectorio.clear();
 			}
-			padre.cargaGridFicheros(directorio);
+			padre.cargaGridFicheros(directorioSeleccionado);
 		});
 
 		// TEXTFIELD RUTA DIRECTORIO
@@ -78,13 +69,15 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonAgregarDirectorio.setIcon(FontAwesome.PLUS);
 		botonAgregarDirectorio.setVisible(true);
 		botonAgregarDirectorio.setEnabled(true);
-		botonAgregarDirectorio.addClickListener(agregar -> {
-			agregarDirectorio(nuevoDirectorio);
+		botonAgregarDirectorio.addClickListener(e -> {
+			Directorio nuevoDirectorio = new Directorio();
+			nuevoDirectorio.setRuta(textFieldRutaDirectorio.getValue());
+			servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
+			textFieldRutaDirectorio.clear();
 			cargaGridDirectorios();
-			reiniciaTextField();
-			botonAgregarDirectorio.setVisible(true);
-			botonRenombrarDirectorio.setVisible(false);
-			botonBorrarDirectorio.setVisible(false);
+//			botonAgregarDirectorio.setVisible(true);
+//			botonRenombrarDirectorio.setVisible(false);
+//			botonBorrarDirectorio.setVisible(false);
 
 		});
 
@@ -92,14 +85,10 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonBorrarDirectorio = new Button("Borrar");
 		botonBorrarDirectorio.setIcon(FontAwesome.ERASER);
 		botonBorrarDirectorio.setVisible(false);
-		botonBorrarDirectorio.addClickListener(borrar -> {
-			borraDirectorio(eliminaDirectorio);
+		botonBorrarDirectorio.addClickListener(e -> {
+			servicioGestorFicheros.eliminaDirectorio(directorioSeleccionado.getId());
+			textFieldRutaDirectorio.clear();
 			cargaGridDirectorios();
-			reiniciaTextField();
-			botonRenombrarDirectorio.setVisible(false);
-			botonBorrarDirectorio.setVisible(false);
-
-			botonAgregarDirectorio.setVisible(true);
 		});
 
 		// BUTTON RENOMBRAR DIRECTORIO
@@ -110,17 +99,16 @@ public class LayoutDirectorios extends VerticalLayout {
 		botonRenombrarDirectorio.addClickListener(e -> {
 			try {
 				if (textFieldRutaDirectorio.getValue() != null) {
-					String ruta = textFieldRutaDirectorio.getValue();
-					actualizaDirectorio.setRuta(ruta);
-					actualizarDirectorio(actualizaDirectorio.getId(), actualizaDirectorio);
-					Notification.show("Directorio modificado.");
-					reiniciaTextField();
+					directorioSeleccionado.setRuta(textFieldRutaDirectorio.getValue());
+					servicioGestorFicheros.modificaDirectorio(directorioSeleccionado.getId(), directorioSeleccionado);
+					textFieldRutaDirectorio.clear();
 					cargaGridDirectorios();
+					Notification.show("Directorio modificado.");
 				} else {
-
+					// TODO - Validar campo
 				}
-			} catch (Exception o) {
-				Notification.show("Algo está mal.");
+			} catch (Exception ex) {
+				// TODO - Gestionar errores
 			}
 		});
 
@@ -136,43 +124,10 @@ public class LayoutDirectorios extends VerticalLayout {
 		this.setSpacing(true);
 		this.addComponents(gridDirectorios, layoutBotonesDirectorios);
 	}
-	
-	public void modificaBotones() {
-		botonAgregarDirectorio.setVisible(true);
-		botonRenombrarDirectorio.setVisible(false);
-		botonBorrarDirectorio.setVisible(false);
-	}
 
-	public void muestraDirectorio(Directorio directorio) {
-		textFieldRutaDirectorio.setValue(directorio.getRuta());
-	}
-
-	public void reiniciaTextField() {
-		textFieldRutaDirectorio.clear();
-	}
-
-	public void agregarDirectorio(Directorio directorio) {
-		Directorio nuevoDirectorio = new Directorio();
-		nuevoDirectorio.setRuta(textFieldRutaDirectorio.getValue());
-		servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
-	}
-
-	private List<Directorio> cargarLista() {
-		return servicioGestorFicheros.listaDirectorios();
-	}
-
-	public void cargaGridDirectorios() {
+	public void cargaGridDirectorios() {	
 		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
 	}
-
-	public void actualizarDirectorio(long directorioId, Directorio directorio) {
-		servicioGestorFicheros.modificaDirectorio(directorioId, directorio);
-	}
-
-	public void borraDirectorio(Directorio directorio) {
-		servicioGestorFicheros.eliminaDirectorio(directorio.getId());
-	}
-
 
 }

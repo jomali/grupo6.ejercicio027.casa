@@ -8,8 +8,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.VerticalLayout;
@@ -28,9 +26,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	/** Controles para la manipulación de los ficheros del sistema. */
 	private LayoutFicheros layoutFicheros;
-	// Componentes de layout ficheros
-	private Grid gridFicheros;
-	private Button botonAgregarFichero;
 
 	public VistaDocumentos() {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
@@ -39,8 +34,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		// layout. DIRECTORIOS
 		layoutDirectorios = new LayoutDirectorios(this, servicioGestorFicheros);
 		// layout. FICHEROS
-//		gridFicheros = new Grid();
-//		botonAgregarFichero= new Button("Añadir fichero");
 		layoutFicheros = new LayoutFicheros(this, servicioGestorFicheros);
 		// layout. PRINCIPAL
 		HorizontalLayout principalLayout = new HorizontalLayout();
@@ -75,17 +68,13 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutDirectorios.cargaGridDirectorios();
 	}
 	
-	public void activaBotonAgregarFichero(boolean activado) {
+	public void muestraBotonAgregarFichero(boolean activado) {
 		layoutFicheros.muestraBotonAgregarFichero(activado);
 		layoutFicheros.activaBotonAgregarFichero(activado);
 	}
 	
 	public void cargaGridFicheros(Directorio directorio){
 		layoutFicheros.cargaGridFicheros(directorio);
-	}
-
-	public void modificaBotonesDirectorios() {
-		layoutDirectorios.modificaBotones();
 	}
 
 }
