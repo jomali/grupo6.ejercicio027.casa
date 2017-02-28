@@ -41,6 +41,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	/** Controles para la manipulación de los ficheros del sistema. */
 	private LayoutFicheros layoutFicheros;
 
+
 	public VistaDocumentos() {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
 
@@ -52,6 +53,9 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 		// layout. FICHEROS
 		layoutFicheros = new LayoutFicheros(this, servicioGestorFicheros);
+
+		// layout. FICHEROS
+		VerticalLayout layoutFicheros = new LayoutFicheros(this, servicioGestorFicheros);
 
 		// layout. PRINCIPAL
 		HorizontalLayout principalLayout = new HorizontalLayout();
@@ -83,42 +87,20 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		cargaGridDirectorios();
+		layoutDirectorios.cargaGridDirectorios();
 	}
 	
+	public void activaBotonAgregarFichero(boolean activado) {
+		layoutFicheros.activaBotonAgregarFichero(activado);
+	}
 	
-	
+	public void cargaGridFicheros(Directorio directorio){
+		layoutFicheros.cargaGridFicheros(directorio);
+	}
 	
 
 	public void modificaBotonesDirectorios() {
 		layoutDirectorios.modificaBotones();
 	}
-
-
-	private List<Directorio> cargarLista() {
-		return servicioGestorFicheros.listaDirectorios();
-	}
-
-
-
-	public void cargaGridDirectorios() {
-		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
-		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
-	}
-
-	public void actualizarDirectorio(long directorioId, Directorio directorio) {
-		servicioGestorFicheros.modificaDirectorio(directorioId, directorio);
-	}
-
-	public void agregarDirectorio(Directorio directorio) {
-		Directorio nuevoDirectorio = new Directorio();
-		nuevoDirectorio.setRuta(textFieldRutaDirectorio.getValue());
-		servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
-	}
-
-	public void borraDirectorio(Directorio directorio) {
-		servicioGestorFicheros.eliminaDirectorio(directorio.getId());
-	}
-
 
 }

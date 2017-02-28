@@ -114,5 +114,11 @@ public class LayoutFicheros extends VerticalLayout {
 				: servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
 		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
 	}
+
+	
+	public void activaBotonAgregarFichero(boolean activado) {
+		botonAgregarFichero.setEnabled(activado);
+	}
+	
 	
 }
