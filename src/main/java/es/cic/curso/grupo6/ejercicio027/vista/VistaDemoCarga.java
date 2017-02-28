@@ -21,7 +21,7 @@ import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class VistaDemo extends VerticalLayout implements View {
+public class VistaDemoCarga extends VerticalLayout implements View {
 	private static final long serialVersionUID = -8229167069516384540L;
 
 	/** Número de directorios que se crean para la demo. */
@@ -36,7 +36,7 @@ public class VistaDemo extends VerticalLayout implements View {
 	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
 
-	public VistaDemo(Navigator navegador) {
+	public VistaDemoCarga(Navigator navegador) {
 		this.navegador = navegador;
 		this.servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext()
 				.getBean(ServicioGestorFicheros.class);

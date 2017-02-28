@@ -22,7 +22,8 @@ import com.vaadin.ui.UI;
 public class MyUI extends UI {
 	private static final long serialVersionUID = 1343484792150289272L;
 
-	public static final String VISTA_DEMO = "demo";
+	public static final String VISTA_CARGA = "demo";
+	public static final String VISTA_LIMPIA = "limpia";
 
 	/** Gestiona una colección de implementaciones de <code>View</code>. */
 	Navigator navegador;
@@ -36,10 +37,11 @@ public class MyUI extends UI {
 
 		// Crea y registra las vistas:
 		navegador.addView("", new VistaDocumentos());
-		navegador.addView(VISTA_DEMO, new VistaDemo(navegador));
+		navegador.addView(VISTA_CARGA, new VistaDemoCarga(navegador));
+		navegador.addView(VISTA_LIMPIA, new VistaDemoLimpia(navegador));
 		
 		// XXX - ELIMINAR
-		navegador.navigateTo(VISTA_DEMO);
+		navegador.navigateTo(VISTA_CARGA);
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
