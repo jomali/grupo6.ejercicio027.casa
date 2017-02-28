@@ -250,6 +250,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutDirectorios.setMargin(true);
 		layoutDirectorios.setSpacing(true);
 		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
+		
 		return layoutDirectorios;
 	}
 	
