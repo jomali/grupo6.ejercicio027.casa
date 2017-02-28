@@ -3,8 +3,6 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.web.context.ContextLoader;
-
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
@@ -21,16 +19,21 @@ import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
 public class LayoutDirectorios extends VerticalLayout {
 	private static final long serialVersionUID = -514197825792558255L;
-	
+
+	/** Referencia a la vista padre de la que cuelga el layout. */
 	private VistaDocumentos padre;
+
+	/** Lógica de negocio con acceso a BB.DD. */
 	private ServicioGestorFicheros servicioGestorFicheros;
+
+	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
+	
 	private Grid gridDirectorios;
+	
 	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 
 	@PropertyId("ruta")
 	protected TextField textFieldRutaDirectorio;
-
-	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
 
 	public LayoutDirectorios(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.padre = padre;
@@ -46,6 +49,9 @@ public class LayoutDirectorios extends VerticalLayout {
 			Directorio directorio = null;
 			if (!e.getSelected().isEmpty()) {
 				directorio = (Directorio) e.getSelected().iterator().next();
+				
+				
+				
 				actualizaDirectorio = directorio;
 				eliminaDirectorio = directorio;
 				botonAgregarDirectorio.setVisible(false);
@@ -125,8 +131,9 @@ public class LayoutDirectorios extends VerticalLayout {
 		layoutBotonesDirectorios.addComponents(textFieldRutaDirectorio, botonAgregarDirectorio,
 				botonRenombrarDirectorio, botonBorrarDirectorio);
 		
-		this.setMargin(true);
-		this.setSpacing(false);
+		this.setSizeFull();
+		this.setMargin(false);
+		this.setSpacing(true);
 		this.addComponents(gridDirectorios, layoutBotonesDirectorios);
 	}
 	
