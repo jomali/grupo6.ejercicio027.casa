@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.web.context.ContextLoader;
 
@@ -37,26 +36,91 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	private ServicioGestorFicheros servicioGestorFicheros;
 
 	// Componentes gráficos:
+	private Grid gridDirectorios, gridFicheros;
 
 	@PropertyId("ruta")
-	protected TextField textFieldRuta;
+	protected TextField textFieldRutaDirectorio;
 
-	private Grid gridDirectorios;
-	private Button botonAgregarD, botonBorrarD, botonActualizarD;
+	private Button botonAgregarDirectorio, botonBorrarDirectorio, botonRenombrarDirectorio;
 	private Directorio nuevoDirectorio, directorioSeleccionado, eliminaDirectorio, actualizaDirectorio;
-	private Grid gridFicheros;
-	private Button botonAgregarF, botonBorrarF, botonActualizarF;
+	private Button botonAgregarFichero, botonBorrarFichero, botonActualizarFichero;
 	private Fichero eliminaFichero;
 	private FormularioFicheros formulario;
 
+	@SuppressWarnings("serial")
 	public VistaDocumentos() {
 		servicioGestorFicheros = ContextLoader.getCurrentWebApplicationContext().getBean(ServicioGestorFicheros.class);
-		
-		// LAYOUT. ENCABEZADO
+
+		// layout. ENCABEZADO
 		HorizontalLayout layoutEncabezado = inicializaLayoutEncabezado();
-
+		
+		// layout. DIRECTORIOS
+		VerticalLayout layoutDirectorios = inicializaLayoutDirectorios();
 
 		
+		// layout. FICHEROS
+		
+
+		// grid. FICHEROS
+
+		gridFicheros = new Grid();
+		gridFicheros.setColumns("nombre", "descripcion", "version");
+		gridFicheros.setSizeFull();
+		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
+		gridFicheros.setCaption("Lista Ficheros:");
+		gridFicheros.addSelectionListener(new SelectionListener() {
+			@Override
+			public void select(SelectionEvent event) {
+				Fichero fchero = (Fichero) gridFicheros.getSelectedRow();
+				if (fchero != null) {
+					eliminaFichero = fchero;
+					botonAgregarFichero.setVisible(false);
+					botonBorrarFichero.setVisible(true);
+					botonActualizarFichero.setVisible(true);
+				} else {
+					botonBorrarFichero.setVisible(false);
+					botonActualizarFichero.setVisible(false);
+				}
+			}
+		});
+
+		// botones. FICHEROS
+
+		botonAgregarFichero = new Button("Añadir fichero");
+		botonAgregarFichero.setVisible(false);
+		botonAgregarFichero.setEnabled(true);
+		botonAgregarFichero.addClickListener(e -> {
+			formulario.setVisible(true);
+			botonAgregarDirectorio.setVisible(true);
+			botonRenombrarDirectorio.setVisible(false);
+			botonBorrarDirectorio.setVisible(false);
+			cargaGridDirectorios();
+			reiniciaTextField();
+		});
+
+		botonBorrarFichero = new Button("Borrar");
+		botonBorrarFichero.setIcon(FontAwesome.ERASER);
+		botonBorrarFichero.setEnabled(true);
+		botonBorrarFichero.setVisible(false);
+		botonBorrarFichero.addClickListener(e -> {
+			borraFichero(eliminaFichero);
+			cargaGridFicheros(directorioSeleccionado);
+		});
+
+		botonActualizarFichero = new Button("Actualizar fichero");
+		botonActualizarFichero.setIcon(FontAwesome.REFRESH);
+		botonActualizarFichero.setVisible(false);
+		botonActualizarFichero.setEnabled(true);
+
+		formulario = new FormularioFicheros(null);
+		formulario.setVisible(false);
+		
+		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
+		layoutBotonesFicheros.setMargin(false);
+		layoutBotonesFicheros.setSpacing(true);
+		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero);
+
+
 
 		// LAYOUT PRINCIPAL
 
@@ -64,26 +128,36 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		principalLayout.setMargin(true);
 		principalLayout.setSpacing(true);
 		principalLayout.setSizeFull();
-		
-
-		VerticalLayout layoutDirectorios = new VerticalLayout();
-		layoutDirectorios.setMargin(false);
-		layoutDirectorios.setSpacing(true);
-		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
-		layoutBotonesDirectorios.setMargin(false);
-		layoutBotonesDirectorios.setSpacing(true);
 
 
 		VerticalLayout layoutFicheros = new VerticalLayout();
 		layoutFicheros.setMargin(false);
 		layoutFicheros.setSpacing(true);
-		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
-		layoutBotonesFicheros.setMargin(false);
-		layoutBotonesFicheros.setSpacing(true);
-
 		
-		// GRID de DIRECTORIOS
+		cargaGridDirectorios();
+		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
+		principalLayout.addComponents(layoutDirectorios, layoutFicheros, formulario);
+		addComponents(layoutEncabezado, principalLayout);
+	}
 
+	// /////////////////////////////////////////////////////////////////////////
+	// Inicialización de componentes gráficos:
+
+	private HorizontalLayout inicializaLayoutEncabezado() {
+		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
+		Image imagen = new Image(null, resource);
+		imagen.setHeight(10.0F, Unit.PERCENTAGE);
+
+		HorizontalLayout layoutEncabezado = new HorizontalLayout();
+		layoutEncabezado.setMargin(false);
+		layoutEncabezado.setSpacing(false);
+		layoutEncabezado.addComponent(imagen);
+		return layoutEncabezado;
+	}
+	
+	private VerticalLayout inicializaLayoutDirectorios() {
+		// GRID DIRECTORIOS
 		gridDirectorios = new Grid();
 		gridDirectorios.setColumns("ruta");
 		gridDirectorios.setSizeFull();
@@ -95,89 +169,65 @@ public class VistaDocumentos extends VerticalLayout implements View {
 				directorio = (Directorio) e.getSelected().iterator().next();
 				actualizaDirectorio = directorio;
 				eliminaDirectorio = directorio;
-				botonAgregarD.setVisible(false);
-				botonActualizarD.setVisible(true);
-				botonBorrarD.setVisible(true);
-				botonAgregarF.setVisible(true);
+				botonAgregarDirectorio.setVisible(false);
+				botonRenombrarDirectorio.setVisible(true);
+				botonBorrarDirectorio.setVisible(true);
+				botonAgregarFichero.setVisible(true);
 				muestraDirectorio(directorio);
 			} else {
-				botonBorrarD.setVisible(false);
-				botonActualizarD.setVisible(false);
-				botonAgregarD.setVisible(true);
-				botonAgregarF.setVisible(false);
+				botonBorrarDirectorio.setVisible(false);
+				botonRenombrarDirectorio.setVisible(false);
+				botonAgregarDirectorio.setVisible(true);
+				botonAgregarFichero.setVisible(false);
 				reiniciaTextField();
 			}
 			cargaGridFicheros(directorio);
 		});
 
-		// GRID de FICHEROS
+		// TEXTFIELD RUTA DIRECTORIO
+		textFieldRutaDirectorio = new TextField();
+		textFieldRutaDirectorio.setInputPrompt("Ruta del directorio");
 
-		gridFicheros = new Grid();
-		gridFicheros.setColumns("nombre", "descripcion", "version");
-		gridFicheros.setSizeFull();
-		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
-		gridFicheros.setCaption("Lista Ficheros:");
-		gridFicheros.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void select(SelectionEvent event) {
-				Set<Object> selected = event.getSelected();
-				Fichero fchero = (Fichero) gridFicheros.getSelectedRow();
-				if (fchero != null) {
-					
-					eliminaFichero = fchero;
-					botonAgregarF.setVisible(false);
-					botonBorrarF.setVisible(true);
-					botonActualizarF.setVisible(true);
-				} else {
-					botonBorrarF.setVisible(false);
-					botonActualizarF.setVisible(false);
-				}
-			}
-		});
-
-		// BOTONES DIRECTORIOS
-		
-		textFieldRuta = new TextField();
-		textFieldRuta.setInputPrompt("Ruta de la Carpeta");
-
-		botonAgregarD = new Button("Añadir Directorio");
-		botonAgregarD.setIcon(FontAwesome.PLUS_CIRCLE);
-		botonAgregarD.setVisible(true);
-		botonAgregarD.setEnabled(true);
-		botonAgregarD.addClickListener(agregar -> {
+		// BUTTON AGREGAR DIRECTORIO
+		botonAgregarDirectorio = new Button("Añadir Directorio");
+		botonAgregarDirectorio.setIcon(FontAwesome.PLUS);
+		botonAgregarDirectorio.setVisible(true);
+		botonAgregarDirectorio.setEnabled(true);
+		botonAgregarDirectorio.addClickListener(agregar -> {
 			agregarDirectorio(nuevoDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
-			botonAgregarD.setVisible(true);
-			botonActualizarD.setVisible(false);
-			botonBorrarD.setVisible(false);
+			botonAgregarDirectorio.setVisible(true);
+			botonRenombrarDirectorio.setVisible(false);
+			botonBorrarDirectorio.setVisible(false);
 
 		});
 
-		botonBorrarD = new Button("Borrar");
-		botonBorrarD.setIcon(FontAwesome.ERASER);
-		botonBorrarD.setVisible(false);
-		botonBorrarD.addClickListener(borrar -> {
+		// BUTTON BORRAR DIRECTORIO
+		botonBorrarDirectorio = new Button("Borrar");
+		botonBorrarDirectorio.setIcon(FontAwesome.ERASER);
+		botonBorrarDirectorio.setVisible(false);
+		botonBorrarDirectorio.addClickListener(borrar -> {
 			borraDirectorio(eliminaDirectorio);
 			cargaGridDirectorios();
 			reiniciaTextField();
-			botonActualizarD.setVisible(false);
-			botonBorrarD.setVisible(false);
+			botonRenombrarDirectorio.setVisible(false);
+			botonBorrarDirectorio.setVisible(false);
 
-			botonAgregarD.setVisible(true);
+			botonAgregarDirectorio.setVisible(true);
 		});
 
-		botonActualizarD = new Button("Actualizar datos");
-		botonActualizarD.setIcon(FontAwesome.REFRESH);
-		botonActualizarD.setVisible(false);
-		botonActualizarD.setEnabled(true);
-		botonActualizarD.addClickListener(actualizar -> {
+		// BUTTON RENOMBRAR DIRECTORIO
+		botonRenombrarDirectorio = new Button("Renombrar");
+		botonRenombrarDirectorio.setIcon(FontAwesome.REFRESH);
+		botonRenombrarDirectorio.setVisible(false);
+		botonRenombrarDirectorio.setEnabled(true);
+		botonRenombrarDirectorio.addClickListener(e -> {
 			try {
-				if (textFieldRuta.getValue() != null) {
-					String ruta = textFieldRuta.getValue();
+				if (textFieldRutaDirectorio.getValue() != null) {
+					String ruta = textFieldRutaDirectorio.getValue();
 					actualizaDirectorio.setRuta(ruta);
-					actualizarDirectorio(actualizaDirectorio.getId(),actualizaDirectorio);
+					actualizarDirectorio(actualizaDirectorio.getId(), actualizaDirectorio);
 					Notification.show("Directorio modificado.");
 					reiniciaTextField();
 					cargaGridDirectorios();
@@ -189,71 +239,26 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			}
 		});
 
-		formulario = new FormularioFicheros(null);
-		formulario.setVisible(false);
-		// BOTONES FICHEROS
-
-		botonAgregarF = new Button("Añade fichero");
-		botonAgregarF.setVisible(false);
-		botonAgregarF.setEnabled(true);
-		botonAgregarF.addClickListener(agregar -> {
-			layoutDirectorios.setVisible(false);
-			layoutFicheros.setVisible(false);
-			formulario.setVisible(true);
-			
-			
-			cargaGridDirectorios();
-			reiniciaTextField();
-			botonAgregarD.setVisible(true);
-			botonActualizarD.setVisible(false);
-			botonBorrarD.setVisible(false);
-
-		});
-
-		botonBorrarF = new Button("Borrar");
-		botonBorrarF.setIcon(FontAwesome.ERASER);
-		botonBorrarF.setEnabled(true);
-		botonBorrarF.setVisible(false);
-		botonBorrarF.addClickListener(e -> {
-			borraFichero(eliminaFichero);
-			cargaGridFicheros(directorioSeleccionado);
-		});
-
-		botonActualizarF = new Button("Actualizar fichero");
-		botonActualizarF.setIcon(FontAwesome.REFRESH);
-		botonActualizarF.setVisible(false);
-		botonActualizarF.setEnabled(true);
-
-		layoutBotonesDirectorios.addComponents(textFieldRuta, botonAgregarD, botonActualizarD, botonBorrarD);
-		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
-		cargaGridDirectorios();
-		layoutBotonesFicheros.addComponents(botonAgregarF, botonActualizarF, botonBorrarF);
-		layoutFicheros.addComponents(gridFicheros, layoutBotonesFicheros);
-		principalLayout.addComponents(layoutDirectorios, layoutFicheros,formulario);
-		addComponents(layoutEncabezado, principalLayout);
-	}
-	
-	// /////////////////////////////////////////////////////////////////////////
-	// Inicialización de componentes gráficos:
-	
-	private HorizontalLayout inicializaLayoutEncabezado() {
-		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-		FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logocic.png"));
-		Image imagen = new Image(null, resource);
-		imagen.setHeight(10.0F, Unit.PERCENTAGE);
+		// LAYOUT BOTONES DIRECTORIOS
+		HorizontalLayout layoutBotonesDirectorios = new HorizontalLayout();
+		layoutBotonesDirectorios.setMargin(false);
+		layoutBotonesDirectorios.setSpacing(true);
+		layoutBotonesDirectorios.addComponents(textFieldRutaDirectorio, botonAgregarDirectorio,
+				botonRenombrarDirectorio, botonBorrarDirectorio);
 		
-		HorizontalLayout layoutEncabezado = new HorizontalLayout();
-		layoutEncabezado.setMargin(true);
-		layoutEncabezado.setSpacing(false);
-		layoutEncabezado.addComponent(imagen);
-		return layoutEncabezado;
+		VerticalLayout layoutDirectorios = new VerticalLayout();
+		layoutDirectorios.setMargin(true);
+		layoutDirectorios.setSpacing(true);
+		layoutDirectorios.addComponents(gridDirectorios, layoutBotonesDirectorios);
+		return layoutDirectorios;
+	}
+	
+	private VerticalLayout inicializaLayoutFicheros() {
+		VerticalLayout layoutFicheros = new VerticalLayout();
+		return layoutFicheros;
 	}
 
 	// /////////////////////////////////////////////////////////////////////////
-
-	
-	
-	
 
 	private List<Directorio> cargarLista() {
 		return servicioGestorFicheros.listaDirectorios();
@@ -276,21 +281,20 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 	public void agregarDirectorio(Directorio directorio) {
 		Directorio nuevoDirectorio = new Directorio();
-		nuevoDirectorio.setRuta(textFieldRuta.getValue());
+		nuevoDirectorio.setRuta(textFieldRutaDirectorio.getValue());
 		servicioGestorFicheros.agregaDirectorio(nuevoDirectorio);
 	}
-	
-	
+
 	public void borraDirectorio(Directorio directorio) {
 		servicioGestorFicheros.eliminaDirectorio(directorio.getId());
 	}
 
 	public void muestraDirectorio(Directorio directorio) {
-		textFieldRuta.setValue(directorio.getRuta());
+		textFieldRutaDirectorio.setValue(directorio.getRuta());
 	}
 
 	public void reiniciaTextField() {
-		textFieldRuta.clear();
+		textFieldRutaDirectorio.clear();
 	}
 
 	@Override
