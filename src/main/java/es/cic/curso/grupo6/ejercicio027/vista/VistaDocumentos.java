@@ -22,7 +22,6 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -87,7 +86,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		principalLayout.setMargin(true);
 		principalLayout.setSpacing(true);
 		principalLayout.setSizeFull();
-//		formulario.setVisible(false);
+		
 
 		VerticalLayout layoutDirectorios = new VerticalLayout();
 		layoutDirectorios.setMargin(false);
@@ -154,6 +153,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		});
 
 		// BOTONES DIRECTORIOS
+		
 		textFieldRuta = new TextField();
 		textFieldRuta.setInputPrompt("Ruta de la Carpeta");
 
@@ -205,6 +205,8 @@ public class VistaDocumentos extends VerticalLayout implements View {
 			}
 		});
 
+		formulario = new FormularioFicheros(null);
+		formulario.setVisible(false);
 		// BOTONES FICHEROS
 
 		botonAgregarF = new Button("Añade fichero");
@@ -213,7 +215,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		botonAgregarF.addClickListener(agregar -> {
 //			layoutDirectorios.setVisible(false);
 //			layoutFicheros.setVisible(false);
-//			formulario.setVisible(true);
+			formulario.setVisible(true);
 			
 			
 			cargaGridDirectorios();
@@ -240,7 +242,7 @@ public class VistaDocumentos extends VerticalLayout implements View {
 
 		
 
-		principalLayout.addComponents(layoutDirectorios, layoutFicheros);
+		principalLayout.addComponents(layoutDirectorios, layoutFicheros,formulario);
 		addComponents(layoutimagen, principalLayout);
 	}
 
@@ -260,7 +262,6 @@ public class VistaDocumentos extends VerticalLayout implements View {
 	}
 
 	public void actualizarDirectorio(long directorioId, Directorio directorio) {
-
 		servicioGestorFicheros.modificaDirectorio(directorioId, directorio);
 	}
 
