@@ -124,6 +124,10 @@ public class LayoutFicheros extends VerticalLayout {
 		this.addComponents(titulo, gridFicheros, layoutBotonesFicheros);
 	}
 	
+	public Directorio getDirectorioSeleccionado(Directorio directorioSeleccionado){
+		directorioSeleccionado = ficheroSeleccionado.getDirectorio();
+		return directorioSeleccionado;
+	}
 	public Fichero getFicheroSeleccionado() {
 		return ficheroSeleccionado;
 	}
