@@ -3,29 +3,43 @@ package es.cic.curso.grupo6.ejercicio027.vista;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.SelectionEvent;
-import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Grid.SelectionMode;
 
 import es.cic.curso.grupo6.ejercicio027.modelo.Directorio;
 import es.cic.curso.grupo6.ejercicio027.modelo.Fichero;
 import es.cic.curso.grupo6.ejercicio027.servicio.ServicioGestorFicheros;
 
-public class LayoutFicheros extends VerticalLayout {
+public class LayoutFicheros extends VerticalLayout implements Component{
 	private static final long serialVersionUID = -7013768321773232310L;
+	
+	@PropertyId("ruta")
+	protected TextField ruta;	
+	@PropertyId("nombre")
+	protected TextField nombre;
+	@PropertyId("descripcion")
+	protected TextField descripcion;
+	@PropertyId("version")
+	protected TextField version;
+	
+	private Button aceptar;
+	private Button cancelar;
+	private Fichero fichero;
+	
 
 	/** Referencia a la vista padre de la que cuelga el layout. */
 	private VistaDocumentos padre;
@@ -42,9 +56,6 @@ public class LayoutFicheros extends VerticalLayout {
 	/** Acciones sobre los ficheros. */
 	private Button botonAgregarFichero, botonBorrarFichero, botonActualizarFichero;
 	
-	/** Formulario para editar los campos de un fichero. */
-	private FormularioFicheros formulario;
-	
 	private Directorio directorioActual;
 
 	public LayoutFicheros(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
@@ -55,38 +66,17 @@ public class LayoutFicheros extends VerticalLayout {
 		
 		Label titulo = new Label("Ficheros:");
 		titulo.setContentMode(ContentMode.HTML);
-		
-		// GRID FICHEROS
 		gridFicheros = new Grid();
-		gridFicheros.setColumns("nombre", "descripcion", "version");
-		gridFicheros.setSizeFull();
-		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
-		gridFicheros.addSelectionListener(e -> {
-			ficheroSeleccionado = null;
-			if (!e.getSelected().isEmpty()) {
-					ficheroSeleccionado = (Fichero) e.getSelected().iterator().next();
-					botonAgregarFichero.setVisible(false);
-					botonBorrarFichero.setVisible(true);
-					botonActualizarFichero.setVisible(true);
-				} else {
-					botonBorrarFichero.setVisible(false);
-					botonActualizarFichero.setVisible(false);
-					botonAgregarFichero.setVisible(true);
-				}
-		});
-
-
-
-		// FORMULARIO FICHEROS
-		formulario = new FormularioFicheros(padre, null, null);
-		formulario.setVisible(false);
+		cargarGrid();
 		
 		// BUTTON AGREGAR FICHERO
 		botonAgregarFichero = new Button("Añadir fichero");
 		botonAgregarFichero.setVisible(false);
 		botonAgregarFichero.setEnabled(true);
 		botonAgregarFichero.addClickListener(e -> {
-			formulario.setVisible(true);
+			ficheroSeleccionado = new Fichero();
+			ficheroSeleccionado.setId((long) 0);
+			editarFichero();
 			botonAgregarFichero.setVisible(false);
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
@@ -106,7 +96,11 @@ public class LayoutFicheros extends VerticalLayout {
 		botonActualizarFichero.setVisible(false);
 		botonActualizarFichero.setEnabled(true);
 		botonActualizarFichero.addClickListener(e -> {
-//			formulario.setVisible(true);
+			editarFichero();
+			nombre.setValue(ficheroSeleccionado.getNombre());
+			descripcion.setValue(ficheroSeleccionado.getDescripcion());
+			version.setValue(ficheroSeleccionado.getVersion().toString());
+			
 			botonAgregarFichero.setVisible(false);
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
@@ -116,7 +110,7 @@ public class LayoutFicheros extends VerticalLayout {
 		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
 		layoutBotonesFicheros.setMargin(false);
 		layoutBotonesFicheros.setSpacing(true);
-		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero, formulario);
+		layoutBotonesFicheros.addComponents(botonAgregarFichero, botonActualizarFichero, botonBorrarFichero);
 
 		this.setSizeFull();
 		this.setMargin(new MarginInfo(false, true, false, true));
@@ -124,6 +118,87 @@ public class LayoutFicheros extends VerticalLayout {
 		this.addComponents(titulo, gridFicheros, layoutBotonesFicheros);
 	}
 	
+	private void editarFichero(){
+		
+		
+		VerticalLayout verticalPrincipal= new VerticalLayout();
+		verticalPrincipal.setMargin(true);
+		verticalPrincipal.setSpacing(true);
+		
+		HorizontalLayout datosLayout = new HorizontalLayout();
+//		datosLayout.setMargin(true);
+		datosLayout.setSpacing(true);
+		nombre = new TextField("Nombre: ");
+		nombre.setInputPrompt("Nombre:");
+		descripcion = new TextField("Descripción: ");
+		descripcion.setInputPrompt("Descripción");
+		version = new TextField("Versión: ");
+		version.setInputPrompt("Versión");
+
+
+		HorizontalLayout buttonsLayout = new HorizontalLayout();
+//		datosLayout.setMargin(true);
+		buttonsLayout.setSpacing(true);
+		aceptar = new Button("Aceptar");
+		aceptar.setIcon(FontAwesome.SAVE);
+		aceptar.addClickListener(e -> {
+			if (nombre.getValue().equals("")  || descripcion.getValue().equals("") || version.getValue().equals("")) {
+				Notification.show("Falta alguno de los datos a rellenar.");
+			} else {
+				fichero = new Fichero();
+				fichero.setDirectorio(directorioActual);
+				fichero.setNombre(nombre.getValue());
+				fichero.setDescripcion(descripcion.getValue());
+				fichero.setVersion(Double.parseDouble(version.getValue()));
+				if(ficheroSeleccionado.getId() > 0){
+					servicioGestorFicheros.modificaFichero(ficheroSeleccionado.getId(), fichero);
+				}else{
+					servicioGestorFicheros.agregaFichero(directorioActual.getId(), fichero);
+				}
+				cargarGrid();
+				verticalPrincipal.setVisible(false);
+				botonAgregarFichero.setVisible(true);
+				//Notification.show("Fichero \"" + nuevoFichero.getNombre() + "\" añadido con éxito.");
+			}
+		});
+		cancelar = new Button("Cancelar");
+		cancelar.setIcon(FontAwesome.CLOSE);
+		cancelar.addClickListener(e-> {
+			padre.cargaGridDirectorios();
+			verticalPrincipal.setVisible(false);
+			
+		});
+		
+		datosLayout.addComponents(nombre, descripcion, version);
+		buttonsLayout.addComponents(aceptar, cancelar);
+		verticalPrincipal.addComponents(datosLayout, buttonsLayout);
+		addComponents(verticalPrincipal);
+	}
+
+	private void cargarGrid(){
+		
+	//	this.removeComponent(gridFicheros);
+	
+		gridFicheros.setColumns("nombre", "descripcion", "version");
+		gridFicheros.setSizeFull();
+		gridFicheros.setSelectionMode(SelectionMode.SINGLE);
+		gridFicheros.addSelectionListener(e -> {
+			ficheroSeleccionado = null;
+			if (!e.getSelected().isEmpty()) {
+					ficheroSeleccionado = (Fichero) e.getSelected().iterator().next();
+					botonAgregarFichero.setVisible(false);
+					botonBorrarFichero.setVisible(true);
+					botonActualizarFichero.setVisible(true);
+				} else {
+					botonBorrarFichero.setVisible(false);
+					botonActualizarFichero.setVisible(false);
+					botonAgregarFichero.setVisible(true);
+				}
+		});
+		cargaGridFicheros(directorioActual);
+	
+		
+	}
 	public Directorio getDirectorioSeleccionado(Directorio directorioSeleccionado){
 		directorioSeleccionado = ficheroSeleccionado.getDirectorio();
 		return directorioSeleccionado;
@@ -140,6 +215,7 @@ public class LayoutFicheros extends VerticalLayout {
 		Collection<Fichero> ficheros = (directorio == null) ? new ArrayList<>()
 				: servicioGestorFicheros.listaFicherosPorDirectorio(directorio.getId());
 		gridFicheros.setContainerDataSource(new BeanItemContainer<>(Fichero.class, ficheros));
+		directorioActual = directorio;
 	}
 	
 	public void muestraBotonAgregarFichero(boolean visible) {
