@@ -159,7 +159,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 			if (nombre.getValue().equals("")) {
 				Notification.show("Debes indicar un nombre para crear un archivo.");
 			}else{
-				if(version.getValue().equals("")){
+				if(!version.getValue().equals("")) {
 					 v = Double.parseDouble(version.getValue());
 				}
 				fichero = new Fichero();

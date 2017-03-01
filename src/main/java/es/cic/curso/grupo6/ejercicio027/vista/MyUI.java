@@ -38,9 +38,7 @@ public class MyUI extends UI {
 		// Crea y registra las vistas:
 		navegador.addView("", new VistaDocumentos());
 		navegador.addView(VISTA_CARGA, new VistaDemoCarga(navegador));
-		navegador.addView(VISTA_LIMPIA, new VistaDemoLimpia(navegador));
-		
-		System.out.println();
+		navegador.addView(VISTA_LIMPIA, new VistaDemoLimpia(navegador));		
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
