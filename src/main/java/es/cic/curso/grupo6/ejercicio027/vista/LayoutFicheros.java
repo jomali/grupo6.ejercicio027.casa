@@ -98,7 +98,8 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 			botonAgregarFichero.setVisible(false);
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
-			padre.actualizaTextFieldRutaDirectorio();
+			padre.actualizaDirectorioActual(directorioActual.getId());
+			padre.bloqueaTextFieldRutaDirectorio();
 		});
 
 		// BUTTON BORRAR FICHERO
@@ -122,7 +123,6 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 			botonAgregarFichero.setVisible(false);
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
-
 		});
 
 		HorizontalLayout layoutBotonesFicheros = new HorizontalLayout();
@@ -262,6 +262,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		botonAceptar.addClickListener(e -> {
 			servicioGestorFicheros.eliminaFichero(ficheroSeleccionado.getId());
 			cargaGridFicheros(ficheroSeleccionado.getDirectorio());
+			padre.actualizaDirectorioActual(directorioActual.getId());
 			resultado.close();
 		});
 

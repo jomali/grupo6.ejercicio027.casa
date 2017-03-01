@@ -143,12 +143,13 @@ public class LayoutDirectorios extends VerticalLayout {
 		this.addComponents(titulo, gridDirectorios, layoutBotonesDirectorios);
 	}
 
-	public Directorio getDirectorioSeleccionado() {
+	public Directorio obtenDirectorioSeleccionado() {
 		return directorioSeleccionado;
 	}
 
-	public void setDirectorioSeleccionado(Directorio directorioSeleccionado) {
+	public void modificaDirectorioSeleccionado(Directorio directorioSeleccionado) {
 		this.directorioSeleccionado = directorioSeleccionado;
+		actualizaTextFieldRutaDirectorio();
 	}
 
 	public void cargaGridDirectorios() {
@@ -156,9 +157,13 @@ public class LayoutDirectorios extends VerticalLayout {
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
 	}
 	
-	public void actualizaTextFieldRutaDirectorio() {
+	private void actualizaTextFieldRutaDirectorio() {
 		boolean esHoja = servicioGestorFicheros.esHoja(directorioSeleccionado.getId());
 		textFieldRutaDirectorio.setEnabled(esHoja);
+	}
+
+	public void bloqueaTextFieldRutaDirectorio() {
+		textFieldRutaDirectorio.setEnabled(false);
 	}
 	
 	private void muestraBotonesParaSeleccion(Directorio directorio) {		
