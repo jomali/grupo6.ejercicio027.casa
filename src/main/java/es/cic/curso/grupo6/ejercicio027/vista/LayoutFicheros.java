@@ -139,13 +139,14 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 	private void editarFichero(){
 
 		VerticalLayout verticalPrincipal= new VerticalLayout();
-		verticalPrincipal.setMargin(true);
+		verticalPrincipal.setMargin(false);
 		verticalPrincipal.setSpacing(true);
 		
 		HorizontalLayout datosLayout = new HorizontalLayout();
 		datosLayout.setSpacing(true);
 		nombre = new TextField("Nombre: ");
-		nombre.setInputPrompt("Nombre:");
+		nombre.setRequired(true);
+		nombre.setInputPrompt("Nombre");
 		descripcion = new TextField("Descripción: ");
 		descripcion.setInputPrompt("Descripción");
 		version = new TextField("Versión: ");
