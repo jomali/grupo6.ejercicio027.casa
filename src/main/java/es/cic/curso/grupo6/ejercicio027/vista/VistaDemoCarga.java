@@ -70,7 +70,6 @@ public class VistaDemoCarga extends VerticalLayout implements View {
 			Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
 				@Override
 				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-					System.out.println("delete file: " + file.toString());
 					Files.delete(file);
 					return FileVisitResult.CONTINUE;
 				}
@@ -78,11 +77,9 @@ public class VistaDemoCarga extends VerticalLayout implements View {
 				@Override
 				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
 					Files.delete(dir);
-					System.out.println("delete dir: " + dir.toString());
 					return FileVisitResult.CONTINUE;
 				}
 			});
-			System.out.println("create dir: " + rootPath.toString());
 			Files.createDirectory(rootPath);
 			Files.createFile(gitKeepPath);
 		} catch (IOException ioe) {

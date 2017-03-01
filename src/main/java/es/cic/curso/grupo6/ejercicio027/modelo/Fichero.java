@@ -37,7 +37,16 @@ public class Fichero implements Identificable<Long> {
 	@Column(name = "version")
 	private Double version;
 
-
+	public Fichero() {
+		
+	}
+	
+	public Fichero(Directorio directorio, String nombre, String descripcion, Double version) {
+		this.directorio = directorio;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.version = version;
+	}
 
 	/**
 	 * @return the id
