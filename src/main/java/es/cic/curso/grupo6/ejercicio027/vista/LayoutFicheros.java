@@ -63,6 +63,8 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 
 	/** Botón para la acción: actualizar fichero. */
 	private Button botonActualizarFichero;
+	
+	VerticalLayout verticalPrincipal = new VerticalLayout();
 
 	public LayoutFicheros(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.padre = padre;
@@ -87,6 +89,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 				botonAgregarFichero.setVisible(false);
 				botonBorrarFichero.setVisible(true);
 				botonActualizarFichero.setVisible(true);
+				verticalPrincipal.setVisible(false);
 			} else {
 				botonBorrarFichero.setVisible(false);
 				botonActualizarFichero.setVisible(false);
@@ -144,7 +147,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 	}
 	
 	private void editarFichero(){
-		VerticalLayout verticalPrincipal= new VerticalLayout();
+		verticalPrincipal= new VerticalLayout();
 		verticalPrincipal.setMargin(false);
 		verticalPrincipal.setSpacing(true);
 		
