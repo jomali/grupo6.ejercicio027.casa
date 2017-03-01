@@ -65,6 +65,7 @@ public class VistaDemoCarga extends VerticalLayout implements View {
 
 	private void limpiaDirectorio(String ruta) {
 		Path rootPath = Paths.get(ruta);
+		Path gitKeepPath = Paths.get(ruta + ".gitkeep");
 		try {
 			Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
 				@Override
@@ -83,6 +84,7 @@ public class VistaDemoCarga extends VerticalLayout implements View {
 			});
 			System.out.println("create dir: " + rootPath.toString());
 			Files.createDirectory(rootPath);
+			Files.createFile(gitKeepPath);
 		} catch (IOException ioe) {
 			throw new ExcepcionES(ioe);
 		}
