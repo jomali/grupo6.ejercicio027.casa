@@ -66,6 +66,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		Label titulo = new Label("Ficheros:");
 		titulo.setContentMode(ContentMode.HTML);
 
+		// GRID FICHEROs
 		gridFicheros = new Grid();
 
 		cargarGrid();
