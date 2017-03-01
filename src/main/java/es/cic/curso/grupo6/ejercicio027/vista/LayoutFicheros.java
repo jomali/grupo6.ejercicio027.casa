@@ -55,8 +55,14 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 	/** Grid de ficheros. */
 	private Grid gridFicheros;
 
-	/** Acciones sobre los ficheros. */
-	private Button botonAgregarFichero, botonBorrarFichero, botonActualizarFichero;
+	/** Botón para la acción: añadir fichero. */
+	private Button botonAgregarFichero;
+
+	/** Botón para la acción: borrar fichero. */
+	private Button botonBorrarFichero;
+
+	/** Botón para la acción: actualizar fichero. */
+	private Button botonActualizarFichero;
 
 	public LayoutFicheros(VistaDocumentos padre, ServicioGestorFicheros servicioGestorFicheros) {
 		this.padre = padre;
