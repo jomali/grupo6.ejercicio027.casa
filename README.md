@@ -27,7 +27,7 @@ Punto de partida del desarrollo:
 2.3. Eliminación.  
 2.4. Consulta de un fichero.  
 2.5. Listado de ficheros.  
-3. Subir/Bajar archivos (API Ficheros Java)
+3. Creación de directorios/archivos (API Ficheros Java)
 
 
 ## Estructura del proyecto
@@ -57,16 +57,16 @@ Punto de partida del desarrollo:
 
 ## Tareas pendientes
 
-[ ] Estudiar la utilización de FicheroDTO
+[x] Estudiar la utilización de FicheroDTO
 [x] Comprobación en los servicios: dos directorios no pueden compartir una misma ruta  
 [ ] Integración de ServicioGestorDirectorios y ServicioGestorFicheros en un único servicio.  
 	[x] Agregado con creación física de directorios/ficheros. Tests.  
 	[x] Obtención de directorios/ficheros. Tests.  
-	[ ] Modificación de directorios/ficheros. Tests.  
+	[x] Modificación de directorios/ficheros. Tests.  
 	[x] Eliminación de directorios/ficheros. Tests.  
 	[x] Listado de directorios/ficheros. Tests.  
 [x] Desarrollo de VistaDocumentos
-[ ] Integración completa de funcionalidades dentro de la vista  
-[ ] Preparación de la presentación  
-[ ] Creación de documento de presentación para el cliente  
+[x] Integración completa de funcionalidades dentro de la vista  
+[x] Preparación de la presentación  
+[x] Creación de documento de presentación para el cliente  
 
