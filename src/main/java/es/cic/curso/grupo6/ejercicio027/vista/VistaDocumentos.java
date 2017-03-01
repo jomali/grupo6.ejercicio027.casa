@@ -86,5 +86,9 @@ public class VistaDocumentos extends VerticalLayout implements View {
 		layoutFicheros.muestraBotonAgregarFichero(directorio == null ? false : true);
 		layoutFicheros.cargaGridFicheros(directorio);
 	}
+	
+	public void bloqueaTextFieldRutaDirectorio(boolean bloqueado) {
+		layoutDirectorios.bloqueaTextFieldRutaDirectorio(bloqueado);
+	}
 
 }
