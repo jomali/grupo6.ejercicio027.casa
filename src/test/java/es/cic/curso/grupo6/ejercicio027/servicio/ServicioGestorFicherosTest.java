@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,34 +189,29 @@ public class ServicioGestorFicherosTest {
 		Fichero resultado = sut.obtenFichero(fichero.getId());
 		assertEquals(fichero, resultado);
 	}
-	
-	@Test
-	public void testModificaDirectorio() {
-		// TODO
-	}
 
-	@Ignore
 	@Test
 	public void testModificaFichero() {
-//		Directorio directorio1 = generaDirectorioEnBD(DIRECTORIO_RUTA_1);
-//		Directorio directorio2 = generaDirectorioEnBD(DIRECTORIO_RUTA_2);
-//
-//		Fichero original = generaFichero(NOMBRE_FICHERO);
-//		sut.agregaFichero(directorio1.getId(), original);
-//		
-//		Fichero clon = new Fichero();
-//		clon.setId(original.getId());
-//		clon.setDirectorio(original.getDirectorio());
-//		clon.setNombre(original.getNombre());
-//		clon.setDescripcion(original.getDescripcion());
-//		clon.setVersion(original.getVersion());
-//		assertEquals(original, clon);
-//
-//		original.setDirectorio(directorio2);
-//		sut.modificaFichero(original.getId(), original);
-//		Fichero modificado = sut.obtenFichero(original.getId());
-//		assertEquals(original, modificado);
-//		assertNotEquals(clon, modificado);
+		Directorio directorio1 = generaDirectorio(DIRECTORIO_RUTA_1);
+		sut.agregaDirectorio(directorio1);
+		Directorio directorio2 = generaDirectorio(DIRECTORIO_RUTA_2);
+		sut.agregaDirectorio(directorio2);
+
+		Fichero original = generaFichero(NOMBRE_FICHERO);
+		sut.agregaFichero(directorio1.getId(), original);
+		
+		Fichero clon = new Fichero();
+		clon.setId(original.getId());
+		clon.setDirectorio(original.getDirectorio());
+		clon.setNombre(original.getNombre());
+		clon.setDescripcion(original.getDescripcion());
+		clon.setVersion(original.getVersion());
+		assertEquals(original, clon);
+
+		clon.setDirectorio(directorio2);
+		sut.modificaFichero(original.getId(), clon);
+		Fichero modificado = sut.obtenFichero(original.getId());
+		assertEquals(clon, modificado);
 	}
 
 
