@@ -142,7 +142,6 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		verticalPrincipal.setSpacing(true);
 		
 		HorizontalLayout datosLayout = new HorizontalLayout();
-//		datosLayout.setMargin(true);
 		datosLayout.setSpacing(true);
 		nombre = new TextField("Nombre: ");
 		nombre.setInputPrompt("Nombre:");
@@ -152,7 +151,6 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		version.setInputPrompt("Versión");
 
 		HorizontalLayout buttonsLayout = new HorizontalLayout();
-//		datosLayout.setMargin(true);
 		buttonsLayout.setSpacing(true);
 		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
@@ -173,7 +171,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 				cargarGrid();
 				verticalPrincipal.setVisible(false);
 				botonAgregarFichero.setVisible(true);
-				//Notification.show("Fichero \"" + nuevoFichero.getNombre() + "\" añadido con éxito.");
+				Notification.show("Fichero \"" + fichero.getNombre() + "\" añadido con éxito.");
 			}
 		});
 		cancelar = new Button("Cancelar");
