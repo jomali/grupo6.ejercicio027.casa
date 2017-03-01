@@ -156,8 +156,9 @@ public class LayoutDirectorios extends VerticalLayout {
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
 	}
 	
-	public void bloqueaTextFieldRutaDirectorio(boolean bloqueado) {
-		textFieldRutaDirectorio.setEnabled(bloqueado);
+	public void actualizaTextFieldRutaDirectorio() {
+		boolean esHoja = servicioGestorFicheros.esHoja(directorioSeleccionado.getId());
+		textFieldRutaDirectorio.setEnabled(esHoja);
 	}
 	
 	private void muestraBotonesParaSeleccion(Directorio directorio) {		

@@ -98,6 +98,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 			botonAgregarFichero.setVisible(false);
 			botonBorrarFichero.setVisible(false);
 			botonActualizarFichero.setVisible(false);
+			padre.actualizaTextFieldRutaDirectorio();
 		});
 
 		// BUTTON BORRAR FICHERO
