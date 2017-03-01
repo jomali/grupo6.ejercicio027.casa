@@ -155,14 +155,18 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		aceptar = new Button("Aceptar");
 		aceptar.setIcon(FontAwesome.SAVE);
 		aceptar.addClickListener(e -> {
-			if (nombre.getValue().equals("")  || descripcion.getValue().equals("") || version.getValue().equals("")) {
-				Notification.show("Falta alguno de los datos a rellenar.");
-			} else {
+			double v = 1.0;
+			if (nombre.getValue().equals("")) {
+				Notification.show("Debes indicar un nombre para crear un archivo.");
+			}else{
+				if(version.getValue().equals("")){
+					 v = Double.parseDouble(version.getValue());
+				}
 				fichero = new Fichero();
 				fichero.setDirectorio(directorioActual);
 				fichero.setNombre(nombre.getValue());
 				fichero.setDescripcion(descripcion.getValue());
-				fichero.setVersion(Double.parseDouble(version.getValue()));
+				fichero.setVersion(v);
 				if(ficheroSeleccionado.getId() > 0){
 					servicioGestorFicheros.modificaFichero(ficheroSeleccionado.getId(), fichero);
 				}else{
