@@ -33,8 +33,17 @@ public class LayoutDirectorios extends VerticalLayout {
 	/** Referencia al directorio seleccionado en el grid. */
 	private Directorio directorioSeleccionado;
 
-	/** Botones con las acciones sobre directorios. */
-	private Button botonAgregar, botonBorrar, botonRenombrar, botonCancelar;
+	/** Botón para la acción: añadir directorio. */
+	private Button botonAgregar;
+	
+	/** Botón para la acción: borrar directorio. */
+	private Button botonBorrar;
+	
+	/** Botón para la acción: renombrar directorio. */
+	private Button botonRenombrar;
+	
+	/** Botón para la acción: cancelar selección del grid. */
+	private Button botonCancelar;
 
 	@PropertyId("ruta")
 	private TextField textFieldRutaDirectorio;
@@ -54,21 +63,8 @@ public class LayoutDirectorios extends VerticalLayout {
 			directorioSeleccionado = null;
 			if (!e.getSelected().isEmpty()) {
 				directorioSeleccionado = (Directorio) e.getSelected().iterator().next();
-				textFieldRutaDirectorio.setValue(directorioSeleccionado.getRuta());
-				botonAgregar.setVisible(false);
-				botonRenombrar.setVisible(true);
-				botonBorrar.setVisible(true);
-				botonCancelar.setVisible(true);
-				boolean hoja = servicioGestorFicheros.esHoja(directorioSeleccionado.getId());
-				textFieldRutaDirectorio.setEnabled(hoja);
-			} else {
-				botonAgregar.setVisible(true);
-				botonRenombrar.setVisible(false);
-				botonBorrar.setVisible(false);
-				botonCancelar.setVisible(false);
-				textFieldRutaDirectorio.clear();
-				textFieldRutaDirectorio.setEnabled(true);
 			}
+			muestraBotonesParaSeleccion(directorioSeleccionado);
 			padre.activaGridFicheros(directorioSeleccionado);
 		});
 
@@ -158,6 +154,23 @@ public class LayoutDirectorios extends VerticalLayout {
 	public void cargaGridDirectorios() {
 		Collection<Directorio> directorios = servicioGestorFicheros.listaDirectorios();
 		gridDirectorios.setContainerDataSource(new BeanItemContainer<>(Directorio.class, directorios));
+	}
+	
+	private void muestraBotonesParaSeleccion(Directorio directorio) {		
+		if (directorio != null) {
+			botonAgregar.setVisible(false);
+			botonRenombrar.setVisible(true);
+			botonBorrar.setVisible(true);
+			boolean esHoja = servicioGestorFicheros.esHoja(directorio.getId());
+			textFieldRutaDirectorio.setEnabled(esHoja);
+		} else {
+			botonAgregar.setVisible(true);
+			botonRenombrar.setVisible(false);
+			botonBorrar.setVisible(false);
+			botonCancelar.setVisible(false);
+			textFieldRutaDirectorio.clear();
+			textFieldRutaDirectorio.setEnabled(true);
+		}
 	}
 
 	private Window creaVentanaConfirmacionBorrado(String directorioRuta) {
