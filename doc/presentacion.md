@@ -71,4 +71,6 @@ Sin salirnos del alcance del proyecto y contemplar funcionalidades adicionales, 
 
 En la sección 2 se comentó que el software gestiona un árbol de directorios a dos niveles a la vez: físico y lógico. Actualmente se asume que pueden llegar a darse desincronizaciones entre el sistema de directorios real (nivel físico) y los registros de BB.DD. (nivel lógico), pero se debería trabajar en mecanismos que, por una parte, **minimizasen los riesgos** de que se produzcan estas incoherencias y, por otra, que se encargasen de **comprobarlas y corregirlas** automáticamente cuando se produzcan.
 
+En este sentido, y aunque no entraba como tal dentro de las funcionalidades requeridas inicialmente para el software; actualmente se crean ficheros vacíos (*dummy*) dentro del árbol de directorios. Cabría modificar este comportamiento y implementar la funcionalidad de que los usuarios pudiesen **subir efectivamente documentos desde un equipo local** y quedasen colgados del árbol de directorios del servidor.
+
 Se ha procurado diseñar una interfaz de usuario lo más simple y amigable posible para el usuario. Aunque en líneas generales se está satisfecho con el resultado, se estima que podría **simplificarse aún más** sin perder funcionalidad (permitiendo al usuario modificar directamente datos sobre las tablas sin necesidad de utilizar formularios, por ejemplo).
