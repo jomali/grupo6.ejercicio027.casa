@@ -41,7 +41,7 @@ public class MyUI extends UI {
 		navegador.addView(VISTA_LIMPIA, new VistaDemoLimpia(navegador));
 		
 		// XXX - ELIMINAR
-		navegador.navigateTo(VISTA_CARGA);
+//		navegador.navigateTo(VISTA_CARGA);
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
