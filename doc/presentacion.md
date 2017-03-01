@@ -10,7 +10,7 @@ Un sistema de gestión de documentos es un software utilizado básicamente para 
 El presente documento describe brevemente las funcionalidades del software y la interfaz de usuario utilizada en su cliente web.
 
 
-![Gestor de Documentos. GUI](resources/pantalla_00.png "Gestor de Documentos. GUI")
+![Gestor de Documentos. GUI](resources/gui_principal.png "Gestor de Documentos. GUI")
 
 
 ## 2. Características de la estructura de directorios
@@ -30,9 +30,9 @@ Los cambios en la estructura de directorios se llevan a cabo en dos niveles dife
 
 En este apartado se decribe la interfaz web básica desde la que los usuarios pueden operar el software. La interfaz está dividida en dos secciones principales: 1) panel izquierdo, para la **gestión de directorios** y 2) panel derecho, para la **gestión de ficheros**.
 
-![Gestor de Documentos. GUI](resources/pantalla_01.png "Gestor de Documentos. GUI")
-
 ### 3.1. Gestión de directorios
+
+![Gestor de Documentos. GUI](resources/gui_directorios.png "Gestor de Documentos. GUI")
 
 Esta sección está dominada por una tabla (*tabla A*) con los directorios registrados en el sistema. Incluye además un conjunto de componentes contextuales que permiten manipular los directorios:
 
@@ -43,13 +43,13 @@ Esta sección está dominada por una tabla (*tabla A*) con los directorios regis
 
 ### 3.2. Gestión de ficheros
 
+![Gestor de Documentos. GUI](resources/gui_ficheros.png "Gestor de Documentos. GUI")
+
 La sección desde la que se gestionan los ficheros está dominada por una tabla (*tabla B*) con los ficheros registrados en el sistema que cuelgan del directorio seleccionado en la *tabla A*.
 
 Inicialmente, la *tabla B* se encuentra vacía. Sólo cuando se selecciona un directorio en *tabla A* se cargan en *tabla B* los ficheros que cuelgan del directorio seleccionado.
 
 De forma análoga a lo que ocurre en la sección de directorios, esta sección incluye además un conjunto de componentes contextuales que permiten manipular los ficheros de un directorio:
-
-![Gestor de Documentos. GUI](resources/pantalla_02.png "Gestor de Documentos. GUI")
 
 + **Añadir** un nuevo fichero (si no hay ninguno seleccionado en la tabla). Al pulsar este botón aparece un formulario con los siguientes campos:
 	- **Nombre** del fichero (obligatorio)
