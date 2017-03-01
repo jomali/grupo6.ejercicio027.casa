@@ -158,17 +158,13 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		aceptar.setIcon(FontAwesome.SAVE);
 		aceptar.addClickListener(e -> {
 			double v = 1.0;
-			if (nombre.getValue().equals("")) {
+			if ("".equals(nombre.getValue())) {
 				Notification.show("Debes indicar un nombre para crear un archivo.");
 			}else{
-				if(!version.getValue().equals("")) {
+				if(!"".equals(version.getValue())) {
 					 v = Double.parseDouble(version.getValue());
 				}
-				fichero = new Fichero();
-				fichero.setDirectorio(directorioActual);
-				fichero.setNombre(nombre.getValue());
-				fichero.setDescripcion(descripcion.getValue());
-				fichero.setVersion(v);
+				fichero = new Fichero(directorioActual, nombre.getValue(), descripcion.getValue(), v);
 				if(ficheroSeleccionado.getId() > 0){
 					servicioGestorFicheros.modificaFichero(ficheroSeleccionado.getId(), fichero);
 				}else{
@@ -183,7 +179,6 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		cancelar = new Button("Cancelar");
 		cancelar.setIcon(FontAwesome.CLOSE);
 		cancelar.addClickListener(e-> {
-			//padre.cargaGridDirectorios();
 			verticalPrincipal.setVisible(false);
 			botonAgregarFichero.setVisible(true);
 			
