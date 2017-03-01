@@ -183,6 +183,7 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 		cancelar.addClickListener(e-> {
 			//padre.cargaGridDirectorios();
 			verticalPrincipal.setVisible(false);
+			botonAgregarFichero.setVisible(true);
 			
 		});
 		
