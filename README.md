@@ -59,7 +59,7 @@ Punto de partida del desarrollo:
 
 [x] Estudiar la utilización de FicheroDTO
 [x] Comprobación en los servicios: dos directorios no pueden compartir una misma ruta  
-[ ] Integración de ServicioGestorDirectorios y ServicioGestorFicheros en un único servicio.  
+[x] Integración de ServicioGestorDirectorios y ServicioGestorFicheros en un único servicio.  
 	[x] Agregado con creación física de directorios/ficheros. Tests.  
 	[x] Obtención de directorios/ficheros. Tests.  
 	[x] Modificación de directorios/ficheros. Tests.  
