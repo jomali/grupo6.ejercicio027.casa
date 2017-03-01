@@ -123,7 +123,7 @@ public class ServicioGestorFicherosImpl implements ServicioGestorFicheros {
 		Path rutaOriginal = Paths
 				.get(DIRECTORIO_BASE + original.getDirectorio().getRuta() + "/" + original.getNombre());
 		Path rutaNueva = Paths.get(DIRECTORIO_BASE + fichero.getDirectorio().getRuta() + "/" + fichero.getNombre());
-		if (Files.exists(rutaNueva)) {
+		if (!rutaOriginal.equals(rutaNueva) && Files.exists(rutaNueva)) {
 			throw new IllegalArgumentException(ERROR_RUTA_FICHERO);
 		}
 		try {

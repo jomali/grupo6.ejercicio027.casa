@@ -137,7 +137,6 @@ public class LayoutFicheros extends VerticalLayout implements Component{
 	}
 	
 	private void editarFichero(){
-
 		VerticalLayout verticalPrincipal= new VerticalLayout();
 		verticalPrincipal.setMargin(true);
 		verticalPrincipal.setSpacing(true);
